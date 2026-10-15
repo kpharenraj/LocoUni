@@ -122,3 +122,36 @@ export const updateFacultySchema = createFacultySchema.extend({
 })
 
 export type UpdateFacultyInput = z.infer<typeof updateFacultySchema>
+
+export const noticeCategoryEnum = z.enum([
+  'academic',
+  'exams',
+  'placements',
+  'emergency',
+  'events',
+  'hostel',
+])
+
+export const noticePriorityEnum = z.enum(['urgent', 'high', 'normal'])
+
+export type NoticeCategory = z.infer<typeof noticeCategoryEnum>
+export type NoticePriority = z.infer<typeof noticePriorityEnum>
+
+export const createNoticeSchema = z.object({
+  title: z.string().trim().min(1, 'Notice title is required').max(200, 'Title must be under 200 characters'),
+  body: z.string().trim().optional(),
+  category: noticeCategoryEnum,
+  priority: noticePriorityEnum,
+  event_date: z
+    .string()
+    .optional()
+    .transform((val) => (val && val.trim() !== '' ? val.trim() : null)),
+})
+
+export type CreateNoticeInput = z.infer<typeof createNoticeSchema>
+
+export const updateNoticeSchema = createNoticeSchema.extend({
+  id: z.string().uuid('Invalid notice ID'),
+})
+
+export type UpdateNoticeInput = z.infer<typeof updateNoticeSchema>

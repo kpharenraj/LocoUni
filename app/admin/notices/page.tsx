@@ -1,23 +1,48 @@
-import Link from 'next/link'
-import { Bell } from 'lucide-react'
+import { requireAdmin } from '@/lib/auth'
+import { createClient } from '@/lib/supabase/server'
+import NoticesClientView, {
+  type NoticeItem,
+} from '@/components/notices/NoticesClientView'
+import type { NoticeCategory, NoticePriority } from '@/lib/validation'
 
-export default function AdminNoticesPage() {
+export const dynamic = 'force-dynamic'
+
+export default async function AdminNoticesPage() {
+  const { universityId } = await requireAdmin()
+  const supabase = await createClient()
+
+  // Fetch university name
+  const { data: university } = await supabase
+    .from('universities')
+    .select('name')
+    .eq('id', universityId)
+    .maybeSingle()
+
+  // Fetch all notices for this university, newest first (client will re-sort by priority)
+  const { data: noticesData } = await supabase
+    .from('notices')
+    .select('id, title, body, category, priority, event_date, created_at')
+    .eq('university_id', universityId)
+    .order('created_at', { ascending: false })
+
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const notices: NoticeItem[] = (noticesData || []).map((n: any) => ({
+    id: n.id,
+    title: n.title,
+    body: n.body,
+    category: n.category as NoticeCategory,
+    priority: n.priority as NoticePriority,
+    event_date: n.event_date,
+    created_at: n.created_at,
+  }))
+
   return (
-    <div className="min-h-screen bg-zinc-50 dark:bg-zinc-950 text-zinc-900 dark:text-zinc-100 flex flex-col items-center justify-center p-6">
-      <div className="w-full max-w-md bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 rounded-2xl p-8 shadow-sm text-center">
-        <div className="w-12 h-12 rounded-xl bg-amber-50 dark:bg-amber-950/60 text-amber-600 dark:text-amber-400 flex items-center justify-center mx-auto mb-4">
-          <Bell className="w-6 h-6" />
-        </div>
-        <h1 className="text-2xl font-bold tracking-tight mb-2">Campus Notices</h1>
-        <p className="text-zinc-600 dark:text-zinc-400 mb-6 text-sm">
-          Campus announcements and notices management module will be built in the next step.
-        </p>
-        <Link
-          href="/admin"
-          className="inline-flex items-center justify-center text-sm font-semibold text-indigo-600 dark:text-indigo-400 hover:underline"
-        >
-          ← Back to Admin Console
-        </Link>
+    <div className="min-h-screen bg-zinc-50 dark:bg-zinc-950 text-zinc-900 dark:text-zinc-100 py-8 px-4 sm:px-6 lg:px-8">
+      <div className="max-w-4xl mx-auto">
+        <NoticesClientView
+          notices={notices}
+          universityName={university?.name}
+        />
       </div>
     </div>
   )
