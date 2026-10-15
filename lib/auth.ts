@@ -1,5 +1,6 @@
 import { createClient } from '@/lib/supabase/server'
 import type { User } from '@supabase/supabase-js'
+import { redirect } from 'next/navigation'
 
 export interface ProfileRow {
   id: string
@@ -11,6 +12,12 @@ export interface ProfileRow {
 export interface CurrentUserWithProfile {
   user: User
   profile: ProfileRow | null
+}
+
+export interface AdminContext {
+  user: User
+  profile: ProfileRow
+  universityId: string
 }
 
 /**
@@ -38,5 +45,27 @@ export async function getCurrentUserWithProfile(): Promise<CurrentUserWithProfil
   return {
     user,
     profile: profile as ProfileRow | null,
+  }
+}
+
+/**
+ * Server-side guard that returns user, profile, and universityId for authenticated admins,
+ * or redirects to /login if unauthenticated, not an admin, or missing university_id.
+ */
+export async function requireAdmin(): Promise<AdminContext> {
+  const userWithProfile = await getCurrentUserWithProfile()
+
+  if (
+    !userWithProfile?.user ||
+    userWithProfile.profile?.role !== 'admin' ||
+    !userWithProfile.profile.university_id
+  ) {
+    redirect('/login')
+  }
+
+  return {
+    user: userWithProfile.user,
+    profile: userWithProfile.profile,
+    universityId: userWithProfile.profile.university_id,
   }
 }

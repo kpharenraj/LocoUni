@@ -1,8 +1,7 @@
 import Link from 'next/link'
-import { redirect } from 'next/navigation'
-import { getCurrentUserWithProfile } from '@/lib/auth'
-import { createAdminClient } from '@/lib/supabase/admin'
 import { logoutAction } from '@/app/actions/auth'
+import { requireAdmin } from '@/lib/auth'
+import { createClient } from '@/lib/supabase/server'
 import {
   GraduationCap,
   Building2,
@@ -20,29 +19,21 @@ import {
 export const dynamic = 'force-dynamic'
 
 export default async function AdminPage() {
-  const userWithProfile = await getCurrentUserWithProfile()
+  const { user, profile, universityId } = await requireAdmin()
+  const supabase = await createClient()
 
-  if (!userWithProfile?.user) {
-    redirect('/login')
-  }
+  // Fetch university details
+  const { data: university } = await supabase
+    .from('universities')
+    .select('*')
+    .eq('id', universityId)
+    .maybeSingle()
 
-  if (userWithProfile.profile?.role !== 'admin') {
-    redirect('/')
-  }
-
-  const universityId = userWithProfile.profile.university_id
-  let university = null
-
-  if (universityId) {
-    const adminClient = createAdminClient()
-    const { data } = await adminClient
-      .from('universities')
-      .select('*')
-      .eq('id', universityId)
-      .maybeSingle()
-
-    university = data
-  }
+  // Fetch locations count
+  const { count: locationsCount } = await supabase
+    .from('locations')
+    .select('id', { count: 'exact', head: true })
+    .eq('university_id', universityId)
 
   return (
     <div className="min-h-screen bg-zinc-50 dark:bg-zinc-950 text-zinc-900 dark:text-zinc-100 flex flex-col">
@@ -69,10 +60,10 @@ export default async function AdminPage() {
           <div className="flex items-center gap-3">
             <div className="hidden sm:flex flex-col text-right">
               <span className="text-xs font-semibold text-zinc-800 dark:text-zinc-200 truncate max-w-[160px]">
-                {userWithProfile.profile.full_name || 'Administrator'}
+                {profile.full_name || 'Administrator'}
               </span>
               <span className="text-[11px] text-zinc-500 truncate max-w-[160px]">
-                {userWithProfile.user.email}
+                {user.email}
               </span>
             </div>
 
@@ -211,8 +202,10 @@ export default async function AdminPage() {
                 <span className="flex items-center justify-center w-11 h-11 rounded-xl bg-emerald-50 dark:bg-emerald-950/60 text-emerald-600 dark:text-emerald-400 border border-emerald-100 dark:border-emerald-900/40 group-hover:scale-105 transition-transform duration-200">
                   <MapPin className="w-5 h-5" />
                 </span>
-                <span className="text-[11px] font-semibold px-2 py-0.5 rounded-full bg-zinc-100 dark:bg-zinc-800 text-zinc-500 dark:text-zinc-400">
-                  Interactive Map
+                <span className="text-[11px] font-semibold px-2 py-0.5 rounded-full bg-zinc-100 dark:bg-zinc-800 text-zinc-600 dark:text-zinc-300">
+                  {locationsCount !== null && locationsCount > 0
+                    ? `${locationsCount} ${locationsCount === 1 ? 'place' : 'places'} mapped`
+                    : 'Interactive Map'}
                 </span>
               </div>
               <h3 className="text-lg font-bold tracking-tight text-zinc-900 dark:text-zinc-50 group-hover:text-indigo-600 dark:group-hover:text-indigo-400 transition-colors">

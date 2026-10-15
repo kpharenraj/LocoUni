@@ -1,23 +1,43 @@
-import Link from 'next/link'
-import { MapPin } from 'lucide-react'
+import { requireAdmin } from '@/lib/auth'
+import { createClient } from '@/lib/supabase/server'
+import LocationsClientView, {
+  type LocationItem,
+} from '@/components/locations/LocationsClientView'
 
-export default function AdminLocationsPage() {
+export const dynamic = 'force-dynamic'
+
+export default async function AdminLocationsPage() {
+  const { universityId } = await requireAdmin()
+  const supabase = await createClient()
+
+  // Fetch university details for map center
+  const { data: university } = await supabase
+    .from('universities')
+    .select('name, lat, lng')
+    .eq('id', universityId)
+    .maybeSingle()
+
+  // Fetch existing locations for this university
+  const { data: locationsData } = await supabase
+    .from('locations')
+    .select('id, name, type, description, lat, lng, created_at')
+    .eq('university_id', universityId)
+    .order('created_at', { ascending: false })
+
+  const locations: LocationItem[] = locationsData || []
+  const universityCenter =
+    university?.lat && university?.lng
+      ? { lat: university.lat, lng: university.lng }
+      : null
+
   return (
-    <div className="min-h-screen bg-zinc-50 dark:bg-zinc-950 text-zinc-900 dark:text-zinc-100 flex flex-col items-center justify-center p-6">
-      <div className="w-full max-w-md bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 rounded-2xl p-8 shadow-sm text-center">
-        <div className="w-12 h-12 rounded-xl bg-emerald-50 dark:bg-emerald-950/60 text-emerald-600 dark:text-emerald-400 flex items-center justify-center mx-auto mb-4">
-          <MapPin className="w-6 h-6" />
-        </div>
-        <h1 className="text-2xl font-bold tracking-tight mb-2">Campus Locations</h1>
-        <p className="text-zinc-600 dark:text-zinc-400 mb-6 text-sm">
-          Locations management module will be built in the next step.
-        </p>
-        <Link
-          href="/admin"
-          className="inline-flex items-center justify-center text-sm font-semibold text-indigo-600 dark:text-indigo-400 hover:underline"
-        >
-          ← Back to Admin Console
-        </Link>
+    <div className="min-h-screen bg-zinc-50 dark:bg-zinc-950 text-zinc-900 dark:text-zinc-100 py-8 px-4 sm:px-6 lg:px-8">
+      <div className="max-w-7xl mx-auto">
+        <LocationsClientView
+          locations={locations}
+          universityCenter={universityCenter}
+          universityName={university?.name}
+        />
       </div>
     </div>
   )
