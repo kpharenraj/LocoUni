@@ -1,19 +1,53 @@
-import { Users } from 'lucide-react'
-import StudentPlaceholder from '@/components/student/StudentPlaceholder'
+import StudentFacultyDirectory, {
+  type StudentFacultyMember,
+} from '@/components/student/StudentFacultyDirectory'
+import { createClient } from '@/lib/supabase/server'
 
 interface StudentRouteProps {
   params: Promise<{ universityId: string }>
 }
 
+export const dynamic = 'force-dynamic'
+
 export default async function FacultyPage({ params }: StudentRouteProps) {
   const { universityId } = await params
+  const supabase = await createClient()
+  const { data, error } = await supabase
+    .from('faculty')
+    .select(
+      'id, name, role, department, cabin_number, photo_url, email, phone, locations(id, name, lat, lng)'
+    )
+    .eq('university_id', universityId)
+    .order('name', { ascending: true })
 
-  return (
-    <StudentPlaceholder
-      title="Faculty directory"
-      description="Find faculty and staff by name, department, and campus location."
-      icon={<Users className="h-7 w-7" />}
-      homeHref={`/u/${universityId}`}
-    />
-  )
+  if (error) {
+    throw new Error(`Failed to load faculty directory: ${error.message}`)
+  }
+
+  const faculty: StudentFacultyMember[] = (data ?? []).map((member) => {
+    const location = Array.isArray(member.locations)
+      ? member.locations[0]
+      : member.locations
+
+    return {
+      id: member.id,
+      name: member.name,
+      role: member.role,
+      department: member.department,
+      cabin_number: member.cabin_number,
+      photo_url: member.photo_url,
+      email: member.email,
+      phone: member.phone,
+      locations: location
+        ? {
+            id: location.id,
+            name: location.name,
+            lat: location.lat,
+            lng: location.lng,
+          }
+        : null,
+    }
+  })
+
+  return <StudentFacultyDirectory universityId={universityId} faculty={faculty} />
 }
