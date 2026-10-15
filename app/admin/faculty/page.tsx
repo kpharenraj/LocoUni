@@ -1,23 +1,53 @@
-import Link from 'next/link'
-import { Users } from 'lucide-react'
+import { requireAdmin } from '@/lib/auth'
+import { createClient } from '@/lib/supabase/server'
+import FacultyClientView, {
+  type FacultyMemberItem,
+  type FacultyLocationOption,
+} from '@/components/faculty/FacultyClientView'
 
-export default function AdminFacultyPage() {
+export const dynamic = 'force-dynamic'
+
+export default async function AdminFacultyPage() {
+  const { universityId } = await requireAdmin()
+  const supabase = await createClient()
+
+  // Fetch university name
+  const { data: university } = await supabase
+    .from('universities')
+    .select('name')
+    .eq('id', universityId)
+    .maybeSingle()
+
+  // Fetch faculty members with linked location names
+  const { data: facultyData } = await supabase
+    .from('faculty')
+    .select('id, name, role, department, cabin_number, location_id, photo_url, email, phone, created_at, locations(id, name)')
+    .eq('university_id', universityId)
+    .order('name', { ascending: true })
+
+  // Fetch campus locations for location dropdown
+  const { data: locationsData } = await supabase
+    .from('locations')
+    .select('id, name')
+    .eq('university_id', universityId)
+    .order('name', { ascending: true })
+
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const faculty: FacultyMemberItem[] = (facultyData || []).map((f: any) => ({
+    ...f,
+    locations: Array.isArray(f.locations) ? f.locations[0] : f.locations,
+  }))
+
+  const locations: FacultyLocationOption[] = locationsData || []
+
   return (
-    <div className="min-h-screen bg-zinc-50 dark:bg-zinc-950 text-zinc-900 dark:text-zinc-100 flex flex-col items-center justify-center p-6">
-      <div className="w-full max-w-md bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 rounded-2xl p-8 shadow-sm text-center">
-        <div className="w-12 h-12 rounded-xl bg-indigo-50 dark:bg-indigo-950/60 text-indigo-600 dark:text-indigo-400 flex items-center justify-center mx-auto mb-4">
-          <Users className="w-6 h-6" />
-        </div>
-        <h1 className="text-2xl font-bold tracking-tight mb-2">Faculty &amp; Staff</h1>
-        <p className="text-zinc-600 dark:text-zinc-400 mb-6 text-sm">
-          Faculty and staff directory management module will be built in the next step.
-        </p>
-        <Link
-          href="/admin"
-          className="inline-flex items-center justify-center text-sm font-semibold text-indigo-600 dark:text-indigo-400 hover:underline"
-        >
-          ← Back to Admin Console
-        </Link>
+    <div className="min-h-screen bg-zinc-50 dark:bg-zinc-950 text-zinc-900 dark:text-zinc-100 py-8 px-4 sm:px-6 lg:px-8">
+      <div className="max-w-7xl mx-auto">
+        <FacultyClientView
+          faculty={faculty}
+          locations={locations}
+          universityName={university?.name}
+        />
       </div>
     </div>
   )

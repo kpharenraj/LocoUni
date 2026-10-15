@@ -97,3 +97,28 @@ export const updateLocationSchema = createLocationSchema.extend({
 })
 
 export type UpdateLocationInput = z.infer<typeof updateLocationSchema>
+
+export const createFacultySchema = z.object({
+  name: z.string().trim().min(1, 'Faculty member name is required'),
+  role: z.string().trim().optional(),
+  department: z.string().trim().optional(),
+  cabin_number: z.string().trim().optional(),
+  location_id: z.string().trim().optional().or(z.literal('')),
+  email: z
+    .string()
+    .trim()
+    .optional()
+    .or(z.literal(''))
+    .refine((val) => !val || /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(val), {
+      message: 'Please enter a valid email address',
+    }),
+  phone: z.string().trim().optional(),
+})
+
+export type CreateFacultyInput = z.infer<typeof createFacultySchema>
+
+export const updateFacultySchema = createFacultySchema.extend({
+  id: z.string().uuid('Invalid faculty member ID'),
+})
+
+export type UpdateFacultyInput = z.infer<typeof updateFacultySchema>
