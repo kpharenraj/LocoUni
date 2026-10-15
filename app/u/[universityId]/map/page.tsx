@@ -1,19 +1,76 @@
-import { Map } from 'lucide-react'
-import StudentPlaceholder from '@/components/student/StudentPlaceholder'
+import StudentCampusMap from '@/components/student/StudentCampusMap'
+import type { MapLocation } from '@/components/map/CampusMap'
+import { createClient } from '@/lib/supabase/server'
 
-interface StudentRouteProps {
+interface StudentMapPageProps {
   params: Promise<{ universityId: string }>
+  searchParams: Promise<{ [key: string]: string | string[] | undefined }>
 }
 
-export default async function CampusMapPage({ params }: StudentRouteProps) {
-  const { universityId } = await params
+export const dynamic = 'force-dynamic'
+
+export default async function CampusMapPage({
+  params,
+  searchParams,
+}: StudentMapPageProps) {
+  const [{ universityId }, query] = await Promise.all([params, searchParams])
+  const supabase = await createClient()
+  const { data: rows, error: locationsError } = await supabase
+    .from('locations')
+    .select('id, name, type, description, lat, lng')
+    .eq('university_id', universityId)
+    .order('name', { ascending: true })
+
+  if (locationsError) {
+    throw new Error(`Failed to load campus locations: ${locationsError.message}`)
+  }
+
+  const locationRows = rows ?? []
+  const locationIds = locationRows.map((location) => location.id)
+  const facultyByLocation: Record<
+    string,
+    { id: string; name: string; cabin_number: string | null }[]
+  > = {}
+
+  if (locationIds.length > 0) {
+    const { data: faculty, error: facultyError } = await supabase
+      .from('faculty')
+      .select('id, name, cabin_number, location_id')
+      .eq('university_id', universityId)
+      .in('location_id', locationIds)
+      .order('name', { ascending: true })
+
+    if (facultyError) {
+      throw new Error(`Failed to load faculty locations: ${facultyError.message}`)
+    }
+
+    for (const member of faculty ?? []) {
+      if (!member.location_id) continue
+      facultyByLocation[member.location_id] ??= []
+      facultyByLocation[member.location_id].push({
+        id: member.id,
+        name: member.name,
+        cabin_number: member.cabin_number,
+      })
+    }
+  }
+
+  const locations: MapLocation[] = locationRows.map((location) => ({
+    id: location.id,
+    name: location.name,
+    type: location.type || 'other',
+    description: location.description,
+    lat: location.lat,
+    lng: location.lng,
+    faculty: facultyByLocation[location.id] ?? [],
+  }))
+  const initialFocusId =
+    typeof query.focus === 'string' ? query.focus : undefined
 
   return (
-    <StudentPlaceholder
-      title="Campus map"
-      description="Explore campus buildings, facilities, and other important locations."
-      icon={<Map className="h-7 w-7" />}
-      homeHref={`/u/${universityId}`}
+    <StudentCampusMap
+      locations={locations}
+      initialFocusId={initialFocusId}
     />
   )
 }

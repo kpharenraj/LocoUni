@@ -13,6 +13,7 @@ export interface MapLocation {
   description?: string | null
   lat: number
   lng: number
+  faculty?: { id: string; name: string; cabin_number: string | null }[]
 }
 
 interface CampusMapProps {
@@ -135,6 +136,36 @@ export default function CampusMap({
                       {loc.description}
                     </p>
                   )}
+
+                  {loc.faculty && loc.faculty.length > 0 && (
+                    <div className="mb-2 border-t border-zinc-100 pt-2">
+                      <p className="mb-1 text-[10px] font-semibold uppercase tracking-wide text-zinc-500">
+                        Faculty here
+                      </p>
+                      <ul className="space-y-1">
+                        {loc.faculty.map((member) => (
+                          <li key={member.id} className="text-xs text-zinc-700">
+                            {member.name}
+                            {member.cabin_number && (
+                              <span className="text-zinc-500">
+                                {' '}
+                                · Cabin {member.cabin_number}
+                              </span>
+                            )}
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
+                  )}
+
+                  <a
+                    href={`https://www.google.com/maps/dir/?api=1&destination=${loc.lat},${loc.lng}`}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-flex items-center text-xs font-semibold text-indigo-700 hover:underline"
+                  >
+                    Get directions
+                  </a>
 
                   <div className="text-[10px] font-mono text-zinc-400 border-t border-zinc-100 pt-1 mt-1">
                     {loc.lat.toFixed(5)}, {loc.lng.toFixed(5)}
