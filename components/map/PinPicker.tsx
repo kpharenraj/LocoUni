@@ -76,7 +76,7 @@ export default function PinPicker({
     <div className="w-full space-y-2">
       <div
         style={{ height, minHeight: height, width: '100%' }}
-        className="relative rounded-xl overflow-hidden border border-zinc-200 dark:border-zinc-700 shadow-2xs z-10"
+        className="relative rounded-xl overflow-hidden border border-border dark:border-border shadow-2xs z-10"
       >
         <MapContainer
           center={[centerLat, centerLng]}
@@ -110,9 +110,9 @@ export default function PinPicker({
       </div>
 
       {/* Coordinate status readout */}
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between text-xs px-1 text-zinc-500 dark:text-zinc-400 gap-1">
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between text-xs px-1 text-muted-foreground dark:text-muted-foreground gap-1">
         {position ? (
-          <div className="flex items-center gap-1.5 font-mono text-zinc-800 dark:text-zinc-200 font-medium">
+          <div className="flex items-center gap-1.5 font-mono text-foreground dark:text-muted-foreground font-medium">
             <MapPin className="w-3.5 h-3.5 text-indigo-600 dark:text-indigo-400" />
             <span>
               Lat: {position.lat.toFixed(5)}, Lng: {position.lng.toFixed(5)}
@@ -125,7 +125,7 @@ export default function PinPicker({
           </div>
         )}
 
-        <span className="text-[11px] text-zinc-400">
+        <span className="text-[11px] text-muted-foreground">
           Click map to place or drag pin to adjust
         </span>
       </div>

@@ -21,7 +21,7 @@ export default async function UniversitySettingsPage() {
   if (!university) notFound()
 
   return (
-    <main className="min-h-screen bg-zinc-50 px-4 py-8 text-zinc-900 dark:bg-zinc-950 dark:text-zinc-100 sm:px-6 sm:py-10">
+    <main className="min-h-screen bg-background px-4 py-8 text-foreground dark:bg-background dark:text-foreground sm:px-6 sm:py-10">
       <div className="mx-auto w-full max-w-3xl">
         <div className="mb-4">
           <AdminBackLink />
@@ -37,13 +37,13 @@ export default async function UniversitySettingsPage() {
                 ? 'border-emerald-200 bg-emerald-50 text-emerald-700 dark:border-emerald-900 dark:bg-emerald-950/50 dark:text-emerald-300'
                 : university.status === 'pending'
                   ? 'border-amber-200 bg-amber-50 text-amber-700 dark:border-amber-900 dark:bg-amber-950/50 dark:text-amber-300'
-                  : 'border-zinc-200 bg-zinc-100 text-zinc-700 dark:border-zinc-700 dark:bg-zinc-800 dark:text-zinc-300'
+                  : 'border-border bg-muted text-muted-foreground dark:border-border dark:bg-muted dark:text-muted-foreground'
             }`}
           >
             {university.status === 'approved' ? 'Approved' : university.status === 'pending' ? 'Pending' : university.status}
           </span>
         </div>
-        <section className="rounded-2xl border border-zinc-200 bg-white p-4 shadow-sm dark:border-zinc-800 dark:bg-zinc-900 sm:p-7">
+        <section className="rounded-2xl border border-border bg-card p-4 shadow-sm dark:border-border dark:bg-card sm:p-7">
           <UniversitySettingsForm
             initialValues={{
               name: university.name,

@@ -21,10 +21,10 @@ export default function StudentPlaceholder({
         {icon}
       </span>
       <h1 className="mt-5 text-2xl font-extrabold tracking-tight">{title}</h1>
-      <p className="mt-2 max-w-md text-sm leading-relaxed text-zinc-500 dark:text-zinc-400">
+      <p className="mt-2 max-w-md text-sm leading-relaxed text-muted-foreground dark:text-muted-foreground">
         {description}
       </p>
-      <p className="mt-4 rounded-xl border border-zinc-200 bg-white px-4 py-3 text-xs text-zinc-500 dark:border-zinc-800 dark:bg-zinc-900 dark:text-zinc-400">
+      <p className="mt-4 rounded-xl border border-border bg-card px-4 py-3 text-xs text-muted-foreground dark:border-border dark:bg-card dark:text-muted-foreground">
         This campus feature is coming soon.
       </p>
       <Link

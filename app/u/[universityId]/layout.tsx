@@ -2,6 +2,7 @@ import Link from 'next/link'
 import { notFound, redirect } from 'next/navigation'
 import { logoutAction } from '@/app/actions/auth'
 import StudentNavigation from '@/components/student/StudentNavigation'
+import ThemeToggle from '@/components/ui/ThemeToggle'
 import { createClient } from '@/lib/supabase/server'
 
 interface StudentLayoutProps {
@@ -69,15 +70,15 @@ export default async function StudentLayout({
   }
 
   return (
-    <div className="flex min-h-screen flex-col bg-zinc-50 text-zinc-900 dark:bg-zinc-950 dark:text-zinc-100">
-      <header className="sticky top-0 z-40 border-b border-zinc-200/80 bg-white/90 backdrop-blur-md dark:border-zinc-800/80 dark:bg-zinc-950/90">
+    <div className="flex min-h-screen flex-col bg-background text-foreground dark:bg-background dark:text-foreground">
+      <header className="sticky top-0 z-40 border-b border-border/80 bg-card/90 backdrop-blur-md dark:border-border/80 dark:bg-background/90">
         <div className="mx-auto flex h-16 max-w-7xl items-center justify-between gap-4 px-4 sm:px-6">
           <Link
             href={`/u/${university.id}`}
             className="flex min-w-0 items-center gap-3"
             aria-label={`${university.name} home`}
           >
-            <span className="flex h-10 w-10 shrink-0 items-center justify-center overflow-hidden rounded-xl border border-zinc-200 bg-zinc-100 dark:border-zinc-700 dark:bg-zinc-800">
+            <span className="flex h-10 w-10 shrink-0 items-center justify-center overflow-hidden rounded-xl border border-border bg-muted dark:border-border dark:bg-muted">
               {university.logo_url ? (
                 // eslint-disable-next-line @next/next/no-img-element
                 <img
@@ -95,14 +96,17 @@ export default async function StudentLayout({
               {university.name}
             </span>
           </Link>
-          <form action={logoutAction}>
-            <button
-              type="submit"
-              className="rounded-xl border border-zinc-300 px-3 py-2 text-xs font-semibold text-zinc-700 transition-colors hover:bg-zinc-100 dark:border-zinc-700 dark:text-zinc-300 dark:hover:bg-zinc-800"
-            >
-              Log out
-            </button>
-          </form>
+          <div className="flex shrink-0 items-center gap-2">
+            <ThemeToggle />
+            <form action={logoutAction}>
+              <button
+                type="submit"
+                className="rounded-xl border border-border px-3 py-2 text-xs font-semibold text-muted-foreground transition-colors hover:bg-muted dark:border-border dark:text-muted-foreground dark:hover:bg-muted"
+              >
+                Log out
+              </button>
+            </form>
+          </div>
         </div>
         <StudentNavigation universityId={university.id} placement="desktop" />
       </header>

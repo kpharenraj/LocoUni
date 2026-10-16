@@ -77,9 +77,9 @@ function getPriorityStyles(priority: NoticePriority) {
       icon: <AlertCircle className="w-3.5 h-3.5" />,
     }
   return {
-    badge: 'bg-zinc-100 dark:bg-zinc-800 text-zinc-600 dark:text-zinc-300 border border-zinc-200/60 dark:border-zinc-700/60',
-    card: 'border-zinc-200 dark:border-zinc-800 bg-white dark:bg-zinc-900',
-    dot: 'bg-zinc-400',
+    badge: 'bg-muted dark:bg-muted text-muted-foreground dark:text-muted-foreground border border-border/60 dark:border-border/60',
+    card: 'border-border dark:border-border bg-card dark:bg-card',
+    dot: 'bg-muted-foreground',
     icon: <Info className="w-3.5 h-3.5" />,
   }
 }
@@ -101,10 +101,10 @@ function formatDate(iso: string): string {
 }
 
 const LABEL_CLASS =
-  'block text-xs font-semibold text-zinc-700 dark:text-zinc-300 mb-1'
+  'block text-xs font-semibold text-muted-foreground dark:text-muted-foreground mb-1'
 
 const INPUT_CLASS =
-  'w-full px-3.5 py-2 text-sm rounded-xl border border-zinc-300 dark:border-zinc-700 bg-white dark:bg-zinc-950 text-zinc-900 dark:text-zinc-100 placeholder-zinc-400 focus:outline-none focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-600'
+  'w-full px-3.5 py-2 text-sm rounded-xl border border-border dark:border-border bg-card dark:bg-background text-foreground dark:text-foreground placeholder-zinc-400 focus:outline-none focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-600'
 
 export default function NoticesClientView({
   notices,
@@ -224,18 +224,18 @@ export default function NoticesClientView({
   return (
     <div className="space-y-8">
       {/* Header */}
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-6 border-b border-zinc-200 dark:border-zinc-800">
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-6 border-b border-border dark:border-border">
         <div>
           <div className="flex items-center gap-2 mb-2">
             <AdminBackLink />
-            <span className="text-zinc-300 dark:text-zinc-700">/</span>
-            <span className="text-xs text-zinc-400">Campus Notices</span>
+            <span className="text-muted-foreground dark:text-muted-foreground">/</span>
+            <span className="text-xs text-muted-foreground">Campus Notices</span>
           </div>
 
-          <h1 className="text-2xl sm:text-3xl font-extrabold tracking-tight text-zinc-900 dark:text-zinc-50">
+          <h1 className="text-2xl sm:text-3xl font-extrabold tracking-tight text-foreground dark:text-foreground">
             Campus Notice Board
           </h1>
-          <p className="mt-1 text-sm text-zinc-600 dark:text-zinc-400">
+          <p className="mt-1 text-sm text-muted-foreground dark:text-muted-foreground">
             {universityName ? `${universityName} — ` : ''}Post announcements, exam dates, and urgent alerts
           </p>
         </div>
@@ -250,7 +250,7 @@ export default function NoticesClientView({
       </div>
 
       {/* Filters */}
-      <div className="bg-white dark:bg-zinc-900 rounded-2xl border border-zinc-200 dark:border-zinc-800 p-4 sm:p-5 shadow-xs">
+      <div className="bg-card dark:bg-card rounded-2xl border border-border dark:border-border p-4 sm:p-5 shadow-xs">
         <div className="flex flex-col gap-4">
           {/* Category Tabs */}
           <div className="flex items-center gap-2 overflow-x-auto pb-1 scrollbar-none">
@@ -261,12 +261,12 @@ export default function NoticesClientView({
                 className={`px-3.5 py-1.5 rounded-full text-xs font-semibold whitespace-nowrap transition-all cursor-pointer ${
                   categoryFilter === cat.value
                     ? 'bg-indigo-600 text-white shadow-sm shadow-indigo-600/20'
-                    : 'bg-zinc-100 dark:bg-zinc-800 text-zinc-700 dark:text-zinc-300 hover:bg-zinc-200 dark:hover:bg-zinc-700'
+                    : 'bg-muted dark:bg-muted text-muted-foreground dark:text-muted-foreground hover:bg-muted dark:hover:bg-muted'
                 }`}
               >
                 {cat.label}
                 {cat.value !== 'all' && (
-                  <span className={`ml-1.5 ${categoryFilter === cat.value ? 'text-indigo-200' : 'text-zinc-500 dark:text-zinc-400'}`}>
+                  <span className={`ml-1.5 ${categoryFilter === cat.value ? 'text-indigo-200' : 'text-muted-foreground dark:text-muted-foreground'}`}>
                     ({notices.filter((n) => n.category === cat.value).length})
                   </span>
                 )}
@@ -280,7 +280,7 @@ export default function NoticesClientView({
               aria-label="Filter notices by priority"
               value={priorityFilter}
               onChange={(e) => setPriorityFilter(e.target.value as NoticePriority | 'all')}
-              className="px-3.5 py-2 text-xs font-medium rounded-xl border border-zinc-200 dark:border-zinc-700 bg-white dark:bg-zinc-950 text-zinc-800 dark:text-zinc-200 focus:outline-none focus:ring-2 focus:ring-indigo-500/20"
+              className="px-3.5 py-2 text-xs font-medium rounded-xl border border-border dark:border-border bg-card dark:bg-background text-foreground dark:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-indigo-500/20"
             >
               {PRIORITIES.map((p) => (
                 <option key={p.value} value={p.value}>
@@ -288,7 +288,7 @@ export default function NoticesClientView({
                 </option>
               ))}
             </select>
-            <span className="text-xs text-zinc-500">
+            <span className="text-xs text-muted-foreground">
               {filtered.length} {filtered.length === 1 ? 'notice' : 'notices'}
             </span>
           </div>
@@ -297,14 +297,14 @@ export default function NoticesClientView({
 
       {/* Notices List */}
       {filtered.length === 0 ? (
-        <div className="bg-white dark:bg-zinc-900 rounded-2xl border border-zinc-200 dark:border-zinc-800 p-12 text-center">
-          <Bell className="w-10 h-10 text-zinc-300 dark:text-zinc-600 mx-auto mb-3" />
-          <h3 className="text-base font-semibold text-zinc-800 dark:text-zinc-200">
+        <div className="bg-card dark:bg-card rounded-2xl border border-border dark:border-border p-12 text-center">
+          <Bell className="w-10 h-10 text-muted-foreground dark:text-muted-foreground mx-auto mb-3" />
+          <h3 className="text-base font-semibold text-foreground dark:text-muted-foreground">
             {notices.length === 0
               ? 'No notices posted yet'
               : 'No notices match your filter'}
           </h3>
-          <p className="text-xs text-zinc-500 dark:text-zinc-400 mt-1 max-w-sm mx-auto">
+          <p className="text-xs text-muted-foreground dark:text-muted-foreground mt-1 max-w-sm mx-auto">
             {notices.length === 0
               ? 'Post your first campus notice — exam schedules, events, hostel circulars, or urgent alerts.'
               : 'Try a different category or priority filter.'}
@@ -335,7 +335,7 @@ export default function NoticesClientView({
                   <div className="flex-1 min-w-0">
                     {/* Title row */}
                     <div className="flex flex-col sm:flex-row sm:items-start justify-between gap-2 mb-1.5">
-                      <h3 className="text-sm font-bold text-zinc-900 dark:text-zinc-100 leading-snug">
+                      <h3 className="text-sm font-bold text-foreground dark:text-foreground leading-snug">
                         {notice.title}
                       </h3>
 
@@ -347,7 +347,7 @@ export default function NoticesClientView({
                         </span>
 
                         {/* Category badge */}
-                        <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[11px] font-semibold bg-zinc-100 dark:bg-zinc-800 text-zinc-600 dark:text-zinc-300">
+                        <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[11px] font-semibold bg-muted dark:bg-muted text-muted-foreground dark:text-muted-foreground">
                           <Tag className="w-3 h-3" />
                           {getCategoryLabel(notice.category)}
                         </span>
@@ -356,13 +356,13 @@ export default function NoticesClientView({
 
                     {/* Body */}
                     {notice.body && (
-                      <p className="text-xs text-zinc-600 dark:text-zinc-400 leading-relaxed mb-2 whitespace-pre-line">
+                      <p className="text-xs text-muted-foreground dark:text-muted-foreground leading-relaxed mb-2 whitespace-pre-line">
                         {notice.body}
                       </p>
                     )}
 
                     {/* Meta row */}
-                    <div className="flex flex-wrap items-center gap-4 text-[11px] text-zinc-500 dark:text-zinc-400">
+                    <div className="flex flex-wrap items-center gap-4 text-[11px] text-muted-foreground dark:text-muted-foreground">
                       {notice.event_date && (
                         <span className="flex items-center gap-1">
                           <CalendarDays className="w-3 h-3" />
@@ -381,7 +381,7 @@ export default function NoticesClientView({
                       type="button"
                       aria-label={`Edit notice: ${notice.title}`}
                       onClick={() => openEditModal(notice)}
-                      className="p-1.5 rounded-lg border border-zinc-200 dark:border-zinc-700 text-zinc-500 hover:text-indigo-600 dark:hover:text-indigo-400 hover:bg-indigo-50 dark:hover:bg-indigo-950/40 transition-colors cursor-pointer"
+                      className="p-1.5 rounded-lg border border-border dark:border-border text-muted-foreground hover:text-indigo-600 dark:hover:text-indigo-400 hover:bg-indigo-50 dark:hover:bg-indigo-950/40 transition-colors cursor-pointer"
                       title="Edit notice"
                     >
                       <Pencil className="w-3.5 h-3.5" />
@@ -390,7 +390,7 @@ export default function NoticesClientView({
                       type="button"
                       aria-label={`Delete notice: ${notice.title}`}
                       onClick={() => setDeleteCandidate(notice)}
-                      className="p-1.5 rounded-lg border border-zinc-200 dark:border-zinc-700 text-zinc-500 hover:text-red-600 dark:hover:text-red-400 hover:bg-red-50 dark:hover:bg-red-950/40 transition-colors cursor-pointer"
+                      className="p-1.5 rounded-lg border border-border dark:border-border text-muted-foreground hover:text-red-600 dark:hover:text-red-400 hover:bg-red-50 dark:hover:bg-red-950/40 transition-colors cursor-pointer"
                       title="Delete notice"
                     >
                       <Trash2 className="w-3.5 h-3.5" />
@@ -406,13 +406,13 @@ export default function NoticesClientView({
       {/* Add / Edit Modal */}
       {isModalOpen && (
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/50 backdrop-blur-xs overflow-y-auto">
-          <div className="my-auto max-h-[calc(100dvh-2rem)] w-full max-w-xl shrink-0 overflow-y-auto rounded-2xl border border-zinc-200 bg-white p-5 shadow-xl dark:border-zinc-800 dark:bg-zinc-900 sm:p-7">
-            <div className="flex items-center justify-between pb-4 border-b border-zinc-100 dark:border-zinc-800 mb-5">
+          <div className="my-auto max-h-[calc(100dvh-2rem)] w-full max-w-xl shrink-0 overflow-y-auto rounded-2xl border border-border bg-card p-5 shadow-xl dark:border-border dark:bg-card sm:p-7">
+            <div className="flex items-center justify-between pb-4 border-b border-border dark:border-border mb-5">
               <div className="flex items-center gap-2.5">
                 <span className="w-8 h-8 rounded-lg bg-amber-50 dark:bg-amber-950 text-amber-600 dark:text-amber-400 flex items-center justify-center">
                   <Bell className="w-4 h-4" />
                 </span>
-                <h3 className="text-lg font-bold text-zinc-900 dark:text-zinc-100">
+                <h3 className="text-lg font-bold text-foreground dark:text-foreground">
                   {modalMode === 'create' ? 'Post New Notice' : 'Edit Notice'}
                 </h3>
               </div>
@@ -421,7 +421,7 @@ export default function NoticesClientView({
                 type="button"
                 aria-label="Close notice dialog"
                 onClick={() => setIsModalOpen(false)}
-                className="p-1.5 rounded-lg text-zinc-400 hover:text-zinc-700 dark:hover:text-zinc-200 hover:bg-zinc-100 dark:hover:bg-zinc-800 transition-colors cursor-pointer"
+                className="p-1.5 rounded-lg text-muted-foreground hover:text-muted-foreground dark:hover:text-muted-foreground hover:bg-muted dark:hover:bg-muted transition-colors cursor-pointer"
               >
                 <X className="w-4 h-4" />
               </button>
@@ -514,17 +514,17 @@ export default function NoticesClientView({
                   onChange={(e) => setFormEventDate(e.target.value)}
                   className={INPUT_CLASS}
                 />
-                <p className="mt-1 text-[11px] text-zinc-400">
+                <p className="mt-1 text-[11px] text-muted-foreground">
                   For exam dates, event deadlines, etc.
                 </p>
               </div>
 
               {/* Buttons */}
-              <div className="flex items-center justify-end gap-3 pt-3 border-t border-zinc-100 dark:border-zinc-800">
+              <div className="flex items-center justify-end gap-3 pt-3 border-t border-border dark:border-border">
                 <button
                   type="button"
                   onClick={() => setIsModalOpen(false)}
-                  className="px-4 py-2 rounded-xl border border-zinc-200 dark:border-zinc-700 text-xs font-semibold text-zinc-600 dark:text-zinc-400 hover:bg-zinc-100 dark:hover:bg-zinc-800 transition-colors cursor-pointer"
+                  className="px-4 py-2 rounded-xl border border-border dark:border-border text-xs font-semibold text-muted-foreground dark:text-muted-foreground hover:bg-muted dark:hover:bg-muted transition-colors cursor-pointer"
                 >
                   Cancel
                 </button>
@@ -546,19 +546,19 @@ export default function NoticesClientView({
       {/* Delete Confirmation Modal */}
       {deleteCandidate && (
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/50 backdrop-blur-xs">
-          <div className="my-auto max-h-[calc(100dvh-2rem)] w-full max-w-md shrink-0 overflow-y-auto rounded-2xl border border-zinc-200 bg-white p-5 shadow-xl dark:border-zinc-800 dark:bg-zinc-900 sm:p-6">
+          <div className="my-auto max-h-[calc(100dvh-2rem)] w-full max-w-md shrink-0 overflow-y-auto rounded-2xl border border-border bg-card p-5 shadow-xl dark:border-border dark:bg-card sm:p-6">
             <div className="flex items-center gap-3 text-red-600 dark:text-red-400 mb-3">
               <span className="w-9 h-9 rounded-xl bg-red-50 dark:bg-red-950/60 flex items-center justify-center">
                 <Trash2 className="w-5 h-5" />
               </span>
-              <h3 className="text-base font-bold text-zinc-900 dark:text-zinc-100">
+              <h3 className="text-base font-bold text-foreground dark:text-foreground">
                 Delete Notice?
               </h3>
             </div>
 
-            <p className="text-xs sm:text-sm text-zinc-600 dark:text-zinc-400 mb-5 leading-relaxed">
+            <p className="text-xs sm:text-sm text-muted-foreground dark:text-muted-foreground mb-5 leading-relaxed">
               Are you sure you want to permanently delete{' '}
-              <span className="font-semibold text-zinc-900 dark:text-zinc-100">
+              <span className="font-semibold text-foreground dark:text-foreground">
                 &ldquo;{deleteCandidate.title}&rdquo;
               </span>
               ? This action cannot be undone.
@@ -569,7 +569,7 @@ export default function NoticesClientView({
                 type="button"
                 disabled={isPending}
                 onClick={() => setDeleteCandidate(null)}
-                className="px-4 py-2 rounded-xl border border-zinc-200 dark:border-zinc-700 text-xs font-semibold text-zinc-600 dark:text-zinc-400 hover:bg-zinc-100 dark:hover:bg-zinc-800 transition-colors cursor-pointer"
+                className="px-4 py-2 rounded-xl border border-border dark:border-border text-xs font-semibold text-muted-foreground dark:text-muted-foreground hover:bg-muted dark:hover:bg-muted transition-colors cursor-pointer"
               >
                 Cancel
               </button>

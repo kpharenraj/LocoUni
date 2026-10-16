@@ -56,8 +56,8 @@ export function ToastProvider({ children }: { children: ReactNode }) {
             role={toast.type === 'error' ? 'alert' : 'status'}
             className={`pointer-events-auto flex min-h-10 max-w-sm items-center gap-3 rounded-xl border px-4 py-2.5 text-sm shadow-lg ${
               toast.type === 'success'
-                ? 'border-emerald-200 bg-white text-zinc-800 dark:border-emerald-900 dark:bg-zinc-900 dark:text-zinc-100'
-                : 'border-red-200 bg-white text-red-800 dark:border-red-900 dark:bg-zinc-900 dark:text-red-200'
+                ? 'border-emerald-200 bg-card text-foreground dark:border-emerald-900 dark:bg-card dark:text-foreground'
+                : 'border-red-200 bg-card text-red-800 dark:border-red-900 dark:bg-card dark:text-red-200'
             }`}
           >
             <CheckCircle2
@@ -71,7 +71,7 @@ export function ToastProvider({ children }: { children: ReactNode }) {
               type="button"
               onClick={() => dismissToast(toast.id)}
               aria-label="Dismiss notification"
-              className="inline-flex h-8 w-8 shrink-0 items-center justify-center rounded-lg text-zinc-500 hover:bg-zinc-100 focus-visible:outline-2 focus-visible:outline-indigo-600 dark:hover:bg-zinc-800"
+              className="inline-flex h-8 w-8 shrink-0 items-center justify-center rounded-lg text-muted-foreground hover:bg-muted focus-visible:outline-2 focus-visible:outline-indigo-600 dark:hover:bg-muted"
             >
               <X className="h-4 w-4" aria-hidden="true" />
             </button>

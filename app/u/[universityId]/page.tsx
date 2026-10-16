@@ -167,7 +167,7 @@ export default async function StudentHomePage({
                     </span>
                     <h3 className="mt-0.5 text-sm font-bold">{notice.title}</h3>
                     {notice.body && (
-                      <p className="mt-1 line-clamp-2 text-xs leading-relaxed text-zinc-600 dark:text-zinc-400">
+                      <p className="mt-1 line-clamp-2 text-xs leading-relaxed text-muted-foreground dark:text-muted-foreground">
                         {notice.body}
                       </p>
                     )}
@@ -177,7 +177,7 @@ export default async function StudentHomePage({
             ))}
           </div>
         ) : (
-          <div className="rounded-2xl border border-dashed border-zinc-300 bg-white p-6 text-center text-sm text-zinc-500 dark:border-zinc-700 dark:bg-zinc-900 dark:text-zinc-400">
+          <div className="rounded-2xl border border-dashed border-border bg-card p-6 text-center text-sm text-muted-foreground dark:border-border dark:bg-card dark:text-muted-foreground">
             No urgent or high-priority notices right now.
           </div>
         )}
@@ -192,18 +192,18 @@ export default async function StudentHomePage({
             <Link
               key={segment}
               href={`/u/${universityId}/${segment}`}
-              className="group flex items-center gap-4 rounded-2xl border border-zinc-200 bg-white p-4 shadow-xs transition-all hover:-translate-y-0.5 hover:border-indigo-300 hover:shadow-sm dark:border-zinc-800 dark:bg-zinc-900 dark:hover:border-indigo-800"
+              className="group flex items-center gap-4 rounded-2xl border border-border bg-card p-4 shadow-xs transition-all hover:-translate-y-0.5 hover:border-indigo-300 hover:shadow-sm dark:border-border dark:bg-card dark:hover:border-indigo-800"
             >
               <span className={`flex h-11 w-11 shrink-0 items-center justify-center rounded-xl ${color}`}>
                 <Icon className="h-5 w-5" aria-hidden="true" />
               </span>
               <span className="min-w-0 flex-1">
                 <span className="block text-sm font-bold">{title}</span>
-                <span className="mt-0.5 block text-xs text-zinc-500 dark:text-zinc-400">
+                <span className="mt-0.5 block text-xs text-muted-foreground dark:text-muted-foreground">
                   {description}
                 </span>
               </span>
-              <ArrowRight className="h-4 w-4 shrink-0 text-zinc-400 transition-transform group-hover:translate-x-0.5 group-hover:text-indigo-600 dark:group-hover:text-indigo-400" />
+              <ArrowRight className="h-4 w-4 shrink-0 text-muted-foreground transition-transform group-hover:translate-x-0.5 group-hover:text-indigo-600 dark:group-hover:text-indigo-400" />
             </Link>
           ))}
         </div>

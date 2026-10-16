@@ -34,7 +34,7 @@ import {
 const CampusMap = dynamic(() => import('@/components/map/CampusMap'), {
   ssr: false,
   loading: () => (
-    <div className="h-[460px] w-full rounded-2xl bg-zinc-100 dark:bg-zinc-800/60 animate-pulse flex items-center justify-center text-sm text-zinc-400">
+    <div className="h-[460px] w-full rounded-2xl bg-muted dark:bg-muted/60 animate-pulse flex items-center justify-center text-sm text-muted-foreground">
       Loading campus map...
     </div>
   ),
@@ -43,7 +43,7 @@ const CampusMap = dynamic(() => import('@/components/map/CampusMap'), {
 const PinPicker = dynamic(() => import('@/components/map/PinPicker'), {
   ssr: false,
   loading: () => (
-    <div className="h-[320px] w-full rounded-xl bg-zinc-100 dark:bg-zinc-800/60 animate-pulse flex items-center justify-center text-sm text-zinc-400">
+    <div className="h-[320px] w-full rounded-xl bg-muted dark:bg-muted/60 animate-pulse flex items-center justify-center text-sm text-muted-foreground">
       Loading pin picker...
     </div>
   ),
@@ -99,7 +99,7 @@ const LOCATION_TYPES: { value: LocationType; label: string; icon: typeof Buildin
   { value: 'canteen', label: 'Canteen / Cafeteria', icon: Coffee, color: 'text-orange-600 bg-orange-50 border-orange-200 dark:bg-orange-950/60 dark:text-orange-300' },
   { value: 'hostel', label: 'Hostel / Residence', icon: Home, color: 'text-purple-600 bg-purple-50 border-purple-200 dark:bg-purple-950/60 dark:text-purple-300' },
   { value: 'ground', label: 'Sports Ground / Arena', icon: Flag, color: 'text-emerald-600 bg-emerald-50 border-emerald-200 dark:bg-emerald-950/60 dark:text-emerald-300' },
-  { value: 'gate', label: 'Campus Gate / Entrance', icon: Navigation, color: 'text-slate-600 bg-slate-50 border-slate-200 dark:bg-slate-900/60 dark:text-slate-300' },
+  { value: 'gate', label: 'Campus Gate / Entrance', icon: Navigation, color: 'text-muted-foreground bg-muted border-border dark:bg-muted/60 dark:text-muted-foreground' },
   { value: 'parking', label: 'Parking Area', icon: Car, color: 'text-cyan-600 bg-cyan-50 border-cyan-200 dark:bg-cyan-950/60 dark:text-cyan-300' },
   { value: 'other', label: 'Other Facility', icon: Layers, color: 'text-rose-600 bg-rose-50 border-rose-200 dark:bg-rose-950/60 dark:text-rose-300' },
 ]
@@ -288,18 +288,18 @@ export default function LocationsClientView({
   return (
     <div className="space-y-8">
       {/* Page Header */}
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-6 border-b border-zinc-200 dark:border-zinc-800">
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-6 border-b border-border dark:border-border">
         <div>
           <div className="flex items-center gap-2 mb-2">
             <AdminBackLink />
-            <span className="text-zinc-300 dark:text-zinc-700">/</span>
-            <span className="text-xs text-zinc-400">Campus Locations</span>
+            <span className="text-muted-foreground dark:text-muted-foreground">/</span>
+            <span className="text-xs text-muted-foreground">Campus Locations</span>
           </div>
 
-          <h1 className="text-2xl sm:text-3xl font-extrabold tracking-tight text-zinc-900 dark:text-zinc-50">
+          <h1 className="text-2xl sm:text-3xl font-extrabold tracking-tight text-foreground dark:text-foreground">
             Locations Management
           </h1>
-          <p className="mt-1 text-sm text-zinc-600 dark:text-zinc-400">
+          <p className="mt-1 text-sm text-muted-foreground dark:text-muted-foreground">
             {universityName ? `${universityName} — ` : ''}Drop map pins for buildings, facilities, and campus landmarks
           </p>
         </div>
@@ -314,17 +314,17 @@ export default function LocationsClientView({
       </div>
 
       {/* Main Map Card */}
-      <div className="bg-white dark:bg-zinc-900 rounded-2xl border border-zinc-200 dark:border-zinc-800 p-4 sm:p-6 shadow-xs">
+      <div className="bg-card dark:bg-card rounded-2xl border border-border dark:border-border p-4 sm:p-6 shadow-xs">
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 mb-4">
           <div>
-            <h2 className="text-base font-bold text-zinc-900 dark:text-zinc-100 flex items-center gap-2">
+            <h2 className="text-base font-bold text-foreground dark:text-foreground flex items-center gap-2">
               <MapPin className="w-4.5 h-4.5 text-indigo-600 dark:text-indigo-400" />
               <span>Interactive Campus Map</span>
-              <span className="text-xs font-normal text-zinc-500 dark:text-zinc-400 ml-1">
+              <span className="text-xs font-normal text-muted-foreground dark:text-muted-foreground ml-1">
                 ({locations.length} {locations.length === 1 ? 'place' : 'places'} mapped)
               </span>
             </h2>
-            <p className="text-xs text-zinc-500 dark:text-zinc-400">
+            <p className="text-xs text-muted-foreground dark:text-muted-foreground">
               Click a pin to view details or click a location in the list below to zoom in
             </p>
           </div>
@@ -349,12 +349,12 @@ export default function LocationsClientView({
             height="460px"
           />
         ) : (
-          <div className="flex min-h-[280px] flex-col items-center justify-center rounded-2xl border border-dashed border-zinc-300 bg-zinc-50 px-5 py-10 text-center dark:border-zinc-700 dark:bg-zinc-950/50">
-            <MapPin className="h-9 w-9 text-zinc-400" aria-hidden="true" />
-            <p className="mt-3 text-sm font-semibold text-zinc-800 dark:text-zinc-200">
+          <div className="flex min-h-[280px] flex-col items-center justify-center rounded-2xl border border-dashed border-border bg-background px-5 py-10 text-center dark:border-border dark:bg-background/50">
+            <MapPin className="h-9 w-9 text-muted-foreground" aria-hidden="true" />
+            <p className="mt-3 text-sm font-semibold text-foreground dark:text-muted-foreground">
               Your campus map is ready for its first pin
             </p>
-            <p className="mt-1 max-w-sm text-xs text-zinc-500 dark:text-zinc-400">
+            <p className="mt-1 max-w-sm text-xs text-muted-foreground dark:text-muted-foreground">
               Add a building or facility to start mapping your campus.
             </p>
             <button
@@ -370,18 +370,18 @@ export default function LocationsClientView({
       </div>
 
       {/* Locations List / Table Section */}
-      <div className="bg-white dark:bg-zinc-900 rounded-2xl border border-zinc-200 dark:border-zinc-800 p-5 sm:p-6 shadow-xs">
+      <div className="bg-card dark:bg-card rounded-2xl border border-border dark:border-border p-5 sm:p-6 shadow-xs">
         {/* Search & Filter Bar */}
         <div className="flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-3 mb-6">
           <div className="relative flex-1 max-w-md">
-            <Search className="w-4 h-4 absolute left-3.5 top-1/2 -translate-y-1/2 text-zinc-400" />
+            <Search className="w-4 h-4 absolute left-3.5 top-1/2 -translate-y-1/2 text-muted-foreground" />
             <input
               type="text"
               aria-label="Search locations by name or description"
               placeholder="Search location by name or description..."
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
-              className="w-full pl-10 pr-4 py-2 text-sm rounded-xl border border-zinc-200 dark:border-zinc-700 bg-white dark:bg-zinc-950 text-zinc-900 dark:text-zinc-100 placeholder-zinc-400 focus:outline-none focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-600"
+              className="w-full pl-10 pr-4 py-2 text-sm rounded-xl border border-border dark:border-border bg-card dark:bg-background text-foreground dark:text-foreground placeholder-zinc-400 focus:outline-none focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-600"
             />
           </div>
 
@@ -390,7 +390,7 @@ export default function LocationsClientView({
               aria-label="Filter locations by type"
               value={selectedTypeFilter}
               onChange={(e) => setSelectedTypeFilter(e.target.value)}
-              className="px-3 py-2 text-xs font-medium rounded-xl border border-zinc-200 dark:border-zinc-700 bg-white dark:bg-zinc-950 text-zinc-800 dark:text-zinc-200 focus:outline-none focus:ring-2 focus:ring-indigo-500/20"
+              className="px-3 py-2 text-xs font-medium rounded-xl border border-border dark:border-border bg-card dark:bg-background text-foreground dark:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-indigo-500/20"
             >
               <option value="all">All Types ({locations.length})</option>
               {LOCATION_TYPES.map((t) => {
@@ -407,14 +407,14 @@ export default function LocationsClientView({
 
         {/* Locations List */}
         {filteredLocations.length === 0 ? (
-          <div className="text-center py-14 px-4 border border-dashed border-zinc-200 dark:border-zinc-800 rounded-xl">
-            <MapPin className="w-10 h-10 text-zinc-300 dark:text-zinc-600 mx-auto mb-3" />
-            <h3 className="text-base font-semibold text-zinc-800 dark:text-zinc-200">
+          <div className="text-center py-14 px-4 border border-dashed border-border dark:border-border rounded-xl">
+            <MapPin className="w-10 h-10 text-muted-foreground dark:text-muted-foreground mx-auto mb-3" />
+            <h3 className="text-base font-semibold text-foreground dark:text-muted-foreground">
               {locations.length === 0
                 ? 'No locations added yet'
                 : 'No locations matching your search'}
             </h3>
-            <p className="text-xs text-zinc-500 dark:text-zinc-400 mt-1 max-w-sm mx-auto">
+            <p className="text-xs text-muted-foreground dark:text-muted-foreground mt-1 max-w-sm mx-auto">
               {locations.length === 0
                 ? 'Add your first building, cafeteria, or library so students can navigate the campus.'
                 : 'Try adjusting your search query or filter to see campus places.'}
@@ -433,7 +433,7 @@ export default function LocationsClientView({
           <div className="overflow-x-auto">
             <table className="w-full text-left text-sm">
               <thead>
-                <tr className="border-b border-zinc-100 dark:border-zinc-800 text-xs font-semibold text-zinc-500 dark:text-zinc-400">
+                <tr className="border-b border-border dark:border-border text-xs font-semibold text-muted-foreground dark:text-muted-foreground">
                   <th className="pb-3 pl-2">Name &amp; Type</th>
                   <th className="pb-3 hidden md:table-cell">Description</th>
                   <th className="pb-3">Coordinates</th>
@@ -449,7 +449,7 @@ export default function LocationsClientView({
                     <tr
                       key={loc.id}
                       onClick={() => setFocusedLocationId(loc.id)}
-                      className={`group hover:bg-zinc-50/80 dark:hover:bg-zinc-800/40 transition-colors cursor-pointer ${
+                      className={`group hover:bg-background/80 dark:hover:bg-muted/40 transition-colors cursor-pointer ${
                         isFocused
                           ? 'bg-indigo-50/60 dark:bg-indigo-950/30'
                           : ''
@@ -463,33 +463,33 @@ export default function LocationsClientView({
                               src={loc.photo_url}
                               alt=""
                               loading="lazy"
-                              className="h-12 w-12 shrink-0 rounded-lg border border-zinc-200 object-cover dark:border-zinc-700"
+                              className="h-12 w-12 shrink-0 rounded-lg border border-border object-cover dark:border-border"
                             />
                           ) : (
                             <span
                               className={`flex h-7 w-7 flex-shrink-0 items-center justify-center rounded-lg border text-xs font-semibold ${
-                                typeObj ? typeObj.color : 'text-zinc-600 bg-zinc-100'
+                                typeObj ? typeObj.color : 'text-muted-foreground bg-muted'
                               }`}
                             >
                               <MapPin className="w-3.5 h-3.5" />
                             </span>
                           )}
                           <div>
-                            <div className="font-semibold text-zinc-900 dark:text-zinc-100 group-hover:text-indigo-600 dark:group-hover:text-indigo-400 transition-colors">
+                            <div className="font-semibold text-foreground dark:text-foreground group-hover:text-indigo-600 dark:group-hover:text-indigo-400 transition-colors">
                               {loc.name}
                             </div>
-                            <span className="inline-block mt-0.5 text-[11px] capitalize font-medium text-zinc-500 dark:text-zinc-400">
+                            <span className="inline-block mt-0.5 text-[11px] capitalize font-medium text-muted-foreground dark:text-muted-foreground">
                               {typeObj?.label || loc.type}
                             </span>
                           </div>
                         </div>
                       </td>
 
-                      <td className="py-3.5 text-zinc-600 dark:text-zinc-400 hidden md:table-cell max-w-xs truncate text-xs">
+                      <td className="py-3.5 text-muted-foreground dark:text-muted-foreground hidden md:table-cell max-w-xs truncate text-xs">
                         {loc.description || '—'}
                       </td>
 
-                      <td className="py-3.5 font-mono text-xs text-zinc-500 dark:text-zinc-400">
+                      <td className="py-3.5 font-mono text-xs text-muted-foreground dark:text-muted-foreground">
                         {loc.lat.toFixed(4)}, {loc.lng.toFixed(4)}
                       </td>
 
@@ -505,7 +505,7 @@ export default function LocationsClientView({
                             className={`p-1.5 rounded-lg border text-xs transition-colors cursor-pointer ${
                               isFocused
                                 ? 'bg-indigo-600 text-white border-indigo-600'
-                                : 'border-zinc-200 dark:border-zinc-700 text-zinc-600 dark:text-zinc-400 hover:bg-zinc-100 dark:hover:bg-zinc-800'
+                                : 'border-border dark:border-border text-muted-foreground dark:text-muted-foreground hover:bg-muted dark:hover:bg-muted'
                             }`}
                           >
                             <Navigation className="w-3.5 h-3.5" />
@@ -515,7 +515,7 @@ export default function LocationsClientView({
                             title="Edit Location"
                             aria-label={`Edit ${loc.name}`}
                             onClick={() => openEditModal(loc)}
-                            className="p-1.5 rounded-lg border border-zinc-200 dark:border-zinc-700 hover:bg-zinc-100 dark:hover:bg-zinc-800 text-zinc-600 dark:text-zinc-400 transition-colors cursor-pointer"
+                            className="p-1.5 rounded-lg border border-border dark:border-border hover:bg-muted dark:hover:bg-muted text-muted-foreground dark:text-muted-foreground transition-colors cursor-pointer"
                           >
                             <Pencil className="w-3.5 h-3.5" />
                           </button>
@@ -524,7 +524,7 @@ export default function LocationsClientView({
                             title="Delete Location"
                             aria-label={`Delete ${loc.name}`}
                             onClick={() => setDeleteCandidate(loc)}
-                            className="p-1.5 rounded-lg border border-zinc-200 dark:border-zinc-700 hover:border-red-300 hover:bg-red-50 text-zinc-600 dark:text-zinc-400 hover:text-red-600 dark:hover:bg-red-950/40 dark:hover:text-red-400 transition-colors cursor-pointer"
+                            className="p-1.5 rounded-lg border border-border dark:border-border hover:border-red-300 hover:bg-red-50 text-muted-foreground dark:text-muted-foreground hover:text-red-600 dark:hover:bg-red-950/40 dark:hover:text-red-400 transition-colors cursor-pointer"
                           >
                             <Trash2 className="w-3.5 h-3.5" />
                           </button>
@@ -542,14 +542,14 @@ export default function LocationsClientView({
       {/* Add / Edit Location Modal Dialog */}
       {isModalOpen && (
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/50 backdrop-blur-xs overflow-y-auto">
-          <div className="my-auto max-h-[calc(100dvh-2rem)] w-full max-w-xl shrink-0 overflow-y-auto rounded-2xl border border-zinc-200 bg-white p-5 shadow-xl dark:border-zinc-800 dark:bg-zinc-900 sm:p-7">
+          <div className="my-auto max-h-[calc(100dvh-2rem)] w-full max-w-xl shrink-0 overflow-y-auto rounded-2xl border border-border bg-card p-5 shadow-xl dark:border-border dark:bg-card sm:p-7">
             {/* Modal Header */}
-            <div className="flex items-center justify-between pb-4 border-b border-zinc-100 dark:border-zinc-800 mb-5">
+            <div className="flex items-center justify-between pb-4 border-b border-border dark:border-border mb-5">
               <div className="flex items-center gap-2.5">
                 <span className="w-8 h-8 rounded-lg bg-indigo-50 dark:bg-indigo-950 text-indigo-600 dark:text-indigo-400 flex items-center justify-center">
                   <MapPin className="w-4 h-4" />
                 </span>
-                <h3 className="text-lg font-bold text-zinc-900 dark:text-zinc-100">
+                <h3 className="text-lg font-bold text-foreground dark:text-foreground">
                   {modalMode === 'create' ? 'Add Campus Location' : 'Edit Campus Location'}
                 </h3>
               </div>
@@ -558,7 +558,7 @@ export default function LocationsClientView({
                 type="button"
                 aria-label="Close location dialog"
                 onClick={() => setIsModalOpen(false)}
-                className="p-1.5 rounded-lg text-zinc-400 hover:text-zinc-700 dark:hover:text-zinc-200 hover:bg-zinc-100 dark:hover:bg-zinc-800 transition-colors cursor-pointer"
+                className="p-1.5 rounded-lg text-muted-foreground hover:text-muted-foreground dark:hover:text-muted-foreground hover:bg-muted dark:hover:bg-muted transition-colors cursor-pointer"
               >
                 <X className="w-4 h-4" />
               </button>
@@ -575,7 +575,7 @@ export default function LocationsClientView({
             <form onSubmit={handleSubmit} className="space-y-4">
               {/* Location Name */}
               <div>
-                <label className="block text-xs font-semibold text-zinc-700 dark:text-zinc-300 mb-1">
+                <label className="block text-xs font-semibold text-muted-foreground dark:text-muted-foreground mb-1">
                   Location Name <span className="text-red-500">*</span>
                 </label>
                 <input
@@ -585,20 +585,20 @@ export default function LocationsClientView({
                   placeholder="e.g. Central Library, Science Block A"
                   value={formName}
                   onChange={(e) => setFormName(e.target.value)}
-                  className="w-full px-3.5 py-2 text-sm rounded-xl border border-zinc-300 dark:border-zinc-700 bg-white dark:bg-zinc-950 text-zinc-900 dark:text-zinc-100 placeholder-zinc-400 focus:outline-none focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-600"
+                  className="w-full px-3.5 py-2 text-sm rounded-xl border border-border dark:border-border bg-card dark:bg-background text-foreground dark:text-foreground placeholder-zinc-400 focus:outline-none focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-600"
                 />
               </div>
 
               {/* Location Type */}
               <div>
-                <label className="block text-xs font-semibold text-zinc-700 dark:text-zinc-300 mb-1">
+                <label className="block text-xs font-semibold text-muted-foreground dark:text-muted-foreground mb-1">
                   Location Type <span className="text-red-500">*</span>
                 </label>
                 <select
                   aria-label="Location type"
                   value={formType}
                   onChange={(e) => setFormType(e.target.value as LocationType)}
-                  className="w-full px-3.5 py-2 text-sm rounded-xl border border-zinc-300 dark:border-zinc-700 bg-white dark:bg-zinc-950 text-zinc-900 dark:text-zinc-100 focus:outline-none focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-600"
+                  className="w-full px-3.5 py-2 text-sm rounded-xl border border-border dark:border-border bg-card dark:bg-background text-foreground dark:text-foreground focus:outline-none focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-600"
                 >
                   {LOCATION_TYPES.map((t) => (
                     <option key={t.value} value={t.value}>
@@ -610,7 +610,7 @@ export default function LocationsClientView({
 
               {/* Description */}
               <div>
-                <label className="block text-xs font-semibold text-zinc-700 dark:text-zinc-300 mb-1">
+                <label className="block text-xs font-semibold text-muted-foreground dark:text-muted-foreground mb-1">
                   Description (Optional)
                 </label>
                 <textarea
@@ -619,13 +619,13 @@ export default function LocationsClientView({
                   placeholder="Brief details such as floor info, opening hours, or landmarks..."
                   value={formDescription}
                   onChange={(e) => setFormDescription(e.target.value)}
-                  className="w-full px-3.5 py-2 text-sm rounded-xl border border-zinc-300 dark:border-zinc-700 bg-white dark:bg-zinc-950 text-zinc-900 dark:text-zinc-100 placeholder-zinc-400 focus:outline-none focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-600 resize-y"
+                  className="w-full px-3.5 py-2 text-sm rounded-xl border border-border dark:border-border bg-card dark:bg-background text-foreground dark:text-foreground placeholder-zinc-400 focus:outline-none focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-600 resize-y"
                 />
               </div>
 
               {/* Optional Location Photo */}
               <div className="space-y-2">
-                <label className="block text-xs font-semibold text-zinc-700 dark:text-zinc-300">
+                <label className="block text-xs font-semibold text-muted-foreground dark:text-muted-foreground">
                   Photo (Optional)
                 </label>
                 {photoPreviewUrl && !removePhoto ? (
@@ -633,15 +633,15 @@ export default function LocationsClientView({
                   <img
                     src={photoPreviewUrl}
                     alt="Location photo preview"
-                    className="aspect-[4/3] w-full max-w-sm rounded-xl border border-zinc-200 object-cover dark:border-zinc-700"
+                    className="aspect-[4/3] w-full max-w-sm rounded-xl border border-border object-cover dark:border-border"
                   />
                 ) : (
-                  <div className="flex aspect-[4/3] w-full max-w-sm items-center justify-center rounded-xl border border-dashed border-zinc-300 bg-zinc-50 text-zinc-400 dark:border-zinc-700 dark:bg-zinc-950">
+                  <div className="flex aspect-[4/3] w-full max-w-sm items-center justify-center rounded-xl border border-dashed border-border bg-background text-muted-foreground dark:border-border dark:bg-background">
                     <ImageIcon className="h-8 w-8" aria-hidden="true" />
                   </div>
                 )}
                 <div className="flex flex-wrap items-center gap-2">
-                  <label className="inline-flex min-h-10 cursor-pointer items-center rounded-xl border border-zinc-300 px-3 text-xs font-semibold text-zinc-700 hover:bg-zinc-50 focus-within:ring-2 focus-within:ring-indigo-600 dark:border-zinc-700 dark:text-zinc-300 dark:hover:bg-zinc-800">
+                  <label className="inline-flex min-h-10 cursor-pointer items-center rounded-xl border border-border px-3 text-xs font-semibold text-muted-foreground hover:bg-background focus-within:ring-2 focus-within:ring-indigo-600 dark:border-border dark:text-muted-foreground dark:hover:bg-muted">
                     Choose photo
                     <input
                       ref={photoInputRef}
@@ -664,13 +664,13 @@ export default function LocationsClientView({
                           setRemovePhoto(false)
                         }
                       }}
-                      className="inline-flex min-h-10 items-center rounded-xl border border-zinc-300 px-3 text-xs font-semibold text-zinc-700 hover:bg-zinc-50 focus-visible:outline-2 focus-visible:outline-indigo-600 dark:border-zinc-700 dark:text-zinc-300 dark:hover:bg-zinc-800"
+                      className="inline-flex min-h-10 items-center rounded-xl border border-border px-3 text-xs font-semibold text-muted-foreground hover:bg-background focus-visible:outline-2 focus-visible:outline-indigo-600 dark:border-border dark:text-muted-foreground dark:hover:bg-muted"
                     >
                       {removePhoto ? 'Keep current photo' : 'Remove photo'}
                     </button>
                   )}
                 </div>
-                <p className="text-xs text-zinc-500 dark:text-zinc-400">
+                <p className="text-xs text-muted-foreground dark:text-muted-foreground">
                   JPG, PNG, or WebP. Maximum 2 MB. Larger photos are resized and compressed before upload.
                 </p>
                 {isCompressingPhoto && (
@@ -680,7 +680,7 @@ export default function LocationsClientView({
 
               {/* PinPicker Map */}
               <div>
-                <label className="block text-xs font-semibold text-zinc-700 dark:text-zinc-300 mb-1">
+                <label className="block text-xs font-semibold text-muted-foreground dark:text-muted-foreground mb-1">
                   Pin Location on Map <span className="text-red-500">*</span>
                 </label>
                 <PinPicker
@@ -693,11 +693,11 @@ export default function LocationsClientView({
               </div>
 
               {/* Form Action Buttons */}
-              <div className="flex items-center justify-end gap-3 pt-3 border-t border-zinc-100 dark:border-zinc-800">
+              <div className="flex items-center justify-end gap-3 pt-3 border-t border-border dark:border-border">
                 <button
                   type="button"
                   onClick={() => setIsModalOpen(false)}
-                  className="px-4 py-2 rounded-xl border border-zinc-200 dark:border-zinc-700 text-xs font-semibold text-zinc-600 dark:text-zinc-400 hover:bg-zinc-100 dark:hover:bg-zinc-800 transition-colors cursor-pointer"
+                  className="px-4 py-2 rounded-xl border border-border dark:border-border text-xs font-semibold text-muted-foreground dark:text-muted-foreground hover:bg-muted dark:hover:bg-muted transition-colors cursor-pointer"
                 >
                   Cancel
                 </button>
@@ -719,18 +719,18 @@ export default function LocationsClientView({
       {/* Delete Confirmation Dialog */}
       {deleteCandidate && (
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/50 backdrop-blur-xs">
-          <div className="my-auto max-h-[calc(100dvh-2rem)] w-full max-w-md shrink-0 overflow-y-auto rounded-2xl border border-zinc-200 bg-white p-5 shadow-xl dark:border-zinc-800 dark:bg-zinc-900 sm:p-6">
+          <div className="my-auto max-h-[calc(100dvh-2rem)] w-full max-w-md shrink-0 overflow-y-auto rounded-2xl border border-border bg-card p-5 shadow-xl dark:border-border dark:bg-card sm:p-6">
             <div className="flex items-center gap-3 text-red-600 dark:text-red-400 mb-3">
               <span className="w-9 h-9 rounded-xl bg-red-50 dark:bg-red-950/60 flex items-center justify-center">
                 <Trash2 className="w-5 h-5" />
               </span>
-              <h3 className="text-base font-bold text-zinc-900 dark:text-zinc-100">
+              <h3 className="text-base font-bold text-foreground dark:text-foreground">
                 Delete Location?
               </h3>
             </div>
 
-            <p className="text-xs sm:text-sm text-zinc-600 dark:text-zinc-400 mb-5 leading-relaxed">
-              Are you sure you want to delete <span className="font-semibold text-zinc-900 dark:text-zinc-100">{deleteCandidate.name}</span>? Any faculty members linked to this place will have their location unlinked.
+            <p className="text-xs sm:text-sm text-muted-foreground dark:text-muted-foreground mb-5 leading-relaxed">
+              Are you sure you want to delete <span className="font-semibold text-foreground dark:text-foreground">{deleteCandidate.name}</span>? Any faculty members linked to this place will have their location unlinked.
             </p>
 
             <div className="flex items-center justify-end gap-2.5">
@@ -738,7 +738,7 @@ export default function LocationsClientView({
                 type="button"
                 disabled={isPending || isCompressingPhoto}
                 onClick={() => setDeleteCandidate(null)}
-                className="px-4 py-2 rounded-xl border border-zinc-200 dark:border-zinc-700 text-xs font-semibold text-zinc-600 dark:text-zinc-400 hover:bg-zinc-100 dark:hover:bg-zinc-800 transition-colors cursor-pointer"
+                className="px-4 py-2 rounded-xl border border-border dark:border-border text-xs font-semibold text-muted-foreground dark:text-muted-foreground hover:bg-muted dark:hover:bg-muted transition-colors cursor-pointer"
               >
                 Cancel
               </button>

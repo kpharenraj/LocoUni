@@ -16,6 +16,7 @@ import {
   ChevronRight,
   Globe,
 } from 'lucide-react'
+import ThemeToggle from '@/components/ui/ThemeToggle'
 
 export const dynamic = 'force-dynamic'
 export const metadata: Metadata = { title: 'Admin Console' }
@@ -38,22 +39,23 @@ export default async function AdminPage() {
     .eq('university_id', universityId)
 
   return (
-    <div className="min-h-screen bg-zinc-50 dark:bg-zinc-950 text-zinc-900 dark:text-zinc-100 flex flex-col">
+    <div className="min-h-screen bg-background dark:bg-background text-foreground dark:text-foreground flex flex-col">
       {/* Admin Navbar */}
-      <header className="sticky top-0 z-40 w-full border-b border-zinc-200/80 dark:border-zinc-800/80 bg-white/80 dark:bg-zinc-950/80 backdrop-blur-md">
+      <header className="sticky top-0 z-40 w-full border-b border-border/80 dark:border-border/80 bg-card/80 dark:bg-background/80 backdrop-blur-md">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
           <div className="flex items-center gap-3">
+            <ThemeToggle />
             <Link
               href="/"
-              className="flex items-center gap-2.5 font-bold text-lg tracking-tight text-zinc-900 dark:text-zinc-50"
+              className="flex items-center gap-2.5 font-bold text-lg tracking-tight text-foreground dark:text-foreground"
             >
               <span className="flex items-center justify-center w-8 h-8 rounded-lg bg-indigo-600 text-white shadow-sm shadow-indigo-500/20">
                 <GraduationCap className="w-5 h-5" />
               </span>
               <span>LocoUni</span>
             </Link>
-            <span className="text-zinc-300 dark:text-zinc-700 hidden sm:inline">/</span>
-            <div className="hidden sm:flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-zinc-100 dark:bg-zinc-800 text-xs font-semibold text-zinc-700 dark:text-zinc-300">
+            <span className="text-muted-foreground dark:text-muted-foreground hidden sm:inline">/</span>
+            <div className="hidden sm:flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-muted dark:bg-muted text-xs font-semibold text-muted-foreground dark:text-muted-foreground">
               <ShieldCheck className="w-3.5 h-3.5 text-indigo-600 dark:text-indigo-400" />
               <span>Admin Console</span>
             </div>
@@ -62,15 +64,16 @@ export default async function AdminPage() {
           <div className="flex items-center gap-3">
           <Link
             href="/admin/settings"
-            className="inline-flex min-h-10 items-center rounded-xl border border-zinc-300 px-3 py-1.5 text-xs font-medium text-zinc-700 transition-colors hover:bg-zinc-100 dark:border-zinc-700 dark:text-zinc-300 dark:hover:bg-zinc-800"
+            className="inline-flex min-h-10 items-center rounded-xl border border-border px-3 py-1.5 text-xs font-medium text-muted-foreground transition-colors hover:bg-muted dark:border-border dark:text-muted-foreground dark:hover:bg-muted"
           >
-            University settings
+            <span className="sm:hidden">Settings</span>
+            <span className="hidden sm:inline">University settings</span>
           </Link>
           <div className="hidden sm:flex flex-col text-right">
-              <span className="text-xs font-semibold text-zinc-800 dark:text-zinc-200 truncate max-w-[160px]">
+              <span className="text-xs font-semibold text-foreground dark:text-muted-foreground truncate max-w-[160px]">
                 {profile.full_name || 'Administrator'}
               </span>
-              <span className="text-[11px] text-zinc-500 truncate max-w-[160px]">
+              <span className="text-[11px] text-muted-foreground truncate max-w-[160px]">
                 {user.email}
               </span>
             </div>
@@ -78,7 +81,7 @@ export default async function AdminPage() {
             <form action={logoutAction}>
               <button
                 type="submit"
-                className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs font-medium border border-zinc-300 dark:border-zinc-700 hover:bg-zinc-100 dark:hover:bg-zinc-800 transition-colors cursor-pointer text-zinc-700 dark:text-zinc-300"
+                className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs font-medium border border-border dark:border-border hover:bg-muted dark:hover:bg-muted transition-colors cursor-pointer text-muted-foreground dark:text-muted-foreground"
               >
                 <LogOut className="w-3.5 h-3.5" />
                 <span>Logout</span>
@@ -114,10 +117,10 @@ export default async function AdminPage() {
         )}
 
         {/* University Header Card */}
-        <div className="bg-white dark:bg-zinc-900 rounded-2xl border border-zinc-200 dark:border-zinc-800 p-6 sm:p-8 mb-8 shadow-xs">
+        <div className="bg-card dark:bg-card rounded-2xl border border-border dark:border-border p-6 sm:p-8 mb-8 shadow-xs">
           <div className="flex flex-col sm:flex-row items-start sm:items-center gap-5 sm:gap-6">
             {/* Logo */}
-            <div className="w-20 h-20 sm:w-24 sm:h-24 rounded-2xl border border-zinc-200 dark:border-zinc-700 bg-zinc-100 dark:bg-zinc-800 flex items-center justify-center overflow-hidden flex-shrink-0 shadow-2xs">
+            <div className="w-20 h-20 sm:w-24 sm:h-24 rounded-2xl border border-border dark:border-border bg-muted dark:bg-muted flex items-center justify-center overflow-hidden flex-shrink-0 shadow-2xs">
               {university?.logo_url ? (
                 // eslint-disable-next-line @next/next/no-img-element
                 <img
@@ -126,14 +129,14 @@ export default async function AdminPage() {
                   className="w-full h-full object-cover"
                 />
               ) : (
-                <Building2 className="w-10 h-10 text-zinc-400 dark:text-zinc-500" />
+                <Building2 className="w-10 h-10 text-muted-foreground dark:text-muted-foreground" />
               )}
             </div>
 
             {/* Info */}
             <div className="flex-1">
               <div className="flex flex-wrap items-center gap-2 mb-2">
-                <h1 className="text-2xl sm:text-3xl font-extrabold tracking-tight text-zinc-900 dark:text-zinc-50">
+                <h1 className="text-2xl sm:text-3xl font-extrabold tracking-tight text-foreground dark:text-foreground">
                   {university?.name || 'Your University'}
                 </h1>
                 <span
@@ -148,15 +151,15 @@ export default async function AdminPage() {
               </div>
 
               {university?.description && (
-                <p className="text-sm text-zinc-600 dark:text-zinc-400 mb-3 max-w-3xl line-clamp-2">
+                <p className="text-sm text-muted-foreground dark:text-muted-foreground mb-3 max-w-3xl line-clamp-2">
                   {university.description}
                 </p>
               )}
 
-              <div className="flex flex-wrap items-center gap-4 text-xs text-zinc-500 dark:text-zinc-400">
+              <div className="flex flex-wrap items-center gap-4 text-xs text-muted-foreground dark:text-muted-foreground">
                 {(university?.city || university?.country) && (
                   <span className="flex items-center gap-1.5">
-                    <MapPin className="w-3.5 h-3.5 text-zinc-400" />
+                    <MapPin className="w-3.5 h-3.5 text-muted-foreground" />
                     {[university.city, university.country].filter(Boolean).join(', ')}
                   </span>
                 )}
@@ -177,7 +180,7 @@ export default async function AdminPage() {
                   </a>
                 )}
                 {university?.lat && university?.lng && (
-                  <span className="font-mono text-[11px] bg-zinc-100 dark:bg-zinc-800 px-2 py-0.5 rounded">
+                  <span className="font-mono text-[11px] bg-muted dark:bg-muted px-2 py-0.5 rounded">
                     GPS: {university.lat.toFixed(4)}, {university.lng.toFixed(4)}
                   </span>
                 )}
@@ -189,10 +192,10 @@ export default async function AdminPage() {
         {/* Section Heading */}
         <div className="mb-6 flex items-center justify-between">
           <div>
-            <h2 className="text-lg sm:text-xl font-bold tracking-tight text-zinc-900 dark:text-zinc-100">
+            <h2 className="text-lg sm:text-xl font-bold tracking-tight text-foreground dark:text-foreground">
               Campus Management
             </h2>
-            <p className="text-xs sm:text-sm text-zinc-500 dark:text-zinc-400">
+            <p className="text-xs sm:text-sm text-muted-foreground dark:text-muted-foreground">
               Configure your university locations, faculty directory, and public notice board
             </p>
           </div>
@@ -203,27 +206,27 @@ export default async function AdminPage() {
           {/* Card 1: Locations */}
           <Link
             href="/admin/locations"
-            className="group flex flex-col justify-between p-6 rounded-2xl bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 hover:border-indigo-500 dark:hover:border-indigo-500/80 shadow-xs hover:shadow-lg hover:shadow-indigo-500/5 transition-all duration-200 cursor-pointer"
+            className="group flex flex-col justify-between p-6 rounded-2xl bg-card dark:bg-card border border-border dark:border-border hover:border-indigo-500 dark:hover:border-indigo-500/80 shadow-xs hover:shadow-lg hover:shadow-indigo-500/5 transition-all duration-200 cursor-pointer"
           >
             <div>
               <div className="flex items-center justify-between mb-4">
                 <span className="flex items-center justify-center w-11 h-11 rounded-xl bg-emerald-50 dark:bg-emerald-950/60 text-emerald-600 dark:text-emerald-400 border border-emerald-100 dark:border-emerald-900/40 group-hover:scale-105 transition-transform duration-200">
                   <MapPin className="w-5 h-5" />
                 </span>
-                <span className="text-[11px] font-semibold px-2 py-0.5 rounded-full bg-zinc-100 dark:bg-zinc-800 text-zinc-600 dark:text-zinc-300">
+                <span className="text-[11px] font-semibold px-2 py-0.5 rounded-full bg-muted dark:bg-muted text-muted-foreground dark:text-muted-foreground">
                   {locationsCount !== null && locationsCount > 0
                     ? `${locationsCount} ${locationsCount === 1 ? 'place' : 'places'} mapped`
                     : 'Interactive Map'}
                 </span>
               </div>
-              <h3 className="text-lg font-bold tracking-tight text-zinc-900 dark:text-zinc-50 group-hover:text-indigo-600 dark:group-hover:text-indigo-400 transition-colors">
+              <h3 className="text-lg font-bold tracking-tight text-foreground dark:text-foreground group-hover:text-indigo-600 dark:group-hover:text-indigo-400 transition-colors">
                 Locations
               </h3>
-              <p className="mt-2 text-xs sm:text-sm text-zinc-600 dark:text-zinc-400 leading-relaxed">
+              <p className="mt-2 text-xs sm:text-sm text-muted-foreground dark:text-muted-foreground leading-relaxed">
                 Add and manage campus facilities, blocks, hostels, cafeterias, and pinpoint coordinates on the map.
               </p>
             </div>
-            <div className="mt-6 pt-4 border-t border-zinc-100 dark:border-zinc-800 flex items-center justify-between text-xs font-semibold text-indigo-600 dark:text-indigo-400">
+            <div className="mt-6 pt-4 border-t border-border dark:border-border flex items-center justify-between text-xs font-semibold text-indigo-600 dark:text-indigo-400">
               <span>Manage Locations</span>
               <ChevronRight className="w-4 h-4 transition-transform group-hover:translate-x-1" />
             </div>
@@ -232,25 +235,25 @@ export default async function AdminPage() {
           {/* Card 2: Faculty */}
           <Link
             href="/admin/faculty"
-            className="group flex flex-col justify-between p-6 rounded-2xl bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 hover:border-indigo-500 dark:hover:border-indigo-500/80 shadow-xs hover:shadow-lg hover:shadow-indigo-500/5 transition-all duration-200 cursor-pointer"
+            className="group flex flex-col justify-between p-6 rounded-2xl bg-card dark:bg-card border border-border dark:border-border hover:border-indigo-500 dark:hover:border-indigo-500/80 shadow-xs hover:shadow-lg hover:shadow-indigo-500/5 transition-all duration-200 cursor-pointer"
           >
             <div>
               <div className="flex items-center justify-between mb-4">
                 <span className="flex items-center justify-center w-11 h-11 rounded-xl bg-indigo-50 dark:bg-indigo-950/60 text-indigo-600 dark:text-indigo-400 border border-indigo-100 dark:border-indigo-900/40 group-hover:scale-105 transition-transform duration-200">
                   <Users className="w-5 h-5" />
                 </span>
-                <span className="text-[11px] font-semibold px-2 py-0.5 rounded-full bg-zinc-100 dark:bg-zinc-800 text-zinc-500 dark:text-zinc-400">
+                <span className="text-[11px] font-semibold px-2 py-0.5 rounded-full bg-muted dark:bg-muted text-muted-foreground dark:text-muted-foreground">
                   Directory
                 </span>
               </div>
-              <h3 className="text-lg font-bold tracking-tight text-zinc-900 dark:text-zinc-50 group-hover:text-indigo-600 dark:group-hover:text-indigo-400 transition-colors">
+              <h3 className="text-lg font-bold tracking-tight text-foreground dark:text-foreground group-hover:text-indigo-600 dark:group-hover:text-indigo-400 transition-colors">
                 Faculty &amp; Staff
               </h3>
-              <p className="mt-2 text-xs sm:text-sm text-zinc-600 dark:text-zinc-400 leading-relaxed">
+              <p className="mt-2 text-xs sm:text-sm text-muted-foreground dark:text-muted-foreground leading-relaxed">
                 Publish faculty profiles, departments, cabin/room numbers, contact details, and photos for students.
               </p>
             </div>
-            <div className="mt-6 pt-4 border-t border-zinc-100 dark:border-zinc-800 flex items-center justify-between text-xs font-semibold text-indigo-600 dark:text-indigo-400">
+            <div className="mt-6 pt-4 border-t border-border dark:border-border flex items-center justify-between text-xs font-semibold text-indigo-600 dark:text-indigo-400">
               <span>Manage Directory</span>
               <ChevronRight className="w-4 h-4 transition-transform group-hover:translate-x-1" />
             </div>
@@ -259,25 +262,25 @@ export default async function AdminPage() {
           {/* Card 3: Notices */}
           <Link
             href="/admin/notices"
-            className="group flex flex-col justify-between p-6 rounded-2xl bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 hover:border-indigo-500 dark:hover:border-indigo-500/80 shadow-xs hover:shadow-lg hover:shadow-indigo-500/5 transition-all duration-200 cursor-pointer"
+            className="group flex flex-col justify-between p-6 rounded-2xl bg-card dark:bg-card border border-border dark:border-border hover:border-indigo-500 dark:hover:border-indigo-500/80 shadow-xs hover:shadow-lg hover:shadow-indigo-500/5 transition-all duration-200 cursor-pointer"
           >
             <div>
               <div className="flex items-center justify-between mb-4">
                 <span className="flex items-center justify-center w-11 h-11 rounded-xl bg-amber-50 dark:bg-amber-950/60 text-amber-600 dark:text-amber-400 border border-amber-100 dark:border-amber-900/40 group-hover:scale-105 transition-transform duration-200">
                   <Bell className="w-5 h-5" />
                 </span>
-                <span className="text-[11px] font-semibold px-2 py-0.5 rounded-full bg-zinc-100 dark:bg-zinc-800 text-zinc-500 dark:text-zinc-400">
+                <span className="text-[11px] font-semibold px-2 py-0.5 rounded-full bg-muted dark:bg-muted text-muted-foreground dark:text-muted-foreground">
                   Announcements
                 </span>
               </div>
-              <h3 className="text-lg font-bold tracking-tight text-zinc-900 dark:text-zinc-50 group-hover:text-indigo-600 dark:group-hover:text-indigo-400 transition-colors">
+              <h3 className="text-lg font-bold tracking-tight text-foreground dark:text-foreground group-hover:text-indigo-600 dark:group-hover:text-indigo-400 transition-colors">
                 Notices
               </h3>
-              <p className="mt-2 text-xs sm:text-sm text-zinc-600 dark:text-zinc-400 leading-relaxed">
+              <p className="mt-2 text-xs sm:text-sm text-muted-foreground dark:text-muted-foreground leading-relaxed">
                 Post academic notices, exam dates, hostel circulars, and highlight urgent alerts for your campus.
               </p>
             </div>
-            <div className="mt-6 pt-4 border-t border-zinc-100 dark:border-zinc-800 flex items-center justify-between text-xs font-semibold text-indigo-600 dark:text-indigo-400">
+            <div className="mt-6 pt-4 border-t border-border dark:border-border flex items-center justify-between text-xs font-semibold text-indigo-600 dark:text-indigo-400">
               <span>Manage Notices</span>
               <ChevronRight className="w-4 h-4 transition-transform group-hover:translate-x-1" />
             </div>

@@ -9,7 +9,7 @@ import LocationPhoto from '@/components/student/LocationPhoto'
 const CampusMap = dynamic(() => import('@/components/map/CampusMap'), {
   ssr: false,
   loading: () => (
-    <div className="flex h-[60vh] min-h-[360px] w-full items-center justify-center rounded-2xl border border-zinc-200 bg-zinc-100 text-sm text-zinc-500 dark:border-zinc-800 dark:bg-zinc-900 dark:text-zinc-400">
+    <div className="flex h-[60vh] min-h-[360px] w-full items-center justify-center rounded-2xl border border-border bg-muted text-sm text-muted-foreground dark:border-border dark:bg-card dark:text-muted-foreground">
       Loading campus map...
     </div>
   ),
@@ -54,13 +54,13 @@ export default function StudentCampusMap({
 
   if (locations.length === 0) {
     return (
-      <section className="rounded-2xl border border-dashed border-zinc-300 bg-white px-5 py-14 text-center dark:border-zinc-700 dark:bg-zinc-900">
+      <section className="rounded-2xl border border-dashed border-border bg-card px-5 py-14 text-center dark:border-border dark:bg-card">
         <MapPin
-          className="mx-auto h-10 w-10 text-zinc-300 dark:text-zinc-600"
+          className="mx-auto h-10 w-10 text-muted-foreground dark:text-muted-foreground"
           aria-hidden="true"
         />
         <h1 className="mt-3 text-xl font-bold">No campus locations yet</h1>
-        <p className="mt-1 text-sm text-zinc-500 dark:text-zinc-400">
+        <p className="mt-1 text-sm text-muted-foreground dark:text-muted-foreground">
           Locations will appear here when they have been added by your university.
         </p>
       </section>
@@ -82,7 +82,7 @@ export default function StudentCampusMap({
         <label className="relative block max-w-xl">
           <span className="sr-only">Search locations by name</span>
           <Search
-            className="pointer-events-none absolute left-3.5 top-1/2 h-4 w-4 -translate-y-1/2 text-zinc-400"
+            className="pointer-events-none absolute left-3.5 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground"
             aria-hidden="true"
           />
           <input
@@ -90,7 +90,7 @@ export default function StudentCampusMap({
             value={search}
             onChange={(event) => setSearch(event.target.value)}
             placeholder="Search campus locations..."
-            className="w-full rounded-xl border border-zinc-300 bg-white py-2.5 pl-10 pr-3.5 text-sm text-zinc-900 placeholder-zinc-400 outline-none transition focus:border-indigo-600 focus:ring-2 focus:ring-indigo-500/20 dark:border-zinc-700 dark:bg-zinc-900 dark:text-zinc-100"
+            className="w-full rounded-xl border border-border bg-card py-2.5 pl-10 pr-3.5 text-sm text-foreground placeholder-zinc-400 outline-none transition focus:border-indigo-600 focus:ring-2 focus:ring-indigo-500/20 dark:border-border dark:bg-card dark:text-foreground"
           />
         </label>
 
@@ -112,10 +112,10 @@ export default function StudentCampusMap({
                 className={`shrink-0 rounded-full border px-3.5 py-1.5 text-xs font-semibold capitalize transition-colors ${
                   active
                     ? 'border-indigo-600 bg-indigo-600 text-white'
-                    : 'border-zinc-300 bg-white text-zinc-600 hover:border-indigo-300 hover:text-indigo-700 dark:border-zinc-700 dark:bg-zinc-900 dark:text-zinc-300 dark:hover:border-indigo-700 dark:hover:text-indigo-300'
+                    : 'border-border bg-card text-muted-foreground hover:border-indigo-300 hover:text-indigo-700 dark:border-border dark:bg-card dark:text-muted-foreground dark:hover:border-indigo-700 dark:hover:text-indigo-300'
                 }`}
               >
-                {label} <span className={active ? 'text-indigo-100' : 'text-zinc-400'}>({count})</span>
+                {label} <span className={active ? 'text-indigo-100' : 'text-muted-foreground'}>({count})</span>
               </button>
             )
           })}
@@ -136,7 +136,7 @@ export default function StudentCampusMap({
               height="60vh"
             />
           ) : (
-            <div className="flex h-64 items-center justify-center rounded-2xl border border-dashed border-zinc-300 bg-white px-5 text-center text-sm text-zinc-500 dark:border-zinc-700 dark:bg-zinc-900 dark:text-zinc-400">
+            <div className="flex h-64 items-center justify-center rounded-2xl border border-dashed border-border bg-card px-5 text-center text-sm text-muted-foreground dark:border-border dark:bg-card dark:text-muted-foreground">
               No campus places match these filters. Try a different search or location type.
             </div>
           )}
@@ -144,11 +144,11 @@ export default function StudentCampusMap({
 
         <section
           aria-label="Campus locations"
-          className="overflow-hidden rounded-2xl border border-zinc-200 bg-white dark:border-zinc-800 dark:bg-zinc-900"
+          className="overflow-hidden rounded-2xl border border-border bg-card dark:border-border dark:bg-card"
         >
-          <div className="flex items-center justify-between border-b border-zinc-100 px-4 py-3 dark:border-zinc-800">
+          <div className="flex items-center justify-between border-b border-border px-4 py-3 dark:border-border">
             <h2 className="text-sm font-bold">Locations</h2>
-            <span className="text-xs text-zinc-500 dark:text-zinc-400">
+            <span className="text-xs text-muted-foreground dark:text-muted-foreground">
               {filteredLocations.length} of {locations.length}
             </span>
           </div>
@@ -166,7 +166,7 @@ export default function StudentCampusMap({
                       className={`w-full px-4 py-3.5 text-left transition-colors ${
                         isFocused
                           ? 'bg-indigo-50 dark:bg-indigo-950/40'
-                          : 'hover:bg-zinc-50 dark:hover:bg-zinc-800/60'
+                          : 'hover:bg-background dark:hover:bg-muted/60'
                       }`}
                     >
                       <span className="flex items-start gap-3">
@@ -174,21 +174,21 @@ export default function StudentCampusMap({
                           className={`mt-0.5 h-4 w-4 shrink-0 ${
                             isFocused
                               ? 'text-indigo-600 dark:text-indigo-400'
-                              : 'text-zinc-400'
+                              : 'text-muted-foreground'
                           }`}
                           aria-hidden="true"
                         />
                         <span className="min-w-0 flex-1">
                           <span className="flex flex-wrap items-center justify-between gap-1.5">
-                            <span className="font-semibold text-zinc-900 dark:text-zinc-100">
+                            <span className="font-semibold text-foreground dark:text-foreground">
                               {location.name}
                             </span>
-                            <span className="rounded-full bg-zinc-100 px-2 py-0.5 text-[10px] font-semibold capitalize text-zinc-600 dark:bg-zinc-800 dark:text-zinc-300">
+                            <span className="rounded-full bg-muted px-2 py-0.5 text-[10px] font-semibold capitalize text-muted-foreground dark:bg-muted dark:text-muted-foreground">
                               {location.type}
                             </span>
                           </span>
                           {location.description && (
-                            <span className="mt-1 line-clamp-2 block text-xs leading-relaxed text-zinc-500 dark:text-zinc-400">
+                            <span className="mt-1 line-clamp-2 block text-xs leading-relaxed text-muted-foreground dark:text-muted-foreground">
                               {location.description}
                             </span>
                           )}
@@ -197,7 +197,7 @@ export default function StudentCampusMap({
                               {location.faculty.map((member) => (
                                 <span
                                   key={member.id}
-                                  className="block text-xs text-zinc-600 dark:text-zinc-400"
+                                  className="block text-xs text-muted-foreground dark:text-muted-foreground"
                                 >
                                   {member.name}
                                   {member.cabin_number && ` · Cabin ${member.cabin_number}`}
@@ -221,7 +221,7 @@ export default function StudentCampusMap({
               })}
             </ul>
           ) : (
-            <div className="px-4 py-10 text-center text-sm text-zinc-500 dark:text-zinc-400">
+            <div className="px-4 py-10 text-center text-sm text-muted-foreground dark:text-muted-foreground">
               No locations match these filters.
             </div>
           )}

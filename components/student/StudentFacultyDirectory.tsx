@@ -87,19 +87,19 @@ export default function StudentFacultyDirectory({
         <h1 className="mt-1 text-2xl font-extrabold tracking-tight sm:text-3xl">
           Faculty &amp; staff
         </h1>
-        <p className="mt-2 text-sm text-zinc-500 dark:text-zinc-400">
+        <p className="mt-2 text-sm text-muted-foreground dark:text-muted-foreground">
           Search people by name, role, department, or cabin number.
         </p>
       </header>
 
       <section
         aria-label="Search and filter faculty"
-        className="grid gap-3 rounded-2xl border border-zinc-200 bg-white p-4 shadow-xs dark:border-zinc-800 dark:bg-zinc-900 sm:grid-cols-[minmax(0,1fr)_minmax(12rem,0.45fr)]"
+        className="grid gap-3 rounded-2xl border border-border bg-card p-4 shadow-xs dark:border-border dark:bg-card sm:grid-cols-[minmax(0,1fr)_minmax(12rem,0.45fr)]"
       >
         <label className="relative block">
           <span className="sr-only">Search faculty</span>
           <Search
-            className="pointer-events-none absolute left-3.5 top-1/2 h-4 w-4 -translate-y-1/2 text-zinc-400"
+            className="pointer-events-none absolute left-3.5 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground"
             aria-hidden="true"
           />
           <input
@@ -107,7 +107,7 @@ export default function StudentFacultyDirectory({
             value={query}
             onChange={(event) => setQuery(event.target.value)}
             placeholder="Search name, role, department, or cabin..."
-            className="w-full rounded-xl border border-zinc-300 bg-white py-2.5 pl-10 pr-3.5 text-sm text-zinc-900 placeholder-zinc-400 outline-none transition focus:border-indigo-600 focus:ring-2 focus:ring-indigo-500/20 dark:border-zinc-700 dark:bg-zinc-950 dark:text-zinc-100"
+            className="w-full rounded-xl border border-border bg-card py-2.5 pl-10 pr-3.5 text-sm text-foreground placeholder-zinc-400 outline-none transition focus:border-indigo-600 focus:ring-2 focus:ring-indigo-500/20 dark:border-border dark:bg-background dark:text-foreground"
           />
         </label>
 
@@ -116,7 +116,7 @@ export default function StudentFacultyDirectory({
           <select
             value={department}
             onChange={(event) => setDepartment(event.target.value)}
-            className="w-full rounded-xl border border-zinc-300 bg-white px-3.5 py-2.5 text-sm text-zinc-900 outline-none transition focus:border-indigo-600 focus:ring-2 focus:ring-indigo-500/20 dark:border-zinc-700 dark:bg-zinc-950 dark:text-zinc-100"
+            className="w-full rounded-xl border border-border bg-card px-3.5 py-2.5 text-sm text-foreground outline-none transition focus:border-indigo-600 focus:ring-2 focus:ring-indigo-500/20 dark:border-border dark:bg-background dark:text-foreground"
           >
             <option value="all">All departments</option>
             {departments.map((value) => (
@@ -129,7 +129,7 @@ export default function StudentFacultyDirectory({
       </section>
 
       <div className="flex items-center justify-between gap-3">
-        <p aria-live="polite" className="text-sm font-medium text-zinc-600 dark:text-zinc-400">
+        <p aria-live="polite" className="text-sm font-medium text-muted-foreground dark:text-muted-foreground">
           {filteredFaculty.length} {filteredFaculty.length === 1 ? 'person' : 'people'}
         </p>
         {(query || department !== 'all') && (
@@ -148,10 +148,10 @@ export default function StudentFacultyDirectory({
           {filteredFaculty.map((member) => (
             <article
               key={member.id}
-              className="flex h-full flex-col rounded-2xl border border-zinc-200 bg-white p-5 shadow-xs dark:border-zinc-800 dark:bg-zinc-900"
+              className="flex h-full flex-col rounded-2xl border border-border bg-card p-5 shadow-xs dark:border-border dark:bg-card"
             >
               <div className="flex items-start gap-4">
-                <div className="flex h-14 w-14 shrink-0 items-center justify-center overflow-hidden rounded-2xl border border-zinc-200 bg-indigo-50 text-sm font-bold text-indigo-700 dark:border-zinc-700 dark:bg-indigo-950/60 dark:text-indigo-300">
+                <div className="flex h-14 w-14 shrink-0 items-center justify-center overflow-hidden rounded-2xl border border-border bg-indigo-50 text-sm font-bold text-indigo-700 dark:border-border dark:bg-indigo-950/60 dark:text-indigo-300">
                   {member.photo_url ? (
                     // eslint-disable-next-line @next/next/no-img-element
                     <img
@@ -168,7 +168,7 @@ export default function StudentFacultyDirectory({
                     {member.name}
                   </h2>
                   {member.role && (
-                    <p className="mt-1 text-sm text-zinc-600 dark:text-zinc-400">
+                    <p className="mt-1 text-sm text-muted-foreground dark:text-muted-foreground">
                       {member.role}
                     </p>
                   )}
@@ -183,10 +183,10 @@ export default function StudentFacultyDirectory({
               <dl className="mt-5 space-y-2.5 text-sm">
                 {member.cabin_number && (
                   <div className="flex items-start gap-2.5">
-                    <Building2 className="mt-0.5 h-4 w-4 shrink-0 text-zinc-400" aria-hidden="true" />
+                    <Building2 className="mt-0.5 h-4 w-4 shrink-0 text-muted-foreground" aria-hidden="true" />
                     <div>
                       <dt className="sr-only">Cabin number</dt>
-                      <dd className="text-zinc-700 dark:text-zinc-300">
+                      <dd className="text-muted-foreground dark:text-muted-foreground">
                         Cabin {member.cabin_number}
                       </dd>
                     </div>
@@ -194,10 +194,10 @@ export default function StudentFacultyDirectory({
                 )}
                 {member.locations && (
                   <div className="flex items-start gap-2.5">
-                    <MapPin className="mt-0.5 h-4 w-4 shrink-0 text-zinc-400" aria-hidden="true" />
+                    <MapPin className="mt-0.5 h-4 w-4 shrink-0 text-muted-foreground" aria-hidden="true" />
                     <div>
                       <dt className="sr-only">Campus location</dt>
-                      <dd className="text-zinc-700 dark:text-zinc-300">
+                      <dd className="text-muted-foreground dark:text-muted-foreground">
                         {member.locations.name}
                       </dd>
                     </div>
@@ -205,7 +205,7 @@ export default function StudentFacultyDirectory({
                 )}
                 {member.email && (
                   <div className="flex items-start gap-2.5">
-                    <Mail className="mt-0.5 h-4 w-4 shrink-0 text-zinc-400" aria-hidden="true" />
+                    <Mail className="mt-0.5 h-4 w-4 shrink-0 text-muted-foreground" aria-hidden="true" />
                     <div className="min-w-0">
                       <dt className="sr-only">Email</dt>
                       <dd>
@@ -221,7 +221,7 @@ export default function StudentFacultyDirectory({
                 )}
                 {member.phone && (
                   <div className="flex items-start gap-2.5">
-                    <Phone className="mt-0.5 h-4 w-4 shrink-0 text-zinc-400" aria-hidden="true" />
+                    <Phone className="mt-0.5 h-4 w-4 shrink-0 text-muted-foreground" aria-hidden="true" />
                     <div>
                       <dt className="sr-only">Phone</dt>
                       <dd>
@@ -250,10 +250,10 @@ export default function StudentFacultyDirectory({
           ))}
         </div>
       ) : (
-        <section className="rounded-2xl border border-dashed border-zinc-300 bg-white px-5 py-14 text-center dark:border-zinc-700 dark:bg-zinc-900">
-          <Users className="mx-auto h-10 w-10 text-zinc-300 dark:text-zinc-600" aria-hidden="true" />
+        <section className="rounded-2xl border border-dashed border-border bg-card px-5 py-14 text-center dark:border-border dark:bg-card">
+          <Users className="mx-auto h-10 w-10 text-muted-foreground dark:text-muted-foreground" aria-hidden="true" />
           <h2 className="mt-3 text-base font-bold">No faculty found</h2>
-          <p className="mt-1 text-sm text-zinc-500 dark:text-zinc-400">
+          <p className="mt-1 text-sm text-muted-foreground dark:text-muted-foreground">
             {faculty.length === 0
               ? 'There are no faculty members listed yet.'
               : 'Try a different search or department filter.'}

@@ -46,7 +46,7 @@ export default function LocationPhoto({
       </button>
       {open && createPortal(
         <div
-          className="fixed inset-0 z-[1000] flex items-center justify-center bg-black/80 p-4"
+          className="fixed inset-0 z-[1000] flex items-center justify-center bg-black/70 p-4 dark:bg-black/85"
           onClick={() => setOpen(false)}
         >
           <div
@@ -60,7 +60,7 @@ export default function LocationPhoto({
               type="button"
               onClick={() => setOpen(false)}
               aria-label="Close photo"
-              className="absolute -right-2 -top-2 z-10 flex h-10 w-10 items-center justify-center rounded-full bg-white text-zinc-900 shadow-lg focus-visible:outline-2 focus-visible:outline-indigo-600"
+              className="absolute -right-2 -top-2 z-10 flex h-10 w-10 items-center justify-center rounded-full bg-card text-foreground shadow-lg focus-visible:outline-2 focus-visible:outline-indigo-600"
             >
               <X className="h-5 w-5" aria-hidden="true" />
             </button>

@@ -238,18 +238,18 @@ export default function FacultyClientView({
   return (
     <div className="space-y-8">
       {/* Header */}
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-6 border-b border-zinc-200 dark:border-zinc-800">
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-6 border-b border-border dark:border-border">
         <div>
           <div className="flex items-center gap-2 mb-2">
             <AdminBackLink />
-            <span className="text-zinc-300 dark:text-zinc-700">/</span>
-            <span className="text-xs text-zinc-400">Faculty Directory</span>
+            <span className="text-muted-foreground dark:text-muted-foreground">/</span>
+            <span className="text-xs text-muted-foreground">Faculty Directory</span>
           </div>
 
-          <h1 className="text-2xl sm:text-3xl font-extrabold tracking-tight text-zinc-900 dark:text-zinc-50">
+          <h1 className="text-2xl sm:text-3xl font-extrabold tracking-tight text-foreground dark:text-foreground">
             Faculty &amp; Staff Directory
           </h1>
-          <p className="mt-1 text-sm text-zinc-600 dark:text-zinc-400">
+          <p className="mt-1 text-sm text-muted-foreground dark:text-muted-foreground">
             {universityName ? `${universityName} — ` : ''}Manage professors, lecturers, cabin numbers, and photos
           </p>
         </div>
@@ -291,17 +291,17 @@ export default function FacultyClientView({
       )}
 
       {/* Search & Department Filter */}
-      <div className="bg-white dark:bg-zinc-900 rounded-2xl border border-zinc-200 dark:border-zinc-800 p-4 sm:p-5 shadow-xs">
+      <div className="bg-card dark:bg-card rounded-2xl border border-border dark:border-border p-4 sm:p-5 shadow-xs">
         <div className="flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-3">
           <div className="relative flex-1 max-w-md">
-            <Search className="w-4 h-4 absolute left-3.5 top-1/2 -translate-y-1/2 text-zinc-400" />
+            <Search className="w-4 h-4 absolute left-3.5 top-1/2 -translate-y-1/2 text-muted-foreground" />
             <input
               type="text"
               aria-label="Search faculty by name, role, department, or cabin"
               placeholder="Search by name, role, department, or cabin..."
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
-              className="w-full pl-10 pr-4 py-2 text-sm rounded-xl border border-zinc-200 dark:border-zinc-700 bg-white dark:bg-zinc-950 text-zinc-900 dark:text-zinc-100 placeholder-zinc-400 focus:outline-none focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-600"
+              className="w-full pl-10 pr-4 py-2 text-sm rounded-xl border border-border dark:border-border bg-card dark:bg-background text-foreground dark:text-foreground placeholder-zinc-400 focus:outline-none focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-600"
             />
           </div>
 
@@ -310,7 +310,7 @@ export default function FacultyClientView({
               aria-label="Filter faculty by department"
               value={selectedDeptFilter}
               onChange={(e) => setSelectedDeptFilter(e.target.value)}
-              className="px-3.5 py-2 text-xs font-medium rounded-xl border border-zinc-200 dark:border-zinc-700 bg-white dark:bg-zinc-950 text-zinc-800 dark:text-zinc-200 focus:outline-none focus:ring-2 focus:ring-indigo-500/20"
+              className="px-3.5 py-2 text-xs font-medium rounded-xl border border-border dark:border-border bg-card dark:bg-background text-foreground dark:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-indigo-500/20"
             >
               <option value="all">All Departments ({faculty.length})</option>
               {uniqueDepartments.map((dept) => {
@@ -328,14 +328,14 @@ export default function FacultyClientView({
 
       {/* Faculty Directory Grid */}
       {filteredFaculty.length === 0 ? (
-        <div className="bg-white dark:bg-zinc-900 rounded-2xl border border-zinc-200 dark:border-zinc-800 p-12 text-center">
-          <Users className="w-10 h-10 text-zinc-300 dark:text-zinc-600 mx-auto mb-3" />
-          <h3 className="text-base font-semibold text-zinc-800 dark:text-zinc-200">
+        <div className="bg-card dark:bg-card rounded-2xl border border-border dark:border-border p-12 text-center">
+          <Users className="w-10 h-10 text-muted-foreground dark:text-muted-foreground mx-auto mb-3" />
+          <h3 className="text-base font-semibold text-foreground dark:text-muted-foreground">
             {faculty.length === 0
               ? 'No faculty members listed yet'
               : 'No faculty members match your search'}
           </h3>
-          <p className="text-xs text-zinc-500 dark:text-zinc-400 mt-1 max-w-sm mx-auto">
+          <p className="text-xs text-muted-foreground dark:text-muted-foreground mt-1 max-w-sm mx-auto">
             {faculty.length === 0
               ? 'Add your professors and staff so new students can easily discover their cabins and contact information.'
               : 'Try clearing your search query or department filter.'}
@@ -355,13 +355,13 @@ export default function FacultyClientView({
           {filteredFaculty.map((member) => (
             <div
               key={member.id}
-              className="group bg-white dark:bg-zinc-900 rounded-2xl border border-zinc-200 dark:border-zinc-800 hover:border-indigo-500/60 dark:hover:border-indigo-500/60 p-5 shadow-xs hover:shadow-md transition-all flex flex-col justify-between"
+              className="group bg-card dark:bg-card rounded-2xl border border-border dark:border-border hover:border-indigo-500/60 dark:hover:border-indigo-500/60 p-5 shadow-xs hover:shadow-md transition-all flex flex-col justify-between"
             >
               <div>
                 {/* Top Profile Header */}
                 <div className="flex items-start gap-4 mb-4">
                   {/* Photo or Initials */}
-                  <div className="w-14 h-14 rounded-2xl overflow-hidden border border-zinc-200 dark:border-zinc-700 flex-shrink-0 bg-zinc-100 dark:bg-zinc-800 flex items-center justify-center">
+                  <div className="w-14 h-14 rounded-2xl overflow-hidden border border-border dark:border-border flex-shrink-0 bg-muted dark:bg-muted flex items-center justify-center">
                     {member.photo_url ? (
                       // eslint-disable-next-line @next/next/no-img-element
                       <img
@@ -381,7 +381,7 @@ export default function FacultyClientView({
                   </div>
 
                   <div className="flex-1 min-w-0">
-                    <h3 className="font-bold text-base text-zinc-900 dark:text-zinc-100 truncate group-hover:text-indigo-600 dark:group-hover:text-indigo-400 transition-colors">
+                    <h3 className="font-bold text-base text-foreground dark:text-foreground truncate group-hover:text-indigo-600 dark:group-hover:text-indigo-400 transition-colors">
                       {member.name}
                     </h3>
                     {member.role && (
@@ -390,7 +390,7 @@ export default function FacultyClientView({
                       </p>
                     )}
                     {member.department && (
-                      <span className="inline-block mt-1 px-2 py-0.5 rounded-full bg-zinc-100 dark:bg-zinc-800 text-[10px] font-semibold text-zinc-600 dark:text-zinc-300">
+                      <span className="inline-block mt-1 px-2 py-0.5 rounded-full bg-muted dark:bg-muted text-[10px] font-semibold text-muted-foreground dark:text-muted-foreground">
                         {member.department}
                       </span>
                     )}
@@ -398,18 +398,18 @@ export default function FacultyClientView({
                 </div>
 
                 {/* Details list */}
-                <div className="space-y-2 text-xs text-zinc-600 dark:text-zinc-400 pt-3 border-t border-zinc-100 dark:border-zinc-800/80">
+                <div className="space-y-2 text-xs text-muted-foreground dark:text-muted-foreground pt-3 border-t border-border dark:border-border/80">
                   {/* Cabin / Room */}
                   <div className="flex items-center gap-2">
-                    <MapPin className="w-3.5 h-3.5 text-zinc-400 flex-shrink-0" />
+                    <MapPin className="w-3.5 h-3.5 text-muted-foreground flex-shrink-0" />
                     <span className="truncate">
                       {member.cabin_number ? (
-                        <>Cabin: <span className="font-semibold text-zinc-800 dark:text-zinc-200">{member.cabin_number}</span></>
+                        <>Cabin: <span className="font-semibold text-foreground dark:text-muted-foreground">{member.cabin_number}</span></>
                       ) : (
-                        <span className="text-zinc-400">Cabin not specified</span>
+                        <span className="text-muted-foreground">Cabin not specified</span>
                       )}
                       {member.locations?.name && (
-                        <span className="ml-1 text-zinc-500 font-normal">
+                        <span className="ml-1 text-muted-foreground font-normal">
                           ({member.locations.name})
                         </span>
                       )}
@@ -419,7 +419,7 @@ export default function FacultyClientView({
                   {/* Email */}
                   {member.email && (
                     <div className="flex items-center gap-2">
-                      <Mail className="w-3.5 h-3.5 text-zinc-400 flex-shrink-0" />
+                      <Mail className="w-3.5 h-3.5 text-muted-foreground flex-shrink-0" />
                       <a
                         href={`mailto:${member.email}`}
                         className="truncate hover:text-indigo-600 dark:hover:text-indigo-400 hover:underline"
@@ -432,7 +432,7 @@ export default function FacultyClientView({
                   {/* Phone */}
                   {member.phone && (
                     <div className="flex items-center gap-2">
-                      <Phone className="w-3.5 h-3.5 text-zinc-400 flex-shrink-0" />
+                      <Phone className="w-3.5 h-3.5 text-muted-foreground flex-shrink-0" />
                       <a
                         href={`tel:${member.phone}`}
                         className="truncate hover:text-indigo-600 dark:hover:text-indigo-400 hover:underline"
@@ -445,10 +445,10 @@ export default function FacultyClientView({
               </div>
 
               {/* Action buttons */}
-              <div className="mt-5 pt-3 border-t border-zinc-100 dark:border-zinc-800 flex items-center justify-end gap-2">
+              <div className="mt-5 pt-3 border-t border-border dark:border-border flex items-center justify-end gap-2">
                 <button
                   onClick={() => openEditModal(member)}
-                  className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg border border-zinc-200 dark:border-zinc-700 text-xs font-semibold text-zinc-600 dark:text-zinc-300 hover:bg-zinc-100 dark:hover:bg-zinc-800 transition-colors cursor-pointer"
+                  className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg border border-border dark:border-border text-xs font-semibold text-muted-foreground dark:text-muted-foreground hover:bg-muted dark:hover:bg-muted transition-colors cursor-pointer"
                 >
                   <Pencil className="w-3.5 h-3.5" />
                   <span>Edit</span>
@@ -456,7 +456,7 @@ export default function FacultyClientView({
 
                 <button
                   onClick={() => setDeleteCandidate(member)}
-                  className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg border border-zinc-200 dark:border-zinc-700 hover:border-red-300 hover:bg-red-50 text-xs font-semibold text-zinc-600 dark:text-zinc-300 hover:text-red-600 dark:hover:bg-red-950/40 dark:hover:text-red-400 transition-colors cursor-pointer"
+                  className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg border border-border dark:border-border hover:border-red-300 hover:bg-red-50 text-xs font-semibold text-muted-foreground dark:text-muted-foreground hover:text-red-600 dark:hover:bg-red-950/40 dark:hover:text-red-400 transition-colors cursor-pointer"
                 >
                   <Trash2 className="w-3.5 h-3.5" />
                   <span>Delete</span>
@@ -470,13 +470,13 @@ export default function FacultyClientView({
       {/* Add / Edit Faculty Modal Dialog */}
       {isModalOpen && (
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/50 backdrop-blur-xs overflow-y-auto">
-          <div className="my-auto max-h-[calc(100dvh-2rem)] w-full max-w-xl shrink-0 overflow-y-auto rounded-2xl border border-zinc-200 bg-white p-5 shadow-xl dark:border-zinc-800 dark:bg-zinc-900 sm:p-7">
-            <div className="flex items-center justify-between pb-4 border-b border-zinc-100 dark:border-zinc-800 mb-5">
+          <div className="my-auto max-h-[calc(100dvh-2rem)] w-full max-w-xl shrink-0 overflow-y-auto rounded-2xl border border-border bg-card p-5 shadow-xl dark:border-border dark:bg-card sm:p-7">
+            <div className="flex items-center justify-between pb-4 border-b border-border dark:border-border mb-5">
               <div className="flex items-center gap-2.5">
                 <span className="w-8 h-8 rounded-lg bg-indigo-50 dark:bg-indigo-950 text-indigo-600 dark:text-indigo-400 flex items-center justify-center">
                   <Users className="w-4 h-4" />
                 </span>
-                <h3 className="text-lg font-bold text-zinc-900 dark:text-zinc-100">
+                <h3 className="text-lg font-bold text-foreground dark:text-foreground">
                   {modalMode === 'create' ? 'Add Faculty Member' : 'Edit Faculty Member'}
                 </h3>
               </div>
@@ -485,7 +485,7 @@ export default function FacultyClientView({
                 type="button"
                 aria-label="Close faculty dialog"
                 onClick={() => setIsModalOpen(false)}
-                className="p-1.5 rounded-lg text-zinc-400 hover:text-zinc-700 dark:hover:text-zinc-200 hover:bg-zinc-100 dark:hover:bg-zinc-800 transition-colors cursor-pointer"
+                className="p-1.5 rounded-lg text-muted-foreground hover:text-muted-foreground dark:hover:text-muted-foreground hover:bg-muted dark:hover:bg-muted transition-colors cursor-pointer"
               >
                 <X className="w-4 h-4" />
               </button>
@@ -501,11 +501,11 @@ export default function FacultyClientView({
             <form onSubmit={handleSubmit} className="space-y-4">
               {/* Photo Upload with Preview */}
               <div>
-                <label className="block text-xs font-semibold text-zinc-700 dark:text-zinc-300 mb-2">
+                <label className="block text-xs font-semibold text-muted-foreground dark:text-muted-foreground mb-2">
                   Profile Photo (Optional, max 2 MB)
                 </label>
                 <div className="flex items-center gap-4">
-                  <div className="w-16 h-16 rounded-2xl border border-zinc-200 dark:border-zinc-700 overflow-hidden bg-zinc-100 dark:bg-zinc-800 flex items-center justify-center flex-shrink-0">
+                  <div className="w-16 h-16 rounded-2xl border border-border dark:border-border overflow-hidden bg-muted dark:bg-muted flex items-center justify-center flex-shrink-0">
                     {photoPreview ? (
                       // eslint-disable-next-line @next/next/no-img-element
                       <img
@@ -514,7 +514,7 @@ export default function FacultyClientView({
                         className="w-full h-full object-cover"
                       />
                     ) : (
-                      <Users className="w-7 h-7 text-zinc-400" />
+                      <Users className="w-7 h-7 text-muted-foreground" />
                     )}
                   </div>
 
@@ -525,9 +525,9 @@ export default function FacultyClientView({
                       type="file"
                       accept="image/jpeg,image/png,image/webp"
                       onChange={handlePhotoSelect}
-                      className="block w-full text-xs text-zinc-500 file:mr-3 file:py-1.5 file:px-3 file:rounded-xl file:border-0 file:text-xs file:font-semibold file:bg-indigo-50 dark:file:bg-indigo-950 file:text-indigo-700 dark:file:text-indigo-300 hover:file:bg-indigo-100 dark:hover:file:bg-indigo-900 cursor-pointer"
+                      className="block w-full text-xs text-muted-foreground file:mr-3 file:py-1.5 file:px-3 file:rounded-xl file:border-0 file:text-xs file:font-semibold file:bg-indigo-50 dark:file:bg-indigo-950 file:text-indigo-700 dark:file:text-indigo-300 hover:file:bg-indigo-100 dark:hover:file:bg-indigo-900 cursor-pointer"
                     />
-                    <div className="flex items-center justify-between text-[11px] text-zinc-400">
+                    <div className="flex items-center justify-between text-[11px] text-muted-foreground">
                       <span>JPG, PNG, or WebP</span>
                       {photoPreview && (
                         <button
@@ -545,7 +545,7 @@ export default function FacultyClientView({
 
               {/* Name */}
               <div>
-                <label className="block text-xs font-semibold text-zinc-700 dark:text-zinc-300 mb-1">
+                <label className="block text-xs font-semibold text-muted-foreground dark:text-muted-foreground mb-1">
                   Full Name <span className="text-red-500">*</span>
                 </label>
                 <input
@@ -555,14 +555,14 @@ export default function FacultyClientView({
                   placeholder="e.g. Dr. Ramesh Gupta"
                   value={formName}
                   onChange={(e) => setFormName(e.target.value)}
-                  className="w-full px-3.5 py-2 text-sm rounded-xl border border-zinc-300 dark:border-zinc-700 bg-white dark:bg-zinc-950 text-zinc-900 dark:text-zinc-100 placeholder-zinc-400 focus:outline-none focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-600"
+                  className="w-full px-3.5 py-2 text-sm rounded-xl border border-border dark:border-border bg-card dark:bg-background text-foreground dark:text-foreground placeholder-zinc-400 focus:outline-none focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-600"
                 />
               </div>
 
               {/* Role & Department */}
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <div>
-                  <label className="block text-xs font-semibold text-zinc-700 dark:text-zinc-300 mb-1">
+                  <label className="block text-xs font-semibold text-muted-foreground dark:text-muted-foreground mb-1">
                     Designation / Role
                   </label>
                   <input
@@ -571,12 +571,12 @@ export default function FacultyClientView({
                     placeholder="e.g. Associate Professor"
                     value={formRole}
                     onChange={(e) => setFormRole(e.target.value)}
-                    className="w-full px-3.5 py-2 text-sm rounded-xl border border-zinc-300 dark:border-zinc-700 bg-white dark:bg-zinc-950 text-zinc-900 dark:text-zinc-100 placeholder-zinc-400 focus:outline-none focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-600"
+                    className="w-full px-3.5 py-2 text-sm rounded-xl border border-border dark:border-border bg-card dark:bg-background text-foreground dark:text-foreground placeholder-zinc-400 focus:outline-none focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-600"
                   />
                 </div>
 
                 <div>
-                  <label className="block text-xs font-semibold text-zinc-700 dark:text-zinc-300 mb-1">
+                  <label className="block text-xs font-semibold text-muted-foreground dark:text-muted-foreground mb-1">
                     Department
                   </label>
                   <input
@@ -585,7 +585,7 @@ export default function FacultyClientView({
                     placeholder="e.g. Computer Science"
                     value={formDepartment}
                     onChange={(e) => setFormDepartment(e.target.value)}
-                    className="w-full px-3.5 py-2 text-sm rounded-xl border border-zinc-300 dark:border-zinc-700 bg-white dark:bg-zinc-950 text-zinc-900 dark:text-zinc-100 placeholder-zinc-400 focus:outline-none focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-600"
+                    className="w-full px-3.5 py-2 text-sm rounded-xl border border-border dark:border-border bg-card dark:bg-background text-foreground dark:text-foreground placeholder-zinc-400 focus:outline-none focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-600"
                   />
                 </div>
               </div>
@@ -593,7 +593,7 @@ export default function FacultyClientView({
               {/* Cabin Number & Linked Location */}
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <div>
-                  <label className="block text-xs font-semibold text-zinc-700 dark:text-zinc-300 mb-1">
+                  <label className="block text-xs font-semibold text-muted-foreground dark:text-muted-foreground mb-1">
                     Cabin / Room Number
                   </label>
                   <input
@@ -602,19 +602,19 @@ export default function FacultyClientView({
                     placeholder="e.g. Room 304, 3rd Floor"
                     value={formCabin}
                     onChange={(e) => setFormCabin(e.target.value)}
-                    className="w-full px-3.5 py-2 text-sm rounded-xl border border-zinc-300 dark:border-zinc-700 bg-white dark:bg-zinc-950 text-zinc-900 dark:text-zinc-100 placeholder-zinc-400 focus:outline-none focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-600"
+                    className="w-full px-3.5 py-2 text-sm rounded-xl border border-border dark:border-border bg-card dark:bg-background text-foreground dark:text-foreground placeholder-zinc-400 focus:outline-none focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-600"
                   />
                 </div>
 
                 <div>
-                  <label className="block text-xs font-semibold text-zinc-700 dark:text-zinc-300 mb-1">
+                  <label className="block text-xs font-semibold text-muted-foreground dark:text-muted-foreground mb-1">
                     Campus Location (Optional)
                   </label>
                   <select
                     aria-label="Linked campus location"
                     value={formLocationId}
                     onChange={(e) => setFormLocationId(e.target.value)}
-                    className="w-full px-3.5 py-2 text-sm rounded-xl border border-zinc-300 dark:border-zinc-700 bg-white dark:bg-zinc-950 text-zinc-900 dark:text-zinc-100 focus:outline-none focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-600"
+                    className="w-full px-3.5 py-2 text-sm rounded-xl border border-border dark:border-border bg-card dark:bg-background text-foreground dark:text-foreground focus:outline-none focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-600"
                   >
                     <option value="">No linked location</option>
                     {locations.map((loc) => (
@@ -629,7 +629,7 @@ export default function FacultyClientView({
               {/* Email & Phone */}
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <div>
-                  <label className="block text-xs font-semibold text-zinc-700 dark:text-zinc-300 mb-1">
+                  <label className="block text-xs font-semibold text-muted-foreground dark:text-muted-foreground mb-1">
                     Email Address
                   </label>
                   <input
@@ -638,12 +638,12 @@ export default function FacultyClientView({
                     placeholder="prof@university.edu"
                     value={formEmail}
                     onChange={(e) => setFormEmail(e.target.value)}
-                    className="w-full px-3.5 py-2 text-sm rounded-xl border border-zinc-300 dark:border-zinc-700 bg-white dark:bg-zinc-950 text-zinc-900 dark:text-zinc-100 placeholder-zinc-400 focus:outline-none focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-600"
+                    className="w-full px-3.5 py-2 text-sm rounded-xl border border-border dark:border-border bg-card dark:bg-background text-foreground dark:text-foreground placeholder-zinc-400 focus:outline-none focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-600"
                   />
                 </div>
 
                 <div>
-                  <label className="block text-xs font-semibold text-zinc-700 dark:text-zinc-300 mb-1">
+                  <label className="block text-xs font-semibold text-muted-foreground dark:text-muted-foreground mb-1">
                     Phone / Extension
                   </label>
                   <input
@@ -652,17 +652,17 @@ export default function FacultyClientView({
                     placeholder="+1 555-0199 or Ext 402"
                     value={formPhone}
                     onChange={(e) => setFormPhone(e.target.value)}
-                    className="w-full px-3.5 py-2 text-sm rounded-xl border border-zinc-300 dark:border-zinc-700 bg-white dark:bg-zinc-950 text-zinc-900 dark:text-zinc-100 placeholder-zinc-400 focus:outline-none focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-600"
+                    className="w-full px-3.5 py-2 text-sm rounded-xl border border-border dark:border-border bg-card dark:bg-background text-foreground dark:text-foreground placeholder-zinc-400 focus:outline-none focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-600"
                   />
                 </div>
               </div>
 
               {/* Form Buttons */}
-              <div className="flex items-center justify-end gap-3 pt-3 border-t border-zinc-100 dark:border-zinc-800">
+              <div className="flex items-center justify-end gap-3 pt-3 border-t border-border dark:border-border">
                 <button
                   type="button"
                   onClick={() => setIsModalOpen(false)}
-                  className="px-4 py-2 rounded-xl border border-zinc-200 dark:border-zinc-700 text-xs font-semibold text-zinc-600 dark:text-zinc-400 hover:bg-zinc-100 dark:hover:bg-zinc-800 transition-colors cursor-pointer"
+                  className="px-4 py-2 rounded-xl border border-border dark:border-border text-xs font-semibold text-muted-foreground dark:text-muted-foreground hover:bg-muted dark:hover:bg-muted transition-colors cursor-pointer"
                 >
                   Cancel
                 </button>
@@ -684,18 +684,18 @@ export default function FacultyClientView({
       {/* Delete Confirmation Modal */}
       {deleteCandidate && (
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/50 backdrop-blur-xs">
-          <div className="my-auto max-h-[calc(100dvh-2rem)] w-full max-w-md shrink-0 overflow-y-auto rounded-2xl border border-zinc-200 bg-white p-5 shadow-xl dark:border-zinc-800 dark:bg-zinc-900 sm:p-6">
+          <div className="my-auto max-h-[calc(100dvh-2rem)] w-full max-w-md shrink-0 overflow-y-auto rounded-2xl border border-border bg-card p-5 shadow-xl dark:border-border dark:bg-card sm:p-6">
             <div className="flex items-center gap-3 text-red-600 dark:text-red-400 mb-3">
               <span className="w-9 h-9 rounded-xl bg-red-50 dark:bg-red-950/60 flex items-center justify-center">
                 <Trash2 className="w-5 h-5" />
               </span>
-              <h3 className="text-base font-bold text-zinc-900 dark:text-zinc-100">
+              <h3 className="text-base font-bold text-foreground dark:text-foreground">
                 Remove Faculty Member?
               </h3>
             </div>
 
-            <p className="text-xs sm:text-sm text-zinc-600 dark:text-zinc-400 mb-5 leading-relaxed">
-              Are you sure you want to remove <span className="font-semibold text-zinc-900 dark:text-zinc-100">{deleteCandidate.name}</span> from the university directory? Their photo and details will be permanently deleted.
+            <p className="text-xs sm:text-sm text-muted-foreground dark:text-muted-foreground mb-5 leading-relaxed">
+              Are you sure you want to remove <span className="font-semibold text-foreground dark:text-foreground">{deleteCandidate.name}</span> from the university directory? Their photo and details will be permanently deleted.
             </p>
 
             <div className="flex items-center justify-end gap-2.5">
@@ -703,7 +703,7 @@ export default function FacultyClientView({
                 type="button"
                 disabled={isPending}
                 onClick={() => setDeleteCandidate(null)}
-                className="px-4 py-2 rounded-xl border border-zinc-200 dark:border-zinc-700 text-xs font-semibold text-zinc-600 dark:text-zinc-400 hover:bg-zinc-100 dark:hover:bg-zinc-800 transition-colors cursor-pointer"
+                className="px-4 py-2 rounded-xl border border-border dark:border-border text-xs font-semibold text-muted-foreground dark:text-muted-foreground hover:bg-muted dark:hover:bg-muted transition-colors cursor-pointer"
               >
                 Cancel
               </button>

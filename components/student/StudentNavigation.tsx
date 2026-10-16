@@ -25,8 +25,8 @@ export default function StudentNavigation({
   const basePath = `/u/${universityId}`
   const navClass =
     placement === 'desktop'
-      ? 'hidden border-t border-zinc-100 dark:border-zinc-800 md:block'
-      : 'fixed inset-x-0 bottom-0 z-40 border-t border-zinc-200 bg-white/95 pb-[env(safe-area-inset-bottom)] backdrop-blur-md dark:border-zinc-800 dark:bg-zinc-950/95 md:hidden'
+      ? 'hidden border-t border-border dark:border-border md:block'
+      : 'fixed inset-x-0 bottom-0 z-40 border-t border-border bg-card/95 pb-[env(safe-area-inset-bottom)] backdrop-blur-md dark:border-border dark:bg-background/95 md:hidden'
 
   return (
     <nav aria-label="Campus navigation" className={navClass}>
@@ -54,12 +54,12 @@ export default function StudentNavigation({
                   ? `border-b-2 px-4 text-xs font-semibold ${
                       isActive
                         ? 'border-indigo-600 text-indigo-600 dark:border-indigo-400 dark:text-indigo-400'
-                        : 'border-transparent text-zinc-500 hover:text-zinc-900 dark:text-zinc-400 dark:hover:text-zinc-100'
+                        : 'border-transparent text-muted-foreground hover:text-foreground dark:text-muted-foreground dark:hover:text-foreground'
                     }`
                   : `flex-1 flex-col gap-1 px-1 text-[10px] font-medium ${
                       isActive
                         ? 'text-indigo-600 dark:text-indigo-400'
-                        : 'text-zinc-500 dark:text-zinc-400'
+                        : 'text-muted-foreground dark:text-muted-foreground'
                     }`
               }`}
             >

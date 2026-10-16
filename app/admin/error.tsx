@@ -18,7 +18,7 @@ export default function AdminError({
     <main className="flex min-h-[60vh] flex-col items-center justify-center px-4 py-12 text-center">
       <AlertTriangle className="h-10 w-10 text-amber-600 dark:text-amber-400" aria-hidden="true" />
       <h1 className="mt-4 text-2xl font-bold">Admin console unavailable</h1>
-      <p className="mt-2 max-w-md text-sm text-zinc-600 dark:text-zinc-400">
+      <p className="mt-2 max-w-md text-sm text-muted-foreground dark:text-muted-foreground">
         We couldn&apos;t load this part of your admin console. Please return home and try again.
       </p>
       <Link

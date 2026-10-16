@@ -85,7 +85,7 @@ export default function CampusMap({
   return (
     <div
       style={{ height, minHeight: height, width: '100%' }}
-      className="relative rounded-2xl overflow-hidden border border-zinc-200 dark:border-zinc-800 shadow-sm z-10"
+      className="relative rounded-2xl overflow-hidden border border-border dark:border-border shadow-sm z-10"
     >
       <MapContainer
         center={[centerLat, centerLng]}
@@ -125,10 +125,10 @@ export default function CampusMap({
               <Popup className="campus-map-popup">
                 <div className="p-1 min-w-[180px] max-w-[240px]">
                   <div className="flex items-center justify-between gap-2 mb-1.5">
-                    <span className="font-bold text-sm text-zinc-900 leading-tight">
+                    <span className="font-bold text-sm text-foreground leading-tight">
                       {loc.name}
                     </span>
-                    <span className="capitalize text-[10px] font-semibold px-2 py-0.5 rounded-full bg-zinc-100 text-zinc-700 border border-zinc-200">
+                    <span className="capitalize text-[10px] font-semibold px-2 py-0.5 rounded-full bg-muted text-muted-foreground border border-border">
                       {loc.type}
                     </span>
                   </div>
@@ -144,22 +144,22 @@ export default function CampusMap({
                   )}
 
                   {loc.description && (
-                    <p className="text-xs text-zinc-600 mb-2 leading-relaxed">
+                    <p className="text-xs text-muted-foreground mb-2 leading-relaxed">
                       {loc.description}
                     </p>
                   )}
 
                   {loc.faculty && loc.faculty.length > 0 && (
-                    <div className="mb-2 border-t border-zinc-100 pt-2">
-                      <p className="mb-1 text-[10px] font-semibold uppercase tracking-wide text-zinc-500">
+                    <div className="mb-2 border-t border-border pt-2">
+                      <p className="mb-1 text-[10px] font-semibold uppercase tracking-wide text-muted-foreground">
                         Faculty here
                       </p>
                       <ul className="space-y-1">
                         {loc.faculty.map((member) => (
-                          <li key={member.id} className="text-xs text-zinc-700">
+                          <li key={member.id} className="text-xs text-muted-foreground">
                             {member.name}
                             {member.cabin_number && (
-                              <span className="text-zinc-500">
+                              <span className="text-muted-foreground">
                                 {' '}
                                 · Cabin {member.cabin_number}
                               </span>
@@ -179,7 +179,7 @@ export default function CampusMap({
                     Get directions
                   </a>
 
-                  <div className="text-[10px] font-mono text-zinc-400 border-t border-zinc-100 pt-1 mt-1">
+                  <div className="text-[10px] font-mono text-muted-foreground border-t border-border pt-1 mt-1">
                     {loc.lat.toFixed(5)}, {loc.lng.toFixed(5)}
                   </div>
                 </div>

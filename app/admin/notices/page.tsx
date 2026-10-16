@@ -39,7 +39,7 @@ export default async function AdminNoticesPage() {
   }))
 
   return (
-    <div className="min-h-screen bg-zinc-50 dark:bg-zinc-950 text-zinc-900 dark:text-zinc-100 py-8 px-4 sm:px-6 lg:px-8">
+    <div className="min-h-screen bg-background dark:bg-background text-foreground dark:text-foreground py-8 px-4 sm:px-6 lg:px-8">
       <div className="max-w-4xl mx-auto">
         <NoticesClientView
           notices={notices}

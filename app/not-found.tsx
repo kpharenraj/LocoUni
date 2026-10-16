@@ -8,7 +8,7 @@ export default function NotFound() {
         <SearchX className="h-7 w-7" aria-hidden="true" />
       </span>
       <h1 className="mt-5 text-2xl font-bold">We couldn&apos;t find that page</h1>
-      <p className="mt-2 max-w-md text-sm leading-relaxed text-zinc-600 dark:text-zinc-400">
+      <p className="mt-2 max-w-md text-sm leading-relaxed text-muted-foreground dark:text-muted-foreground">
         The page may have moved, or the link may be incorrect.
       </p>
       <Link

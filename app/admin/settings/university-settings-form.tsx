@@ -77,7 +77,7 @@ export default function UniversitySettingsForm({
             required
             defaultValue={initialValues.name}
             aria-invalid={Boolean(fieldError('name'))}
-            className="min-h-11 w-full rounded-xl border border-zinc-300 bg-white px-3 text-zinc-900 outline-none focus-visible:ring-2 focus-visible:ring-indigo-600 dark:border-zinc-700 dark:bg-zinc-950 dark:text-zinc-100"
+            className="min-h-11 w-full rounded-xl border border-border bg-card px-3 text-foreground outline-none focus-visible:ring-2 focus-visible:ring-indigo-600 dark:border-border dark:bg-background dark:text-foreground"
           />
           <FieldError message={fieldError('name')} />
         </label>
@@ -93,7 +93,7 @@ export default function UniversitySettingsForm({
             placeholder="https://example.edu"
             defaultValue={initialValues.website}
             aria-invalid={Boolean(fieldError('website'))}
-            className="min-h-11 w-full rounded-xl border border-zinc-300 bg-white px-3 text-zinc-900 outline-none focus-visible:ring-2 focus-visible:ring-indigo-600 dark:border-zinc-700 dark:bg-zinc-950 dark:text-zinc-100"
+            className="min-h-11 w-full rounded-xl border border-border bg-card px-3 text-foreground outline-none focus-visible:ring-2 focus-visible:ring-indigo-600 dark:border-border dark:bg-background dark:text-foreground"
           />
           <FieldError message={fieldError('website')} />
         </label>
@@ -105,7 +105,7 @@ export default function UniversitySettingsForm({
             maxLength={1000}
             defaultValue={initialValues.description}
             aria-invalid={Boolean(fieldError('description'))}
-            className="w-full resize-y rounded-xl border border-zinc-300 bg-white px-3 py-2.5 text-zinc-900 outline-none focus-visible:ring-2 focus-visible:ring-indigo-600 dark:border-zinc-700 dark:bg-zinc-950 dark:text-zinc-100"
+            className="w-full resize-y rounded-xl border border-border bg-card px-3 py-2.5 text-foreground outline-none focus-visible:ring-2 focus-visible:ring-indigo-600 dark:border-border dark:bg-background dark:text-foreground"
           />
           <FieldError message={fieldError('description')} />
         </label>
@@ -113,7 +113,7 @@ export default function UniversitySettingsForm({
 
       <fieldset className="space-y-4">
         <legend className="text-sm font-semibold">Campus location</legend>
-        <p className="text-sm text-zinc-600 dark:text-zinc-400">Click the map to set the campus center, or enter coordinates.</p>
+        <p className="text-sm text-muted-foreground dark:text-muted-foreground">Click the map to set the campus center, or enter coordinates.</p>
         <PinPicker
           initialLat={coordinates.lat.trim() ? Number(coordinates.lat) : null}
           initialLng={coordinates.lng.trim() ? Number(coordinates.lng) : null}
@@ -132,7 +132,7 @@ export default function UniversitySettingsForm({
               value={coordinates.lat}
               onChange={(event) => setCoordinates((current) => ({ ...current, lat: event.target.value }))}
               aria-invalid={Boolean(fieldError('lat'))}
-              className="min-h-11 w-full rounded-xl border border-zinc-300 bg-white px-3 text-zinc-900 outline-none focus-visible:ring-2 focus-visible:ring-indigo-600 dark:border-zinc-700 dark:bg-zinc-950 dark:text-zinc-100"
+              className="min-h-11 w-full rounded-xl border border-border bg-card px-3 text-foreground outline-none focus-visible:ring-2 focus-visible:ring-indigo-600 dark:border-border dark:bg-background dark:text-foreground"
             />
             <FieldError message={fieldError('lat')} />
           </label>
@@ -147,7 +147,7 @@ export default function UniversitySettingsForm({
               value={coordinates.lng}
               onChange={(event) => setCoordinates((current) => ({ ...current, lng: event.target.value }))}
               aria-invalid={Boolean(fieldError('lng'))}
-              className="min-h-11 w-full rounded-xl border border-zinc-300 bg-white px-3 text-zinc-900 outline-none focus-visible:ring-2 focus-visible:ring-indigo-600 dark:border-zinc-700 dark:bg-zinc-950 dark:text-zinc-100"
+              className="min-h-11 w-full rounded-xl border border-border bg-card px-3 text-foreground outline-none focus-visible:ring-2 focus-visible:ring-indigo-600 dark:border-border dark:bg-background dark:text-foreground"
             />
             <FieldError message={fieldError('lng')} />
           </label>
@@ -157,16 +157,16 @@ export default function UniversitySettingsForm({
       <fieldset className="space-y-3">
         <legend className="text-sm font-semibold">University logo</legend>
         <div className="flex flex-col gap-4 sm:flex-row sm:items-center">
-          <div className="flex h-24 w-24 shrink-0 items-center justify-center overflow-hidden rounded-xl border border-zinc-200 bg-zinc-50 dark:border-zinc-700 dark:bg-zinc-950">
+          <div className="flex h-24 w-24 shrink-0 items-center justify-center overflow-hidden rounded-xl border border-border bg-background dark:border-border dark:bg-background">
             {logoVisible ? (
               // eslint-disable-next-line @next/next/no-img-element
               <img src={previewUrl ?? ''} alt="University logo preview" className="h-full w-full object-contain" />
             ) : (
-              <span className="px-2 text-center text-xs text-zinc-500">No logo</span>
+              <span className="px-2 text-center text-xs text-muted-foreground">No logo</span>
             )}
           </div>
           <div className="flex flex-wrap items-center gap-2">
-            <label className="inline-flex min-h-10 cursor-pointer items-center gap-2 rounded-xl border border-zinc-300 px-3 text-sm font-medium hover:bg-zinc-50 focus-within:ring-2 focus-within:ring-indigo-600 dark:border-zinc-700 dark:hover:bg-zinc-800">
+            <label className="inline-flex min-h-10 cursor-pointer items-center gap-2 rounded-xl border border-border px-3 text-sm font-medium hover:bg-background focus-within:ring-2 focus-within:ring-indigo-600 dark:border-border dark:hover:bg-muted">
               <Upload className="h-4 w-4" aria-hidden="true" />
               Choose logo
               <input
@@ -189,7 +189,7 @@ export default function UniversitySettingsForm({
                   setSelectedFile(null)
                   if (logoInputRef.current) logoInputRef.current.value = ''
                 }}
-                className="inline-flex min-h-10 items-center gap-2 rounded-xl border border-zinc-300 px-3 text-sm font-medium text-zinc-700 hover:bg-zinc-50 focus-visible:outline-2 focus-visible:outline-indigo-600 dark:border-zinc-700 dark:text-zinc-300 dark:hover:bg-zinc-800"
+                className="inline-flex min-h-10 items-center gap-2 rounded-xl border border-border px-3 text-sm font-medium text-muted-foreground hover:bg-background focus-visible:outline-2 focus-visible:outline-indigo-600 dark:border-border dark:text-muted-foreground dark:hover:bg-muted"
               >
                 {removeLogo ? <Upload className="h-4 w-4" /> : <X className="h-4 w-4" />}
                 {removeLogo ? 'Keep logo' : 'Remove logo'}
@@ -197,12 +197,12 @@ export default function UniversitySettingsForm({
             )}
           </div>
         </div>
-        <p className="text-xs text-zinc-500">JPG, PNG, or WebP. Maximum file size: 2 MB.</p>
+        <p className="text-xs text-muted-foreground">JPG, PNG, or WebP. Maximum file size: 2 MB.</p>
         <FieldError message={fieldError('logo')} />
         {removeLogo && <input type="hidden" name="removeLogo" value="true" />}
       </fieldset>
 
-      <div className="border-t border-zinc-200 pt-5 dark:border-zinc-800">
+      <div className="border-t border-border pt-5 dark:border-border">
         <button
           type="submit"
           disabled={pending}
@@ -234,7 +234,7 @@ function TextField({
         name={name}
         defaultValue={defaultValue}
         aria-invalid={Boolean(error)}
-        className="min-h-11 w-full rounded-xl border border-zinc-300 bg-white px-3 text-zinc-900 outline-none focus-visible:ring-2 focus-visible:ring-indigo-600 dark:border-zinc-700 dark:bg-zinc-950 dark:text-zinc-100"
+        className="min-h-11 w-full rounded-xl border border-border bg-card px-3 text-foreground outline-none focus-visible:ring-2 focus-visible:ring-indigo-600 dark:border-border dark:bg-background dark:text-foreground"
       />
       <FieldError message={error} />
     </label>

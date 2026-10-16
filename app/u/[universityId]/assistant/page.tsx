@@ -202,16 +202,16 @@ export default function AssistantPage() {
   return (
     <section
       aria-label="Campus assistant chat"
-      className="fixed inset-x-0 top-16 bottom-[calc(4rem+env(safe-area-inset-bottom))] z-10 flex min-h-0 flex-col overflow-hidden bg-zinc-50 dark:bg-zinc-950 md:static md:h-[calc(100dvh-11rem)] md:min-h-[28rem] md:overflow-hidden"
+      className="fixed inset-x-0 top-16 bottom-[calc(4rem+env(safe-area-inset-bottom))] z-10 flex min-h-0 flex-col overflow-hidden bg-background dark:bg-background md:static md:h-[calc(100dvh-11rem)] md:min-h-[28rem] md:overflow-hidden"
     >
-      <header className="flex shrink-0 items-center justify-between gap-3 border-b border-zinc-200 bg-white px-4 py-3 dark:border-zinc-800 dark:bg-zinc-900 sm:px-6">
+      <header className="flex shrink-0 items-center justify-between gap-3 border-b border-border bg-card px-4 py-3 dark:border-border dark:bg-card sm:px-6">
         <div className="flex min-w-0 items-center gap-3">
           <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-indigo-100 text-indigo-700 dark:bg-indigo-950 dark:text-indigo-300">
             <Bot className="h-5 w-5" aria-hidden="true" />
           </span>
           <div className="min-w-0">
             <h1 className="truncate text-sm font-bold sm:text-base">Campus assistant</h1>
-            <p className="text-xs text-zinc-500 dark:text-zinc-400">
+            <p className="text-xs text-muted-foreground dark:text-muted-foreground">
               Answers from your campus information
             </p>
           </div>
@@ -220,7 +220,7 @@ export default function AssistantPage() {
           type="button"
           onClick={clearChat}
           disabled={!hasUserMessage || isLoading}
-          className="inline-flex shrink-0 items-center gap-1.5 rounded-lg px-2.5 py-2 text-xs font-semibold text-zinc-600 transition-colors hover:bg-zinc-100 hover:text-zinc-900 disabled:cursor-not-allowed disabled:opacity-40 dark:text-zinc-300 dark:hover:bg-zinc-800 dark:hover:text-white sm:text-sm"
+          className="inline-flex shrink-0 items-center gap-1.5 rounded-lg px-2.5 py-2 text-xs font-semibold text-muted-foreground transition-colors hover:bg-muted hover:text-foreground disabled:cursor-not-allowed disabled:opacity-40 dark:text-muted-foreground dark:hover:bg-muted dark:hover:text-foreground sm:text-sm"
         >
           <Trash2 className="h-4 w-4" aria-hidden="true" />
           Clear chat
@@ -244,7 +244,7 @@ export default function AssistantPage() {
                 className={`flex h-8 w-8 shrink-0 items-center justify-center rounded-full ${
                   message.role === 'user'
                     ? 'bg-indigo-600 text-white'
-                    : 'border border-zinc-200 bg-white text-indigo-700 dark:border-zinc-700 dark:bg-zinc-900 dark:text-indigo-300'
+                    : 'border border-border bg-card text-indigo-700 dark:border-border dark:bg-card dark:text-indigo-300'
                 }`}
                 aria-hidden="true"
               >
@@ -258,7 +258,7 @@ export default function AssistantPage() {
                 className={`max-w-[min(85%,42rem)] rounded-2xl px-4 py-3 text-sm leading-relaxed ${
                   message.role === 'user'
                     ? 'rounded-tr-md bg-indigo-600 text-white'
-                    : 'rounded-tl-md border border-zinc-200 bg-white text-zinc-800 shadow-sm dark:border-zinc-800 dark:bg-zinc-900 dark:text-zinc-200'
+                    : 'rounded-tl-md border border-border bg-card text-foreground shadow-sm dark:border-border dark:bg-card dark:text-muted-foreground'
                 }`}
               >
                 {message.role === 'assistant' ? (
@@ -285,7 +285,7 @@ export default function AssistantPage() {
 
           {!hasUserMessage && (
             <div className="ml-10 sm:ml-11">
-              <p className="mb-2 flex items-center gap-1.5 text-xs font-semibold text-zinc-500 dark:text-zinc-400">
+              <p className="mb-2 flex items-center gap-1.5 text-xs font-semibold text-muted-foreground dark:text-muted-foreground">
                 <Sparkles className="h-3.5 w-3.5 text-indigo-500" aria-hidden="true" />
                 Try asking
               </p>
@@ -296,7 +296,7 @@ export default function AssistantPage() {
                     type="button"
                     onClick={() => void sendMessage(question)}
                     disabled={isLoading}
-                    className="rounded-full border border-indigo-200 bg-white px-3 py-2 text-left text-xs font-medium text-indigo-700 transition-colors hover:border-indigo-400 hover:bg-indigo-50 disabled:cursor-not-allowed disabled:opacity-50 dark:border-indigo-900 dark:bg-zinc-900 dark:text-indigo-300 dark:hover:bg-indigo-950/60"
+                    className="rounded-full border border-indigo-200 bg-card px-3 py-2 text-left text-xs font-medium text-indigo-700 transition-colors hover:border-indigo-400 hover:bg-indigo-50 disabled:cursor-not-allowed disabled:opacity-50 dark:border-indigo-900 dark:bg-card dark:text-indigo-300 dark:hover:bg-indigo-950/60"
                   >
                     {question}
                   </button>
@@ -307,10 +307,10 @@ export default function AssistantPage() {
 
           {isLoading && (
             <div className="flex items-start gap-3" role="status" aria-label="Assistant is typing">
-              <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full border border-zinc-200 bg-white text-indigo-700 dark:border-zinc-700 dark:bg-zinc-900 dark:text-indigo-300">
+              <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full border border-border bg-card text-indigo-700 dark:border-border dark:bg-card dark:text-indigo-300">
                 <Bot className="h-4 w-4" aria-hidden="true" />
               </span>
-              <div className="flex items-center gap-2 rounded-2xl rounded-tl-md border border-zinc-200 bg-white px-4 py-3 text-sm text-zinc-500 shadow-sm dark:border-zinc-800 dark:bg-zinc-900 dark:text-zinc-400">
+              <div className="flex items-center gap-2 rounded-2xl rounded-tl-md border border-border bg-card px-4 py-3 text-sm text-muted-foreground shadow-sm dark:border-border dark:bg-card dark:text-muted-foreground">
                 <Loader2 className="h-4 w-4 animate-spin" aria-hidden="true" />
                 Finding campus information…
               </div>
@@ -322,10 +322,10 @@ export default function AssistantPage() {
 
       <form
         onSubmit={handleSubmit}
-        className="shrink-0 border-t border-zinc-200 bg-white px-3 pb-3 pt-3 dark:border-zinc-800 dark:bg-zinc-900 sm:px-6 sm:pb-4"
+        className="shrink-0 border-t border-border bg-card px-3 pb-3 pt-3 dark:border-border dark:bg-card sm:px-6 sm:pb-4"
       >
         <div className="mx-auto max-w-3xl">
-          <div className="flex items-end gap-2 rounded-2xl border border-zinc-300 bg-white p-2 shadow-sm transition focus-within:border-indigo-500 focus-within:ring-2 focus-within:ring-indigo-500/20 dark:border-zinc-700 dark:bg-zinc-950">
+          <div className="flex items-end gap-2 rounded-2xl border border-border bg-card p-2 shadow-sm transition focus-within:border-indigo-500 focus-within:ring-2 focus-within:ring-indigo-500/20 dark:border-border dark:bg-background">
             <label htmlFor="assistant-message" className="sr-only">
               Ask the campus assistant
             </label>
@@ -338,13 +338,13 @@ export default function AssistantPage() {
               rows={1}
               disabled={isLoading}
               placeholder="Ask about faculty, places, or notices…"
-              className="max-h-32 min-h-10 flex-1 resize-none bg-transparent px-2 py-2 text-sm leading-6 text-zinc-900 outline-none placeholder:text-zinc-400 disabled:opacity-60 dark:text-zinc-100"
+              className="max-h-32 min-h-10 flex-1 resize-none bg-transparent px-2 py-2 text-sm leading-6 text-foreground outline-none placeholder:text-muted-foreground disabled:opacity-60 dark:text-foreground"
             />
             <button
               type="submit"
               disabled={isLoading || !draft.trim()}
               aria-label="Send message"
-              className="mb-0.5 inline-flex h-9 w-9 shrink-0 items-center justify-center rounded-xl bg-indigo-600 text-white transition-colors hover:bg-indigo-700 disabled:cursor-not-allowed disabled:bg-zinc-300 dark:disabled:bg-zinc-700"
+              className="mb-0.5 inline-flex h-9 w-9 shrink-0 items-center justify-center rounded-xl bg-indigo-600 text-white transition-colors hover:bg-indigo-700 disabled:cursor-not-allowed disabled:bg-muted dark:disabled:bg-muted"
             >
               {isLoading ? (
                 <Loader2 className="h-4 w-4 animate-spin" aria-hidden="true" />
@@ -354,13 +354,13 @@ export default function AssistantPage() {
             </button>
           </div>
           <div className="flex min-h-5 items-center justify-between gap-3 px-2 pt-1.5">
-            <p className="text-[11px] text-zinc-400">
+            <p className="text-[11px] text-muted-foreground">
               Enter to send · Shift+Enter for a new line
             </p>
             {draft.length >= 450 && (
               <p
                 className={`text-[11px] tabular-nums ${
-                  draft.length >= 500 ? 'text-rose-600 dark:text-rose-400' : 'text-zinc-400'
+                  draft.length >= 500 ? 'text-rose-600 dark:text-rose-400' : 'text-muted-foreground'
                 }`}
                 aria-live="polite"
               >

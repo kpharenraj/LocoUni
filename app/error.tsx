@@ -20,7 +20,7 @@ export default function GlobalError({
         <AlertTriangle className="h-7 w-7" aria-hidden="true" />
       </span>
       <h1 className="mt-5 text-2xl font-bold">Something went wrong</h1>
-      <p className="mt-2 max-w-md text-sm leading-relaxed text-zinc-600 dark:text-zinc-400">
+      <p className="mt-2 max-w-md text-sm leading-relaxed text-muted-foreground dark:text-muted-foreground">
         We couldn&apos;t load this page. Please try again later or return to the home page.
       </p>
       <Link

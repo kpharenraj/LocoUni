@@ -84,13 +84,13 @@ export default function JoinPage() {
   }, [query, doSearch])
 
   return (
-    <div className="min-h-screen bg-zinc-50 dark:bg-zinc-950 text-zinc-900 dark:text-zinc-100">
+    <div className="min-h-screen bg-background dark:bg-background text-foreground dark:text-foreground">
       {/* Header */}
-      <header className="sticky top-0 z-40 w-full border-b border-zinc-200/80 dark:border-zinc-800/80 bg-white/80 dark:bg-zinc-950/80 backdrop-blur-md">
+      <header className="sticky top-0 z-40 w-full border-b border-border/80 dark:border-border/80 bg-card/80 dark:bg-background/80 backdrop-blur-md">
         <div className="max-w-2xl mx-auto px-4 h-16 flex items-center gap-3">
           <Link
             href="/"
-            className="flex items-center gap-2 font-bold text-lg tracking-tight text-zinc-900 dark:text-zinc-50"
+            className="flex items-center gap-2 font-bold text-lg tracking-tight text-foreground dark:text-foreground"
           >
             <span className="flex items-center justify-center w-8 h-8 rounded-lg bg-indigo-600 text-white shadow-sm shadow-indigo-500/20">
               <GraduationCap className="w-5 h-5" />
@@ -106,16 +106,16 @@ export default function JoinPage() {
           <h1 className="text-3xl sm:text-4xl font-extrabold tracking-tight mb-3">
             Find your university
           </h1>
-          <p className="text-sm text-zinc-600 dark:text-zinc-400 max-w-md mx-auto">
+          <p className="text-sm text-muted-foreground dark:text-muted-foreground max-w-md mx-auto">
             Search by university name or city to access the campus map, faculty directory, and notice board.
           </p>
         </div>
 
         {/* Search input */}
         <div className="relative mb-6">
-          <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-zinc-400 pointer-events-none" />
+          <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-muted-foreground pointer-events-none" />
           {isLoading && (
-            <Loader2 className="absolute right-4 top-1/2 -translate-y-1/2 w-4 h-4 text-zinc-400 animate-spin" />
+            <Loader2 className="absolute right-4 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground animate-spin" />
           )}
           <input
             type="text"
@@ -125,7 +125,7 @@ export default function JoinPage() {
             onChange={(e) => setQuery(e.target.value)}
             placeholder="Search by name or city..."
             autoComplete="off"
-            className="w-full pl-12 pr-12 py-3.5 text-sm rounded-2xl border border-zinc-300 dark:border-zinc-700 bg-white dark:bg-zinc-900 text-zinc-900 dark:text-zinc-100 placeholder-zinc-400 shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-600 transition-all"
+            className="w-full pl-12 pr-12 py-3.5 text-sm rounded-2xl border border-border dark:border-border bg-card dark:bg-card text-foreground dark:text-foreground placeholder-zinc-400 shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-600 transition-all"
           />
         </div>
 
@@ -137,11 +137,11 @@ export default function JoinPage() {
         )}
         {hasSearched && !isLoading && !searchError && results.length === 0 && (
           <div className="text-center py-12">
-            <Building2 className="w-10 h-10 text-zinc-300 dark:text-zinc-600 mx-auto mb-3" />
-            <h3 className="text-base font-semibold text-zinc-800 dark:text-zinc-200 mb-1">
+            <Building2 className="w-10 h-10 text-muted-foreground dark:text-muted-foreground mx-auto mb-3" />
+            <h3 className="text-base font-semibold text-foreground dark:text-muted-foreground mb-1">
               No universities found
             </h3>
-            <p className="text-xs text-zinc-500 dark:text-zinc-400 max-w-xs mx-auto mb-5">
+            <p className="text-xs text-muted-foreground dark:text-muted-foreground max-w-xs mx-auto mb-5">
               Can&apos;t find your university? The admin needs to register it first.
             </p>
             <Link
@@ -160,10 +160,10 @@ export default function JoinPage() {
               <Link
                 key={uni.id}
                 href={`/join/${uni.id}`}
-                className="group flex items-center gap-4 p-4 rounded-2xl bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 hover:border-indigo-500/60 dark:hover:border-indigo-500/60 shadow-xs hover:shadow-md transition-all"
+                className="group flex items-center gap-4 p-4 rounded-2xl bg-card dark:bg-card border border-border dark:border-border hover:border-indigo-500/60 dark:hover:border-indigo-500/60 shadow-xs hover:shadow-md transition-all"
               >
                 {/* Logo or initials */}
-                <div className="w-12 h-12 rounded-xl border border-zinc-200 dark:border-zinc-700 bg-zinc-100 dark:bg-zinc-800 flex items-center justify-center overflow-hidden flex-shrink-0">
+                <div className="w-12 h-12 rounded-xl border border-border dark:border-border bg-muted dark:bg-muted flex items-center justify-center overflow-hidden flex-shrink-0">
                   {uni.logo_url ? (
                     // eslint-disable-next-line @next/next/no-img-element
                     <img
@@ -179,18 +179,18 @@ export default function JoinPage() {
                 </div>
 
                 <div className="flex-1 min-w-0">
-                  <h3 className="text-sm font-bold text-zinc-900 dark:text-zinc-100 truncate group-hover:text-indigo-600 dark:group-hover:text-indigo-400 transition-colors">
+                  <h3 className="text-sm font-bold text-foreground dark:text-foreground truncate group-hover:text-indigo-600 dark:group-hover:text-indigo-400 transition-colors">
                     {uni.name}
                   </h3>
                   {(uni.city || uni.country) && (
-                    <p className="flex items-center gap-1 text-xs text-zinc-500 dark:text-zinc-400 mt-0.5">
+                    <p className="flex items-center gap-1 text-xs text-muted-foreground dark:text-muted-foreground mt-0.5">
                       <MapPin className="w-3 h-3 flex-shrink-0" />
                       {[uni.city, uni.country].filter(Boolean).join(', ')}
                     </p>
                   )}
                 </div>
 
-                <ChevronRight className="w-4 h-4 text-zinc-400 group-hover:text-indigo-500 transition-colors flex-shrink-0" />
+                <ChevronRight className="w-4 h-4 text-muted-foreground group-hover:text-indigo-500 transition-colors flex-shrink-0" />
               </Link>
             ))}
           </div>
@@ -198,13 +198,13 @@ export default function JoinPage() {
 
         {/* Initial hint */}
         {!hasSearched && !isLoading && (
-          <div className="text-center py-8 text-xs text-zinc-400 dark:text-zinc-500">
+          <div className="text-center py-8 text-xs text-muted-foreground dark:text-muted-foreground">
             Start typing to search for approved universities
           </div>
         )}
 
         {/* Register hint at bottom */}
-        <div className="mt-12 text-center text-xs text-zinc-500 dark:text-zinc-400">
+        <div className="mt-12 text-center text-xs text-muted-foreground dark:text-muted-foreground">
           Are you an admin?{' '}
           <Link href="/add-university" className="font-semibold text-indigo-600 dark:text-indigo-400 hover:underline">
             Register your university
