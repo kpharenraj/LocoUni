@@ -60,7 +60,13 @@ export default async function AdminPage() {
           </div>
 
           <div className="flex items-center gap-3">
-            <div className="hidden sm:flex flex-col text-right">
+          <Link
+            href="/admin/settings"
+            className="inline-flex min-h-10 items-center rounded-xl border border-zinc-300 px-3 py-1.5 text-xs font-medium text-zinc-700 transition-colors hover:bg-zinc-100 dark:border-zinc-700 dark:text-zinc-300 dark:hover:bg-zinc-800"
+          >
+            University settings
+          </Link>
+          <div className="hidden sm:flex flex-col text-right">
               <span className="text-xs font-semibold text-zinc-800 dark:text-zinc-200 truncate max-w-[160px]">
                 {profile.full_name || 'Administrator'}
               </span>

@@ -36,13 +36,13 @@ export default function PinPicker({
   height = '320px',
 }: PinPickerProps) {
   const [position, setPosition] = useState<{ lat: number; lng: number } | null>(
-    initialLat && initialLng ? { lat: initialLat, lng: initialLng } : null
+    initialLat != null && initialLng != null ? { lat: initialLat, lng: initialLng } : null
   )
   const [prevInitial, setPrevInitial] = useState({ lat: initialLat, lng: initialLng })
 
   if (prevInitial.lat !== initialLat || prevInitial.lng !== initialLng) {
     setPrevInitial({ lat: initialLat, lng: initialLng })
-    setPosition(initialLat && initialLng ? { lat: initialLat, lng: initialLng } : null)
+    setPosition(initialLat != null && initialLng != null ? { lat: initialLat, lng: initialLng } : null)
   }
 
   useEffect(() => {
@@ -60,7 +60,7 @@ export default function PinPicker({
     centerLat = position.lat
     centerLng = position.lng
     zoom = 16
-  } else if (universityCenter?.lat && universityCenter?.lng) {
+  } else if (universityCenter?.lat != null && universityCenter?.lng != null) {
     centerLat = universityCenter.lat
     centerLng = universityCenter.lng
     zoom = 16

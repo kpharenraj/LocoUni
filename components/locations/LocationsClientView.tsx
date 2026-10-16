@@ -2,7 +2,7 @@
 
 import { useState, useTransition } from 'react'
 import dynamic from 'next/dynamic'
-import Link from 'next/link'
+import AdminBackLink from '@/components/admin/AdminBackLink'
 import {
   createLocationAction,
   updateLocationAction,
@@ -16,7 +16,6 @@ import {
   Pencil,
   Trash2,
   Navigation,
-  ArrowLeft,
   X,
   Loader2,
   AlertCircle,
@@ -204,13 +203,7 @@ export default function LocationsClientView({
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-6 border-b border-zinc-200 dark:border-zinc-800">
         <div>
           <div className="flex items-center gap-2 mb-2">
-            <Link
-              href="/admin"
-              className="inline-flex items-center gap-1.5 text-xs font-medium text-zinc-500 hover:text-indigo-600 transition-colors"
-            >
-              <ArrowLeft className="w-3.5 h-3.5" />
-              <span>Back to Admin Console</span>
-            </Link>
+            <AdminBackLink />
             <span className="text-zinc-300 dark:text-zinc-700">/</span>
             <span className="text-xs text-zinc-400">Campus Locations</span>
           </div>

@@ -63,6 +63,59 @@ export const addUniversitySchema = z.object({
 
 export type AddUniversityInput = z.infer<typeof addUniversitySchema>
 
+export const updateUniversitySchema = z
+  .object({
+    name: z.string().trim().min(1, 'University name is required').max(200),
+    city: z.string().trim().max(120).optional(),
+    country: z.string().trim().max(120).optional(),
+    website: z
+      .string()
+      .trim()
+      .max(500)
+      .optional()
+      .refine(
+        (value) => {
+          if (!value) return true
+          try {
+            const url = new URL(value)
+            return url.protocol === 'http:' || url.protocol === 'https:'
+          } catch {
+            return false
+          }
+        },
+        { message: 'Please enter a valid http or https URL.' }
+      ),
+    description: z.string().trim().max(1000, 'Description must be 1000 characters or fewer').optional(),
+    lat: z
+      .string()
+      .trim()
+      .optional()
+      .transform((value) => (value?.trim() ? Number(value) : null))
+      .refine((value) => value === null || (Number.isFinite(value) && value >= -90 && value <= 90), {
+        message: 'Latitude must be between -90 and 90.',
+      }),
+    lng: z
+      .string()
+      .trim()
+      .optional()
+      .transform((value) => (value?.trim() ? Number(value) : null))
+      .refine((value) => value === null || (Number.isFinite(value) && value >= -180 && value <= 180), {
+        message: 'Longitude must be between -180 and 180.',
+      }),
+    removeLogo: z.boolean().default(false),
+  })
+  .superRefine((value, context) => {
+    if ((value.lat === null) !== (value.lng === null)) {
+      context.addIssue({
+        code: 'custom',
+        message: 'Provide both campus coordinates or leave both empty.',
+        path: value.lat === null ? ['lat'] : ['lng'],
+      })
+    }
+  })
+
+export type UpdateUniversityInput = z.infer<typeof updateUniversitySchema>
+
 export const locationTypeEnum = z.enum([
   'block',
   'canteen',
