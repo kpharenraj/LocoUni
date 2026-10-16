@@ -9,6 +9,7 @@ import {
   Users,
 } from 'lucide-react'
 import { createClient } from '@/lib/supabase/server'
+import type { Metadata } from 'next'
 
 interface StudentHomePageProps {
   params: Promise<{ universityId: string }>
@@ -46,6 +47,7 @@ const QUICK_LINKS = [
 ]
 
 export const dynamic = 'force-dynamic'
+export const metadata: Metadata = { title: 'Campus Home' }
 
 export default async function StudentHomePage({
   params,

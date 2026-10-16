@@ -123,16 +123,22 @@ export default function StudentCampusMap({
 
       <div className="grid gap-4 md:grid-cols-[minmax(0,1.7fr)_minmax(17rem,0.8fr)]">
         <section aria-label="Interactive campus map" className="min-w-0">
-          <CampusMap
-            locations={filteredLocations}
-            focusedLocationId={
-              filteredLocations.some((location) => location.id === focusedLocationId)
-                ? focusedLocationId
-                : null
-            }
-            onPinClick={setFocusedLocationId}
-            height="60vh"
-          />
+          {filteredLocations.length > 0 ? (
+            <CampusMap
+              locations={filteredLocations}
+              focusedLocationId={
+                filteredLocations.some((location) => location.id === focusedLocationId)
+                  ? focusedLocationId
+                  : null
+              }
+              onPinClick={setFocusedLocationId}
+              height="60vh"
+            />
+          ) : (
+            <div className="flex h-64 items-center justify-center rounded-2xl border border-dashed border-zinc-300 bg-white px-5 text-center text-sm text-zinc-500 dark:border-zinc-700 dark:bg-zinc-900 dark:text-zinc-400">
+              No campus places match these filters. Try a different search or location type.
+            </div>
+          )}
         </section>
 
         <section

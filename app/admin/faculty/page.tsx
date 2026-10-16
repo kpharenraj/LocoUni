@@ -4,8 +4,10 @@ import FacultyClientView, {
   type FacultyMemberItem,
   type FacultyLocationOption,
 } from '@/components/faculty/FacultyClientView'
+import type { Metadata } from 'next'
 
 export const dynamic = 'force-dynamic'
+export const metadata: Metadata = { title: 'Manage Faculty' }
 
 export default async function AdminFacultyPage() {
   const { universityId } = await requireAdmin()

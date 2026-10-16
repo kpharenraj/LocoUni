@@ -3,8 +3,10 @@ import { createClient } from '@/lib/supabase/server'
 import LocationsClientView, {
   type LocationItem,
 } from '@/components/locations/LocationsClientView'
+import type { Metadata } from 'next'
 
 export const dynamic = 'force-dynamic'
+export const metadata: Metadata = { title: 'Manage Locations' }
 
 export default async function AdminLocationsPage() {
   const { universityId } = await requireAdmin()

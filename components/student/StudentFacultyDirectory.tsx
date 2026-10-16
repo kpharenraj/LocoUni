@@ -258,13 +258,15 @@ export default function StudentFacultyDirectory({
               ? 'There are no faculty members listed yet.'
               : 'Try a different search or department filter.'}
           </p>
-          <button
-            type="button"
-            onClick={clearFilters}
-            className="mt-4 rounded-xl bg-indigo-600 px-4 py-2 text-sm font-semibold text-white transition-colors hover:bg-indigo-500"
-          >
-            Clear filters
-          </button>
+          {(query || department !== 'all') && (
+            <button
+              type="button"
+              onClick={clearFilters}
+              className="mt-4 min-h-10 rounded-xl bg-indigo-600 px-4 py-2 text-sm font-semibold text-white transition-colors hover:bg-indigo-500"
+            >
+              Clear filters
+            </button>
+          )}
         </section>
       )}
     </div>

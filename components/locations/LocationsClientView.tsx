@@ -9,6 +9,7 @@ import {
   deleteLocationAction,
 } from '@/app/actions/locations'
 import type { LocationType } from '@/lib/validation'
+import { useToast } from '@/components/ui/ToastProvider'
 import {
   MapPin,
   Plus,
@@ -98,6 +99,7 @@ export default function LocationsClientView({
   const [formError, setFormError] = useState<string | null>(null)
 
   const [isPending, startTransition] = useTransition()
+  const { showToast } = useToast()
 
   const openCreateModal = () => {
     setModalMode('create')
@@ -155,6 +157,7 @@ export default function LocationsClientView({
           setFormError(res.error || 'Failed to create location.')
         } else {
           setIsModalOpen(false)
+          showToast('Location created.')
         }
       } else if (modalMode === 'edit' && activeLocation) {
         formData.append('id', activeLocation.id)
@@ -163,6 +166,7 @@ export default function LocationsClientView({
           setFormError(res.error || 'Failed to update location.')
         } else {
           setIsModalOpen(false)
+          showToast('Location updated.')
         }
       }
     })
@@ -178,8 +182,9 @@ export default function LocationsClientView({
           setFocusedLocationId(null)
         }
         setDeleteCandidate(null)
+        showToast('Location deleted.')
       } else {
-        alert(res.error || 'Failed to delete location.')
+        showToast(res.error || 'Failed to delete location.', 'error')
       }
     })
   }
@@ -254,13 +259,33 @@ export default function LocationsClientView({
           )}
         </div>
 
-        <CampusMap
-          locations={locations}
-          universityCenter={universityCenter}
-          focusedLocationId={focusedLocationId}
-          onPinClick={(id) => setFocusedLocationId(id)}
-          height="460px"
-        />
+        {locations.length > 0 ? (
+          <CampusMap
+            locations={locations}
+            universityCenter={universityCenter}
+            focusedLocationId={focusedLocationId}
+            onPinClick={(id) => setFocusedLocationId(id)}
+            height="460px"
+          />
+        ) : (
+          <div className="flex min-h-[280px] flex-col items-center justify-center rounded-2xl border border-dashed border-zinc-300 bg-zinc-50 px-5 py-10 text-center dark:border-zinc-700 dark:bg-zinc-950/50">
+            <MapPin className="h-9 w-9 text-zinc-400" aria-hidden="true" />
+            <p className="mt-3 text-sm font-semibold text-zinc-800 dark:text-zinc-200">
+              Your campus map is ready for its first pin
+            </p>
+            <p className="mt-1 max-w-sm text-xs text-zinc-500 dark:text-zinc-400">
+              Add a building or facility to start mapping your campus.
+            </p>
+            <button
+              type="button"
+              onClick={openCreateModal}
+              className="mt-4 inline-flex items-center gap-2 rounded-xl bg-indigo-600 px-4 py-2 text-xs font-semibold text-white hover:bg-indigo-500"
+            >
+              <Plus className="h-3.5 w-3.5" aria-hidden="true" />
+              Add first location
+            </button>
+          </div>
+        )}
       </div>
 
       {/* Locations List / Table Section */}
@@ -271,6 +296,7 @@ export default function LocationsClientView({
             <Search className="w-4 h-4 absolute left-3.5 top-1/2 -translate-y-1/2 text-zinc-400" />
             <input
               type="text"
+              aria-label="Search locations by name or description"
               placeholder="Search location by name or description..."
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
@@ -280,6 +306,7 @@ export default function LocationsClientView({
 
           <div className="flex items-center gap-2 overflow-x-auto pb-1 sm:pb-0">
             <select
+              aria-label="Filter locations by type"
               value={selectedTypeFilter}
               onChange={(e) => setSelectedTypeFilter(e.target.value)}
               className="px-3 py-2 text-xs font-medium rounded-xl border border-zinc-200 dark:border-zinc-700 bg-white dark:bg-zinc-950 text-zinc-800 dark:text-zinc-200 focus:outline-none focus:ring-2 focus:ring-indigo-500/20"
@@ -382,6 +409,7 @@ export default function LocationsClientView({
                         >
                           <button
                             title="Focus on Map"
+                            aria-label={`Focus map on ${loc.name}`}
                             onClick={() => setFocusedLocationId(loc.id)}
                             className={`p-1.5 rounded-lg border text-xs transition-colors cursor-pointer ${
                               isFocused
@@ -394,6 +422,7 @@ export default function LocationsClientView({
 
                           <button
                             title="Edit Location"
+                            aria-label={`Edit ${loc.name}`}
                             onClick={() => openEditModal(loc)}
                             className="p-1.5 rounded-lg border border-zinc-200 dark:border-zinc-700 hover:bg-zinc-100 dark:hover:bg-zinc-800 text-zinc-600 dark:text-zinc-400 transition-colors cursor-pointer"
                           >
@@ -402,6 +431,7 @@ export default function LocationsClientView({
 
                           <button
                             title="Delete Location"
+                            aria-label={`Delete ${loc.name}`}
                             onClick={() => setDeleteCandidate(loc)}
                             className="p-1.5 rounded-lg border border-zinc-200 dark:border-zinc-700 hover:border-red-300 hover:bg-red-50 text-zinc-600 dark:text-zinc-400 hover:text-red-600 dark:hover:bg-red-950/40 dark:hover:text-red-400 transition-colors cursor-pointer"
                           >
@@ -421,7 +451,7 @@ export default function LocationsClientView({
       {/* Add / Edit Location Modal Dialog */}
       {isModalOpen && (
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/50 backdrop-blur-xs overflow-y-auto">
-          <div className="bg-white dark:bg-zinc-900 rounded-2xl border border-zinc-200 dark:border-zinc-800 w-full max-w-xl p-6 sm:p-7 shadow-xl my-8 relative">
+          <div className="my-auto max-h-[calc(100dvh-2rem)] w-full max-w-xl shrink-0 overflow-y-auto rounded-2xl border border-zinc-200 bg-white p-5 shadow-xl dark:border-zinc-800 dark:bg-zinc-900 sm:p-7">
             {/* Modal Header */}
             <div className="flex items-center justify-between pb-4 border-b border-zinc-100 dark:border-zinc-800 mb-5">
               <div className="flex items-center gap-2.5">
@@ -434,6 +464,8 @@ export default function LocationsClientView({
               </div>
 
               <button
+                type="button"
+                aria-label="Close location dialog"
                 onClick={() => setIsModalOpen(false)}
                 className="p-1.5 rounded-lg text-zinc-400 hover:text-zinc-700 dark:hover:text-zinc-200 hover:bg-zinc-100 dark:hover:bg-zinc-800 transition-colors cursor-pointer"
               >
@@ -457,6 +489,7 @@ export default function LocationsClientView({
                 </label>
                 <input
                   type="text"
+                  aria-label="Location name"
                   required
                   placeholder="e.g. Central Library, Science Block A"
                   value={formName}
@@ -471,6 +504,7 @@ export default function LocationsClientView({
                   Location Type <span className="text-red-500">*</span>
                 </label>
                 <select
+                  aria-label="Location type"
                   value={formType}
                   onChange={(e) => setFormType(e.target.value as LocationType)}
                   className="w-full px-3.5 py-2 text-sm rounded-xl border border-zinc-300 dark:border-zinc-700 bg-white dark:bg-zinc-950 text-zinc-900 dark:text-zinc-100 focus:outline-none focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-600"
@@ -489,6 +523,7 @@ export default function LocationsClientView({
                   Description (Optional)
                 </label>
                 <textarea
+                  aria-label="Location description"
                   rows={2}
                   placeholder="Brief details such as floor info, opening hours, or landmarks..."
                   value={formDescription}
@@ -538,7 +573,7 @@ export default function LocationsClientView({
       {/* Delete Confirmation Dialog */}
       {deleteCandidate && (
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/50 backdrop-blur-xs">
-          <div className="bg-white dark:bg-zinc-900 rounded-2xl border border-zinc-200 dark:border-zinc-800 w-full max-w-md p-6 shadow-xl">
+          <div className="my-auto max-h-[calc(100dvh-2rem)] w-full max-w-md shrink-0 overflow-y-auto rounded-2xl border border-zinc-200 bg-white p-5 shadow-xl dark:border-zinc-800 dark:bg-zinc-900 sm:p-6">
             <div className="flex items-center gap-3 text-red-600 dark:text-red-400 mb-3">
               <span className="w-9 h-9 rounded-xl bg-red-50 dark:bg-red-950/60 flex items-center justify-center">
                 <Trash2 className="w-5 h-5" />

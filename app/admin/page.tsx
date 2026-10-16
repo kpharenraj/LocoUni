@@ -2,6 +2,7 @@ import Link from 'next/link'
 import { logoutAction } from '@/app/actions/auth'
 import { requireAdmin } from '@/lib/auth'
 import { createClient } from '@/lib/supabase/server'
+import type { Metadata } from 'next'
 import {
   GraduationCap,
   Building2,
@@ -17,6 +18,7 @@ import {
 } from 'lucide-react'
 
 export const dynamic = 'force-dynamic'
+export const metadata: Metadata = { title: 'Admin Console' }
 
 export default async function AdminPage() {
   const { user, profile, universityId } = await requireAdmin()

@@ -2,12 +2,14 @@ import StudentNoticeBoard, {
   type StudentNotice,
 } from '@/components/student/StudentNoticeBoard'
 import { createClient } from '@/lib/supabase/server'
+import type { Metadata } from 'next'
 
 interface StudentNoticesPageProps {
   params: Promise<{ universityId: string }>
 }
 
 export const dynamic = 'force-dynamic'
+export const metadata: Metadata = { title: 'Campus Notices' }
 
 export default async function StudentNoticesPage({
   params,

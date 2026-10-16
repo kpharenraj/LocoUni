@@ -4,8 +4,10 @@ import NoticesClientView, {
   type NoticeItem,
 } from '@/components/notices/NoticesClientView'
 import type { NoticeCategory, NoticePriority } from '@/lib/validation'
+import type { Metadata } from 'next'
 
 export const dynamic = 'force-dynamic'
+export const metadata: Metadata = { title: 'Manage Notices' }
 
 export default async function AdminNoticesPage() {
   const { universityId } = await requireAdmin()

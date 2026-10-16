@@ -1,6 +1,7 @@
 import StudentCampusMap from '@/components/student/StudentCampusMap'
 import type { MapLocation } from '@/components/map/CampusMap'
 import { createClient } from '@/lib/supabase/server'
+import type { Metadata } from 'next'
 
 interface StudentMapPageProps {
   params: Promise<{ universityId: string }>
@@ -8,6 +9,7 @@ interface StudentMapPageProps {
 }
 
 export const dynamic = 'force-dynamic'
+export const metadata: Metadata = { title: 'Campus Map' }
 
 export default async function CampusMapPage({
   params,

@@ -24,6 +24,7 @@ import {
   Info,
   ExternalLink,
 } from 'lucide-react'
+import { useToast } from '@/components/ui/ToastProvider'
 
 export interface FacultyLocationOption {
   id: string
@@ -102,6 +103,7 @@ export default function FacultyClientView({
   const [formError, setFormError] = useState<string | null>(null)
 
   const [isPending, startTransition] = useTransition()
+  const { showToast } = useToast()
 
   // Derive unique departments
   const uniqueDepartments = Array.from(
@@ -188,6 +190,7 @@ export default function FacultyClientView({
           setFormError(res.error || 'Failed to create faculty member.')
         } else {
           setIsModalOpen(false)
+          showToast('Faculty member added.')
         }
       } else if (modalMode === 'edit' && activeFaculty) {
         formData.set('id', activeFaculty.id)
@@ -196,6 +199,7 @@ export default function FacultyClientView({
           setFormError(res.error || 'Failed to update faculty member.')
         } else {
           setIsModalOpen(false)
+          showToast('Faculty member updated.')
         }
       }
     })
@@ -208,8 +212,9 @@ export default function FacultyClientView({
       const res = await deleteFacultyAction(deleteCandidate.id)
       if (res.success) {
         setDeleteCandidate(null)
+        showToast('Faculty member deleted.')
       } else {
-        alert(res.error || 'Failed to delete faculty member.')
+        showToast(res.error || 'Failed to delete faculty member.', 'error')
       }
     })
   }
@@ -298,6 +303,7 @@ export default function FacultyClientView({
             <Search className="w-4 h-4 absolute left-3.5 top-1/2 -translate-y-1/2 text-zinc-400" />
             <input
               type="text"
+              aria-label="Search faculty by name, role, department, or cabin"
               placeholder="Search by name, role, department, or cabin..."
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
@@ -307,6 +313,7 @@ export default function FacultyClientView({
 
           <div className="flex items-center gap-2 overflow-x-auto">
             <select
+              aria-label="Filter faculty by department"
               value={selectedDeptFilter}
               onChange={(e) => setSelectedDeptFilter(e.target.value)}
               className="px-3.5 py-2 text-xs font-medium rounded-xl border border-zinc-200 dark:border-zinc-700 bg-white dark:bg-zinc-950 text-zinc-800 dark:text-zinc-200 focus:outline-none focus:ring-2 focus:ring-indigo-500/20"
@@ -469,7 +476,7 @@ export default function FacultyClientView({
       {/* Add / Edit Faculty Modal Dialog */}
       {isModalOpen && (
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/50 backdrop-blur-xs overflow-y-auto">
-          <div className="bg-white dark:bg-zinc-900 rounded-2xl border border-zinc-200 dark:border-zinc-800 w-full max-w-xl p-6 sm:p-7 shadow-xl my-8 relative">
+          <div className="my-auto max-h-[calc(100dvh-2rem)] w-full max-w-xl shrink-0 overflow-y-auto rounded-2xl border border-zinc-200 bg-white p-5 shadow-xl dark:border-zinc-800 dark:bg-zinc-900 sm:p-7">
             <div className="flex items-center justify-between pb-4 border-b border-zinc-100 dark:border-zinc-800 mb-5">
               <div className="flex items-center gap-2.5">
                 <span className="w-8 h-8 rounded-lg bg-indigo-50 dark:bg-indigo-950 text-indigo-600 dark:text-indigo-400 flex items-center justify-center">
@@ -481,6 +488,8 @@ export default function FacultyClientView({
               </div>
 
               <button
+                type="button"
+                aria-label="Close faculty dialog"
                 onClick={() => setIsModalOpen(false)}
                 className="p-1.5 rounded-lg text-zinc-400 hover:text-zinc-700 dark:hover:text-zinc-200 hover:bg-zinc-100 dark:hover:bg-zinc-800 transition-colors cursor-pointer"
               >
@@ -517,6 +526,7 @@ export default function FacultyClientView({
 
                   <div className="flex-1 space-y-1.5">
                     <input
+                      aria-label="Faculty profile photo"
                       name="photo"
                       type="file"
                       accept="image/jpeg,image/png,image/webp"
@@ -545,6 +555,7 @@ export default function FacultyClientView({
                   Full Name <span className="text-red-500">*</span>
                 </label>
                 <input
+                  aria-label="Faculty member full name"
                   type="text"
                   required
                   placeholder="e.g. Dr. Ramesh Gupta"
@@ -561,6 +572,7 @@ export default function FacultyClientView({
                     Designation / Role
                   </label>
                   <input
+                    aria-label="Faculty role"
                     type="text"
                     placeholder="e.g. Associate Professor"
                     value={formRole}
@@ -574,6 +586,7 @@ export default function FacultyClientView({
                     Department
                   </label>
                   <input
+                    aria-label="Faculty department"
                     type="text"
                     placeholder="e.g. Computer Science"
                     value={formDepartment}
@@ -590,6 +603,7 @@ export default function FacultyClientView({
                     Cabin / Room Number
                   </label>
                   <input
+                    aria-label="Cabin or room number"
                     type="text"
                     placeholder="e.g. Room 304, 3rd Floor"
                     value={formCabin}
@@ -603,6 +617,7 @@ export default function FacultyClientView({
                     Campus Location (Optional)
                   </label>
                   <select
+                    aria-label="Linked campus location"
                     value={formLocationId}
                     onChange={(e) => setFormLocationId(e.target.value)}
                     className="w-full px-3.5 py-2 text-sm rounded-xl border border-zinc-300 dark:border-zinc-700 bg-white dark:bg-zinc-950 text-zinc-900 dark:text-zinc-100 focus:outline-none focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-600"
@@ -624,6 +639,7 @@ export default function FacultyClientView({
                     Email Address
                   </label>
                   <input
+                    aria-label="Faculty email address"
                     type="email"
                     placeholder="prof@university.edu"
                     value={formEmail}
@@ -637,6 +653,7 @@ export default function FacultyClientView({
                     Phone / Extension
                   </label>
                   <input
+                    aria-label="Faculty phone number"
                     type="tel"
                     placeholder="+1 555-0199 or Ext 402"
                     value={formPhone}
@@ -673,7 +690,7 @@ export default function FacultyClientView({
       {/* Delete Confirmation Modal */}
       {deleteCandidate && (
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/50 backdrop-blur-xs">
-          <div className="bg-white dark:bg-zinc-900 rounded-2xl border border-zinc-200 dark:border-zinc-800 w-full max-w-md p-6 shadow-xl">
+          <div className="my-auto max-h-[calc(100dvh-2rem)] w-full max-w-md shrink-0 overflow-y-auto rounded-2xl border border-zinc-200 bg-white p-5 shadow-xl dark:border-zinc-800 dark:bg-zinc-900 sm:p-6">
             <div className="flex items-center gap-3 text-red-600 dark:text-red-400 mb-3">
               <span className="w-9 h-9 rounded-xl bg-red-50 dark:bg-red-950/60 flex items-center justify-center">
                 <Trash2 className="w-5 h-5" />

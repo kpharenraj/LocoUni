@@ -8,6 +8,7 @@ import {
   deleteNoticeAction,
 } from '@/app/actions/notices'
 import type { NoticeCategory, NoticePriority } from '@/lib/validation'
+import { useToast } from '@/components/ui/ToastProvider'
 import {
   Bell,
   Plus,
@@ -127,6 +128,7 @@ export default function NoticesClientView({
   const [formError, setFormError] = useState<string | null>(null)
 
   const [isPending, startTransition] = useTransition()
+  const { showToast } = useToast()
 
   const openCreateModal = () => {
     setModalMode('create')
@@ -179,6 +181,7 @@ export default function NoticesClientView({
           setFormError(res.error || 'Failed to create notice.')
         } else {
           setIsModalOpen(false)
+          showToast('Notice posted.')
         }
       } else if (modalMode === 'edit' && activeNotice) {
         formData.set('id', activeNotice.id)
@@ -187,6 +190,7 @@ export default function NoticesClientView({
           setFormError(res.error || 'Failed to update notice.')
         } else {
           setIsModalOpen(false)
+          showToast('Notice updated.')
         }
       }
     })
@@ -198,8 +202,9 @@ export default function NoticesClientView({
       const res = await deleteNoticeAction(deleteCandidate.id)
       if (res.success) {
         setDeleteCandidate(null)
+        showToast('Notice deleted.')
       } else {
-        alert(res.error || 'Failed to delete notice.')
+        showToast(res.error || 'Failed to delete notice.', 'error')
       }
     })
   }
@@ -279,6 +284,7 @@ export default function NoticesClientView({
           {/* Priority filter */}
           <div className="flex items-center gap-2">
             <select
+              aria-label="Filter notices by priority"
               value={priorityFilter}
               onChange={(e) => setPriorityFilter(e.target.value as NoticePriority | 'all')}
               className="px-3.5 py-2 text-xs font-medium rounded-xl border border-zinc-200 dark:border-zinc-700 bg-white dark:bg-zinc-950 text-zinc-800 dark:text-zinc-200 focus:outline-none focus:ring-2 focus:ring-indigo-500/20"
@@ -379,6 +385,8 @@ export default function NoticesClientView({
                   {/* Action buttons */}
                   <div className="flex items-center gap-1.5 flex-shrink-0">
                     <button
+                      type="button"
+                      aria-label={`Edit notice: ${notice.title}`}
                       onClick={() => openEditModal(notice)}
                       className="p-1.5 rounded-lg border border-zinc-200 dark:border-zinc-700 text-zinc-500 hover:text-indigo-600 dark:hover:text-indigo-400 hover:bg-indigo-50 dark:hover:bg-indigo-950/40 transition-colors cursor-pointer"
                       title="Edit notice"
@@ -386,6 +394,8 @@ export default function NoticesClientView({
                       <Pencil className="w-3.5 h-3.5" />
                     </button>
                     <button
+                      type="button"
+                      aria-label={`Delete notice: ${notice.title}`}
                       onClick={() => setDeleteCandidate(notice)}
                       className="p-1.5 rounded-lg border border-zinc-200 dark:border-zinc-700 text-zinc-500 hover:text-red-600 dark:hover:text-red-400 hover:bg-red-50 dark:hover:bg-red-950/40 transition-colors cursor-pointer"
                       title="Delete notice"
@@ -403,7 +413,7 @@ export default function NoticesClientView({
       {/* Add / Edit Modal */}
       {isModalOpen && (
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/50 backdrop-blur-xs overflow-y-auto">
-          <div className="bg-white dark:bg-zinc-900 rounded-2xl border border-zinc-200 dark:border-zinc-800 w-full max-w-xl p-6 sm:p-7 shadow-xl my-8 relative">
+          <div className="my-auto max-h-[calc(100dvh-2rem)] w-full max-w-xl shrink-0 overflow-y-auto rounded-2xl border border-zinc-200 bg-white p-5 shadow-xl dark:border-zinc-800 dark:bg-zinc-900 sm:p-7">
             <div className="flex items-center justify-between pb-4 border-b border-zinc-100 dark:border-zinc-800 mb-5">
               <div className="flex items-center gap-2.5">
                 <span className="w-8 h-8 rounded-lg bg-amber-50 dark:bg-amber-950 text-amber-600 dark:text-amber-400 flex items-center justify-center">
@@ -415,6 +425,8 @@ export default function NoticesClientView({
               </div>
 
               <button
+                type="button"
+                aria-label="Close notice dialog"
                 onClick={() => setIsModalOpen(false)}
                 className="p-1.5 rounded-lg text-zinc-400 hover:text-zinc-700 dark:hover:text-zinc-200 hover:bg-zinc-100 dark:hover:bg-zinc-800 transition-colors cursor-pointer"
               >
@@ -436,6 +448,7 @@ export default function NoticesClientView({
                   Title <span className="text-red-500">*</span>
                 </label>
                 <input
+                  aria-label="Notice title"
                   type="text"
                   required
                   placeholder="e.g. End Semester Exam Schedule Released"
@@ -450,6 +463,7 @@ export default function NoticesClientView({
               <div>
                 <label className={LABEL_CLASS}>Body / Description</label>
                 <textarea
+                  aria-label="Notice body"
                   rows={4}
                   placeholder="Provide additional details, instructions, or links..."
                   value={formBody}
@@ -465,6 +479,7 @@ export default function NoticesClientView({
                     Category <span className="text-red-500">*</span>
                   </label>
                   <select
+                    aria-label="Notice category"
                     value={formCategory}
                     onChange={(e) => setFormCategory(e.target.value as NoticeCategory)}
                     className={INPUT_CLASS}
@@ -482,6 +497,7 @@ export default function NoticesClientView({
                     Priority <span className="text-red-500">*</span>
                   </label>
                   <select
+                    aria-label="Notice priority"
                     value={formPriority}
                     onChange={(e) => setFormPriority(e.target.value as NoticePriority)}
                     className={INPUT_CLASS}
@@ -499,6 +515,7 @@ export default function NoticesClientView({
                   Event Date / Time (Optional)
                 </label>
                 <input
+                  aria-label="Notice event date and time"
                   type="datetime-local"
                   value={formEventDate}
                   onChange={(e) => setFormEventDate(e.target.value)}
@@ -536,7 +553,7 @@ export default function NoticesClientView({
       {/* Delete Confirmation Modal */}
       {deleteCandidate && (
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/50 backdrop-blur-xs">
-          <div className="bg-white dark:bg-zinc-900 rounded-2xl border border-zinc-200 dark:border-zinc-800 w-full max-w-md p-6 shadow-xl">
+          <div className="my-auto max-h-[calc(100dvh-2rem)] w-full max-w-md shrink-0 overflow-y-auto rounded-2xl border border-zinc-200 bg-white p-5 shadow-xl dark:border-zinc-800 dark:bg-zinc-900 sm:p-6">
             <div className="flex items-center gap-3 text-red-600 dark:text-red-400 mb-3">
               <span className="w-9 h-9 rounded-xl bg-red-50 dark:bg-red-950/60 flex items-center justify-center">
                 <Trash2 className="w-5 h-5" />

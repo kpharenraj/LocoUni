@@ -2,12 +2,14 @@ import StudentFacultyDirectory, {
   type StudentFacultyMember,
 } from '@/components/student/StudentFacultyDirectory'
 import { createClient } from '@/lib/supabase/server'
+import type { Metadata } from 'next'
 
 interface StudentRouteProps {
   params: Promise<{ universityId: string }>
 }
 
 export const dynamic = 'force-dynamic'
+export const metadata: Metadata = { title: 'Faculty Directory' }
 
 export default async function FacultyPage({ params }: StudentRouteProps) {
   const { universityId } = await params

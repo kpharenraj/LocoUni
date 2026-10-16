@@ -102,12 +102,12 @@ export default async function HomePage() {
 
           {/* Hero Section */}
           <h1 className="text-4xl sm:text-5xl md:text-6xl font-extrabold tracking-tight text-zinc-900 dark:text-zinc-50 max-w-2xl leading-[1.15]">
-            Find your way around campus with confidence.
+            Your campus, all in one place.
           </h1>
 
           <p className="mt-5 text-base sm:text-lg md:text-xl text-zinc-600 dark:text-zinc-400 max-w-2xl font-normal leading-relaxed">
-            Locate faculty cabins, find lecture halls, and track real-time notices in one
-            centralized hub built for new university students.
+            Find faculty offices, navigate campus places, and stay up to date with university notices.
+            Students can also ask a campus assistant for a quick answer.
           </p>
 
           {/* Feature Highlights Pills */}
@@ -193,11 +193,38 @@ export default async function HomePage() {
             </Link>
           </div>
         </div>
+
+        <section className="mt-14 w-full max-w-4xl" aria-labelledby="how-it-works-heading">
+          <h2
+            id="how-it-works-heading"
+            className="text-center text-2xl font-bold tracking-tight sm:text-3xl"
+          >
+            How it works
+          </h2>
+          <div className="mt-6 grid gap-5 md:grid-cols-2">
+            <article className="rounded-2xl border border-zinc-200 bg-white p-5 dark:border-zinc-800 dark:bg-zinc-900 sm:p-6">
+              <h3 className="text-base font-bold">For administrators</h3>
+              <ol className="mt-4 space-y-3 text-sm text-zinc-600 dark:text-zinc-400">
+                <li className="flex gap-3"><span className="font-bold text-indigo-600">1.</span><span>Register your university for review.</span></li>
+                <li className="flex gap-3"><span className="font-bold text-indigo-600">2.</span><span>Add campus locations and map their pins.</span></li>
+                <li className="flex gap-3"><span className="font-bold text-indigo-600">3.</span><span>Publish faculty details and campus notices.</span></li>
+              </ol>
+            </article>
+            <article className="rounded-2xl border border-zinc-200 bg-white p-5 dark:border-zinc-800 dark:bg-zinc-900 sm:p-6">
+              <h3 className="text-base font-bold">For students</h3>
+              <ol className="mt-4 space-y-3 text-sm text-zinc-600 dark:text-zinc-400">
+                <li className="flex gap-3"><span className="font-bold text-emerald-600">1.</span><span>Find and join your university.</span></li>
+                <li className="flex gap-3"><span className="font-bold text-emerald-600">2.</span><span>Explore the faculty directory, map, and notices.</span></li>
+                <li className="flex gap-3"><span className="font-bold text-emerald-600">3.</span><span>Ask the campus assistant when you need help.</span></li>
+              </ol>
+            </article>
+          </div>
+        </section>
       </main>
 
       {/* Footer */}
       <footer className="w-full border-t border-zinc-200/80 dark:border-zinc-800/80 py-6 px-4 text-center text-xs text-zinc-500 dark:text-zinc-500">
-        <p>© {new Date().getFullYear()} LocoUni — Built for university navigation &amp; discovery.</p>
+        <p>© {new Date().getFullYear()} LocoUni · Helping campus communities find their way.</p>
       </footer>
     </div>
   )

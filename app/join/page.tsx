@@ -38,6 +38,7 @@ export default function JoinPage() {
   const [results, setResults] = useState<UniversityResult[]>([])
   const [isLoading, setIsLoading] = useState(false)
   const [hasSearched, setHasSearched] = useState(false)
+  const [searchError, setSearchError] = useState<string | null>(null)
 
   const doSearch = useCallback(async (q: string) => {
     if (!q.trim()) {
@@ -49,18 +50,26 @@ export default function JoinPage() {
 
     setIsLoading(true)
     setHasSearched(true)
+    setSearchError(null)
 
     const supabase = createClient()
     const escaped = escapeIlike(q.trim())
     const pattern = `%${escaped}%`
 
-    const { data } = await supabase
+    const { data, error } = await supabase
       .from('universities')
       .select('id, name, city, country, logo_url')
       .eq('status', 'approved')
       .or(`name.ilike.${pattern},city.ilike.${pattern}`)
       .order('name', { ascending: true })
       .limit(10)
+
+    if (error) {
+      setSearchError('We could not search universities right now. Please try again.')
+      setResults([])
+      setIsLoading(false)
+      return
+    }
 
     setResults(data || [])
     setIsLoading(false)
@@ -111,6 +120,7 @@ export default function JoinPage() {
           <input
             type="text"
             id="university-search"
+            aria-label="Search universities by name or city"
             value={query}
             onChange={(e) => setQuery(e.target.value)}
             placeholder="Search by name or city..."
@@ -120,7 +130,12 @@ export default function JoinPage() {
         </div>
 
         {/* Results */}
-        {hasSearched && !isLoading && results.length === 0 && (
+        {searchError && (
+          <p role="alert" className="py-8 text-center text-sm text-red-600 dark:text-red-400">
+            {searchError}
+          </p>
+        )}
+        {hasSearched && !isLoading && !searchError && results.length === 0 && (
           <div className="text-center py-12">
             <Building2 className="w-10 h-10 text-zinc-300 dark:text-zinc-600 mx-auto mb-3" />
             <h3 className="text-base font-semibold text-zinc-800 dark:text-zinc-200 mb-1">
