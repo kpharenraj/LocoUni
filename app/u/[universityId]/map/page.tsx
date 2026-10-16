@@ -19,7 +19,7 @@ export default async function CampusMapPage({
   const supabase = await createClient()
   const { data: rows, error: locationsError } = await supabase
     .from('locations')
-    .select('id, name, type, description, lat, lng')
+    .select('id, name, type, description, lat, lng, photo_url')
     .eq('university_id', universityId)
     .order('name', { ascending: true })
 
@@ -62,6 +62,7 @@ export default async function CampusMapPage({
     name: location.name,
     type: location.type || 'other',
     description: location.description,
+    photo_url: location.photo_url,
     lat: location.lat,
     lng: location.lng,
     faculty: facultyByLocation[location.id] ?? [],

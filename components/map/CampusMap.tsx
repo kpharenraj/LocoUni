@@ -5,12 +5,14 @@ import { MapContainer, TileLayer, Marker, Popup, useMap } from 'react-leaflet'
 import L from 'leaflet'
 import 'leaflet/dist/leaflet.css'
 import { setupLeafletIcons, createLocationIcon } from './LeafletIcons'
+import LocationPhoto from '@/components/student/LocationPhoto'
 
 export interface MapLocation {
   id: string
   name: string
   type: string
   description?: string | null
+  photo_url?: string | null
   lat: number
   lng: number
   faculty?: { id: string; name: string; cabin_number: string | null }[]
@@ -130,6 +132,16 @@ export default function CampusMap({
                       {loc.type}
                     </span>
                   </div>
+
+                  {loc.photo_url && (
+                    <div className="mb-2">
+                      <LocationPhoto
+                        src={loc.photo_url}
+                        alt={`${loc.name} location`}
+                        className="aspect-[4/3]"
+                      />
+                    </div>
+                  )}
 
                   {loc.description && (
                     <p className="text-xs text-zinc-600 mb-2 leading-relaxed">

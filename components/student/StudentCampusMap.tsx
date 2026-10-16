@@ -4,6 +4,7 @@ import { useMemo, useState } from 'react'
 import dynamic from 'next/dynamic'
 import { MapPin, Search } from 'lucide-react'
 import type { MapLocation } from '@/components/map/CampusMap'
+import LocationPhoto from '@/components/student/LocationPhoto'
 
 const CampusMap = dynamic(() => import('@/components/map/CampusMap'), {
   ssr: false,
@@ -207,6 +208,14 @@ export default function StudentCampusMap({
                         </span>
                       </span>
                     </button>
+                    {location.photo_url && (
+                      <div className="px-4 pb-4 pl-11">
+                        <LocationPhoto
+                          src={location.photo_url}
+                          alt={`${location.name} location`}
+                        />
+                      </div>
+                    )}
                   </li>
                 )
               })}

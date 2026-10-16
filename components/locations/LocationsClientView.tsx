@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useTransition } from 'react'
+import { useEffect, useMemo, useRef, useState, useTransition } from 'react'
 import dynamic from 'next/dynamic'
 import AdminBackLink from '@/components/admin/AdminBackLink'
 import {
@@ -12,6 +12,7 @@ import type { LocationType } from '@/lib/validation'
 import { useToast } from '@/components/ui/ToastProvider'
 import {
   MapPin,
+  Image as ImageIcon,
   Plus,
   Pencil,
   Trash2,
@@ -53,6 +54,7 @@ export interface LocationItem {
   name: string
   type: string
   description?: string | null
+  photo_url?: string | null
   lat: number
   lng: number
   created_at?: string
@@ -62,6 +64,33 @@ interface LocationsClientViewProps {
   locations: LocationItem[]
   universityCenter?: { lat: number; lng: number } | null
   universityName?: string
+}
+
+async function compressLocationPhoto(file: File): Promise<File> {
+  const bitmap = await createImageBitmap(file)
+  const scale = Math.min(1, 1600 / Math.max(bitmap.width, bitmap.height))
+  const canvas = document.createElement('canvas')
+  canvas.width = Math.round(bitmap.width * scale)
+  canvas.height = Math.round(bitmap.height * scale)
+  const context = canvas.getContext('2d')
+  if (!context) {
+    bitmap.close()
+    throw new Error('Unable to prepare the photo in this browser.')
+  }
+
+  context.drawImage(bitmap, 0, 0, canvas.width, canvas.height)
+  bitmap.close()
+  const blob = await new Promise<Blob>((resolve, reject) => {
+    canvas.toBlob(
+      (result) => result ? resolve(result) : reject(new Error('Unable to compress the photo.')),
+      'image/jpeg',
+      0.8
+    )
+  })
+  return new File([blob], `${file.name.replace(/\.[^.]+$/, '')}.jpg`, {
+    type: 'image/jpeg',
+    lastModified: Date.now(),
+  })
 }
 
 const LOCATION_TYPES: { value: LocationType; label: string; icon: typeof Building; color: string }[] = [
@@ -95,10 +124,28 @@ export default function LocationsClientView({
   const [formType, setFormType] = useState<LocationType>('block')
   const [formDescription, setFormDescription] = useState('')
   const [formCoords, setFormCoords] = useState<{ lat: number; lng: number } | null>(null)
+  const [formPhoto, setFormPhoto] = useState<File | null>(null)
+  const [removePhoto, setRemovePhoto] = useState(false)
+  const [isCompressingPhoto, setIsCompressingPhoto] = useState(false)
+  const photoInputRef = useRef<HTMLInputElement>(null)
   const [formError, setFormError] = useState<string | null>(null)
 
   const [isPending, startTransition] = useTransition()
   const { showToast } = useToast()
+  const photoPreviewUrl = useMemo(
+    () => (formPhoto ? URL.createObjectURL(formPhoto) : activeLocation?.photo_url ?? null),
+    [activeLocation?.photo_url, formPhoto]
+  )
+
+  useEffect(() => {
+    if (formPhoto) return () => URL.revokeObjectURL(photoPreviewUrl ?? '')
+  }, [formPhoto, photoPreviewUrl])
+
+  const resetPhotoForm = () => {
+    setFormPhoto(null)
+    setRemovePhoto(false)
+    if (photoInputRef.current) photoInputRef.current.value = ''
+  }
 
   const openCreateModal = () => {
     setModalMode('create')
@@ -106,8 +153,9 @@ export default function LocationsClientView({
     setFormName('')
     setFormType('block')
     setFormDescription('')
+    resetPhotoForm()
     setFormCoords(
-      universityCenter?.lat && universityCenter?.lng
+      universityCenter?.lat != null && universityCenter?.lng != null
         ? { lat: universityCenter.lat, lng: universityCenter.lng }
         : locations.length > 0
         ? { lat: locations[0].lat, lng: locations[0].lng }
@@ -123,14 +171,52 @@ export default function LocationsClientView({
     setFormName(loc.name)
     setFormType((loc.type as LocationType) || 'other')
     setFormDescription(loc.description || '')
+    resetPhotoForm()
     setFormCoords({ lat: loc.lat, lng: loc.lng })
     setFormError(null)
     setIsModalOpen(true)
   }
 
+  const handlePhotoSelection = async (file: File | undefined) => {
+    if (!file) {
+      setFormPhoto(null)
+      setRemovePhoto(false)
+      return
+    }
+
+    const allowedTypes = ['image/jpeg', 'image/png', 'image/webp']
+    if (!allowedTypes.includes(file.type)) {
+      setFormError('Photo must be a JPG, PNG, or WebP image.')
+      if (photoInputRef.current) photoInputRef.current.value = ''
+      return
+    }
+
+    setFormError(null)
+    setIsCompressingPhoto(true)
+    try {
+      const compressed = file.size <= 2 * 1024 * 1024 ? file : await compressLocationPhoto(file)
+      if (compressed.size > 2 * 1024 * 1024) {
+        setFormError('Photo must be 2 MB or smaller. Choose a smaller image.')
+        if (photoInputRef.current) photoInputRef.current.value = ''
+        return
+      }
+      setFormPhoto(compressed)
+      setRemovePhoto(false)
+    } catch (error) {
+      setFormError(error instanceof Error ? error.message : 'Unable to prepare the photo.')
+      if (photoInputRef.current) photoInputRef.current.value = ''
+    } finally {
+      setIsCompressingPhoto(false)
+    }
+  }
+
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault()
     setFormError(null)
+    if (isCompressingPhoto) {
+      setFormError('Please wait for the photo to finish preparing.')
+      return
+    }
 
     if (!formName.trim()) {
       setFormError('Location name is required.')
@@ -148,6 +234,8 @@ export default function LocationsClientView({
     formData.append('description', formDescription.trim())
     formData.append('lat', formCoords.lat.toString())
     formData.append('lng', formCoords.lng.toString())
+    if (formPhoto) formData.append('photo', formPhoto)
+    if (modalMode === 'edit' && removePhoto) formData.append('removePhoto', 'true')
 
     startTransition(async () => {
       if (modalMode === 'create') {
@@ -156,7 +244,7 @@ export default function LocationsClientView({
           setFormError(res.error || 'Failed to create location.')
         } else {
           setIsModalOpen(false)
-          showToast('Location created.')
+          showToast(res.warning ?? 'Location created.', res.warning ? 'error' : 'success')
         }
       } else if (modalMode === 'edit' && activeLocation) {
         formData.append('id', activeLocation.id)
@@ -165,7 +253,7 @@ export default function LocationsClientView({
           setFormError(res.error || 'Failed to update location.')
         } else {
           setIsModalOpen(false)
-          showToast('Location updated.')
+          showToast(res.warning ?? 'Location updated.', res.warning ? 'error' : 'success')
         }
       }
     })
@@ -181,7 +269,7 @@ export default function LocationsClientView({
           setFocusedLocationId(null)
         }
         setDeleteCandidate(null)
-        showToast('Location deleted.')
+        showToast(res.warning ?? 'Location deleted.', res.warning ? 'error' : 'success')
       } else {
         showToast(res.error || 'Failed to delete location.', 'error')
       }
@@ -369,13 +457,23 @@ export default function LocationsClientView({
                     >
                       <td className="py-3.5 pl-2">
                         <div className="flex items-center gap-3">
-                          <span
-                            className={`w-7 h-7 rounded-lg flex items-center justify-center border text-xs font-semibold flex-shrink-0 ${
-                              typeObj ? typeObj.color : 'text-zinc-600 bg-zinc-100'
-                            }`}
-                          >
-                            <MapPin className="w-3.5 h-3.5" />
-                          </span>
+                          {loc.photo_url ? (
+                            // eslint-disable-next-line @next/next/no-img-element
+                            <img
+                              src={loc.photo_url}
+                              alt=""
+                              loading="lazy"
+                              className="h-12 w-12 shrink-0 rounded-lg border border-zinc-200 object-cover dark:border-zinc-700"
+                            />
+                          ) : (
+                            <span
+                              className={`flex h-7 w-7 flex-shrink-0 items-center justify-center rounded-lg border text-xs font-semibold ${
+                                typeObj ? typeObj.color : 'text-zinc-600 bg-zinc-100'
+                              }`}
+                            >
+                              <MapPin className="w-3.5 h-3.5" />
+                            </span>
+                          )}
                           <div>
                             <div className="font-semibold text-zinc-900 dark:text-zinc-100 group-hover:text-indigo-600 dark:group-hover:text-indigo-400 transition-colors">
                               {loc.name}
@@ -525,6 +623,61 @@ export default function LocationsClientView({
                 />
               </div>
 
+              {/* Optional Location Photo */}
+              <div className="space-y-2">
+                <label className="block text-xs font-semibold text-zinc-700 dark:text-zinc-300">
+                  Photo (Optional)
+                </label>
+                {photoPreviewUrl && !removePhoto ? (
+                  // eslint-disable-next-line @next/next/no-img-element
+                  <img
+                    src={photoPreviewUrl}
+                    alt="Location photo preview"
+                    className="aspect-[4/3] w-full max-w-sm rounded-xl border border-zinc-200 object-cover dark:border-zinc-700"
+                  />
+                ) : (
+                  <div className="flex aspect-[4/3] w-full max-w-sm items-center justify-center rounded-xl border border-dashed border-zinc-300 bg-zinc-50 text-zinc-400 dark:border-zinc-700 dark:bg-zinc-950">
+                    <ImageIcon className="h-8 w-8" aria-hidden="true" />
+                  </div>
+                )}
+                <div className="flex flex-wrap items-center gap-2">
+                  <label className="inline-flex min-h-10 cursor-pointer items-center rounded-xl border border-zinc-300 px-3 text-xs font-semibold text-zinc-700 hover:bg-zinc-50 focus-within:ring-2 focus-within:ring-indigo-600 dark:border-zinc-700 dark:text-zinc-300 dark:hover:bg-zinc-800">
+                    Choose photo
+                    <input
+                      ref={photoInputRef}
+                      type="file"
+                      accept="image/jpeg,image/png,image/webp,.jpg,.jpeg,.png,.webp"
+                      className="sr-only"
+                      disabled={isCompressingPhoto || isPending}
+                      onChange={(event) => void handlePhotoSelection(event.target.files?.[0])}
+                    />
+                  </label>
+                  {(activeLocation?.photo_url || formPhoto) && (
+                    <button
+                      type="button"
+                      onClick={() => {
+                        setFormPhoto(null)
+                        if (photoInputRef.current) photoInputRef.current.value = ''
+                        if (activeLocation?.photo_url) {
+                          setRemovePhoto((current) => !current)
+                        } else {
+                          setRemovePhoto(false)
+                        }
+                      }}
+                      className="inline-flex min-h-10 items-center rounded-xl border border-zinc-300 px-3 text-xs font-semibold text-zinc-700 hover:bg-zinc-50 focus-visible:outline-2 focus-visible:outline-indigo-600 dark:border-zinc-700 dark:text-zinc-300 dark:hover:bg-zinc-800"
+                    >
+                      {removePhoto ? 'Keep current photo' : 'Remove photo'}
+                    </button>
+                  )}
+                </div>
+                <p className="text-xs text-zinc-500 dark:text-zinc-400">
+                  JPG, PNG, or WebP. Maximum 2 MB. Larger photos are resized and compressed before upload.
+                </p>
+                {isCompressingPhoto && (
+                  <p className="text-xs text-indigo-600 dark:text-indigo-400">Preparing photo…</p>
+                )}
+              </div>
+
               {/* PinPicker Map */}
               <div>
                 <label className="block text-xs font-semibold text-zinc-700 dark:text-zinc-300 mb-1">
@@ -551,7 +704,7 @@ export default function LocationsClientView({
 
                 <button
                   type="submit"
-                  disabled={isPending}
+                  disabled={isPending || isCompressingPhoto}
                   className="inline-flex items-center gap-1.5 px-5 py-2 rounded-xl bg-indigo-600 hover:bg-indigo-500 text-white text-xs font-semibold shadow-sm transition-all disabled:opacity-60 disabled:cursor-not-allowed cursor-pointer"
                 >
                   {isPending && <Loader2 className="w-3.5 h-3.5 animate-spin" />}
@@ -583,7 +736,7 @@ export default function LocationsClientView({
             <div className="flex items-center justify-end gap-2.5">
               <button
                 type="button"
-                disabled={isPending}
+                disabled={isPending || isCompressingPhoto}
                 onClick={() => setDeleteCandidate(null)}
                 className="px-4 py-2 rounded-xl border border-zinc-200 dark:border-zinc-700 text-xs font-semibold text-zinc-600 dark:text-zinc-400 hover:bg-zinc-100 dark:hover:bg-zinc-800 transition-colors cursor-pointer"
               >
@@ -596,7 +749,7 @@ export default function LocationsClientView({
                 onClick={handleDelete}
                 className="inline-flex items-center gap-1.5 px-4 py-2 rounded-xl bg-red-600 hover:bg-red-500 text-white text-xs font-semibold shadow-sm transition-all disabled:opacity-60 cursor-pointer"
               >
-                {isPending && <Loader2 className="w-3.5 h-3.5 animate-spin" />}
+                {(isPending || isCompressingPhoto) && <Loader2 className="w-3.5 h-3.5 animate-spin" />}
                 <span>Delete Permanently</span>
               </button>
             </div>

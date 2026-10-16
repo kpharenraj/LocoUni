@@ -40,6 +40,7 @@ create table locations (
   name text not null,
   type text,            -- block, canteen, library, hostel, ground, gate...
   description text,
+  photo_url text,
   lat double precision not null,
   lng double precision not null,
   created_at timestamptz default now()
@@ -136,7 +137,9 @@ create policy "admin write notices" on notices for all
 
 ## Storage
 
-Create two **public** buckets in Supabase → Storage: `faculty-photos` and `logos`.
+Create three **public** buckets in Supabase → Storage: `faculty-photos`, `logos`,
+and `location-photos`. Location photos are stored at
+`{university_id}/{location_id}.{jpg|png|webp}`.
 
 ```sql
 create policy "public read images" on storage.objects for select
@@ -147,13 +150,67 @@ create policy "authenticated upload images" on storage.objects for insert
   with check (bucket_id in ('faculty-photos','logos'));
 
 create policy "authenticated update own images" on storage.objects for update
-  to authenticated using (owner = auth.uid());
+  to authenticated
+  using (bucket_id in ('faculty-photos','logos') and owner = auth.uid())
+  with check (bucket_id in ('faculty-photos','logos') and owner = auth.uid());
 
 create policy "authenticated delete own images" on storage.objects for delete
-  to authenticated using (owner = auth.uid());
+  to authenticated
+  using (bucket_id in ('faculty-photos','logos') and owner = auth.uid());
+
+create policy "public read location photos" on storage.objects for select
+  using (bucket_id = 'location-photos');
+
+create policy "admin upload location photos to own university folder"
+  on storage.objects for insert to authenticated
+  with check (
+    bucket_id = 'location-photos'
+    and exists (
+      select 1 from public.profiles p
+      where p.id = auth.uid()
+        and p.role = 'admin'
+        and p.university_id::text = (storage.foldername(name))[1]
+    )
+  );
+
+create policy "admin update location photos in own university folder"
+  on storage.objects for update to authenticated
+  using (
+    bucket_id = 'location-photos'
+    and exists (
+      select 1 from public.profiles p
+      where p.id = auth.uid()
+        and p.role = 'admin'
+        and p.university_id::text = (storage.foldername(name))[1]
+    )
+  )
+  with check (
+    bucket_id = 'location-photos'
+    and exists (
+      select 1 from public.profiles p
+      where p.id = auth.uid()
+        and p.role = 'admin'
+        and p.university_id::text = (storage.foldername(name))[1]
+    )
+  );
+
+create policy "admin delete location photos in own university folder"
+  on storage.objects for delete to authenticated
+  using (
+    bucket_id = 'location-photos'
+    and exists (
+      select 1 from public.profiles p
+      where p.id = auth.uid()
+        and p.role = 'admin'
+        and p.university_id::text = (storage.foldername(name))[1]
+    )
+  );
 ```
 
-Enforce the 2 MB and image-type limits in the upload code and in the bucket settings.
+The `location-photos` bucket must allow JPG, PNG, and WebP. Enforce the 2 MB
+limit and image signatures in the upload code and in the bucket settings. Server
+actions derive the university folder from the authenticated admin profile;
+never accept the folder name from form data.
 
 ## Approving a university (MVP)
 In Supabase → Table Editor → `universities`, change `status` from `pending` to `approved`.

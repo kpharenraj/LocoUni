@@ -22,7 +22,7 @@ export default async function AdminLocationsPage() {
   // Fetch existing locations for this university
   const { data: locationsData } = await supabase
     .from('locations')
-    .select('id, name, type, description, lat, lng, created_at')
+    .select('id, name, type, description, lat, lng, photo_url, created_at')
     .eq('university_id', universityId)
     .order('created_at', { ascending: false })
 
