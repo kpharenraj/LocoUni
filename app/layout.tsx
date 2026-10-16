@@ -2,6 +2,7 @@ import type { Metadata, Viewport } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import { ToastProvider } from "@/components/ui/ToastProvider";
 import ThemeProvider from "@/components/providers/ThemeProvider";
+import { site } from "@/lib/site";
 import "./globals.css";
 
 const geistSans = Geist({
@@ -16,10 +17,11 @@ const geistMono = Geist_Mono({
 
 export const metadata: Metadata = {
   title: {
-    default: "LocoUni | Your campus, all in one place",
-    template: "%s | LocoUni",
+    default: `${site.name} | ${site.tagline}`,
+    template: `%s | ${site.name}`,
   },
-  description: "Find faculty, campus places, notices, and helpful answers in one university hub.",
+  description: site.description,
+  metadataBase: new URL(site.url),
   icons: { icon: "/icon.svg" },
 };
 

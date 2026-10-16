@@ -18,6 +18,7 @@ import {
   ArrowRight,
   Loader2,
 } from 'lucide-react'
+import LegalLinks from '@/components/site/LegalLinks'
 
 const initialState: AddUniversityActionState = {}
 
@@ -483,6 +484,7 @@ export default function AddUniversityPage() {
           </div>
         </form>
       </main>
+      <LegalLinks />
     </div>
   )
 }

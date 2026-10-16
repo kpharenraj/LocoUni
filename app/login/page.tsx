@@ -4,6 +4,7 @@ import { useActionState } from 'react'
 import Link from 'next/link'
 import { loginAction, type LoginActionState } from '@/app/actions/auth'
 import { GraduationCap, Mail, Lock, AlertCircle, ArrowRight, Loader2 } from 'lucide-react'
+import LegalLinks from '@/components/site/LegalLinks'
 
 const initialState: LoginActionState = {}
 
@@ -11,7 +12,7 @@ export default function LoginPage() {
   const [state, formAction, isPending] = useActionState(loginAction, initialState)
 
   return (
-    <div className="min-h-screen flex flex-col justify-center items-center bg-background dark:bg-background px-4 py-12 sm:px-6 lg:px-8">
+    <div className="min-h-screen flex flex-col justify-between items-center bg-background dark:bg-background px-4 py-12 sm:px-6 lg:px-8">
       <div className="w-full max-w-md">
         {/* Brand Header */}
         <div className="text-center mb-8">
@@ -160,6 +161,7 @@ export default function LoginPage() {
           </Link>
         </div>
       </div>
+      <LegalLinks />
     </div>
   )
 }

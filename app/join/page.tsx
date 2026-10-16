@@ -12,6 +12,7 @@ import {
   Building2,
   Plus,
 } from 'lucide-react'
+import LegalLinks from '@/components/site/LegalLinks'
 
 interface UniversityResult {
   id: string
@@ -84,7 +85,7 @@ export default function JoinPage() {
   }, [query, doSearch])
 
   return (
-    <div className="min-h-screen bg-background dark:bg-background text-foreground dark:text-foreground">
+    <div className="flex min-h-screen flex-col bg-background dark:bg-background text-foreground dark:text-foreground">
       {/* Header */}
       <header className="sticky top-0 z-40 w-full border-b border-border/80 dark:border-border/80 bg-card/80 dark:bg-background/80 backdrop-blur-md">
         <div className="max-w-2xl mx-auto px-4 h-16 flex items-center gap-3">
@@ -100,7 +101,7 @@ export default function JoinPage() {
         </div>
       </header>
 
-      <main className="max-w-2xl mx-auto px-4 py-10">
+      <main className="max-w-2xl mx-auto w-full flex-1 px-4 py-10">
         {/* Hero */}
         <div className="text-center mb-8">
           <h1 className="text-3xl sm:text-4xl font-extrabold tracking-tight mb-3">
@@ -211,6 +212,7 @@ export default function JoinPage() {
           </Link>
         </div>
       </main>
+      <LegalLinks />
     </div>
   )
 }

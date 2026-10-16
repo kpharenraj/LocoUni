@@ -10,6 +10,7 @@ import {
 } from 'lucide-react'
 import { createClient } from '@/lib/supabase/server'
 import type { Metadata } from 'next'
+import LegalLinks from '@/components/site/LegalLinks'
 
 interface StudentHomePageProps {
   params: Promise<{ universityId: string }>
@@ -208,6 +209,7 @@ export default async function StudentHomePage({
           ))}
         </div>
       </section>
+      <LegalLinks />
     </div>
   )
 }

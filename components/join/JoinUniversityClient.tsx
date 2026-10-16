@@ -18,6 +18,7 @@ import {
   MapPin,
   ShieldCheck,
 } from 'lucide-react'
+import LegalLinks from '@/components/site/LegalLinks'
 
 interface University {
   id: string
@@ -74,7 +75,7 @@ export default function JoinUniversityClient({
   const alreadyJoined = isStudent && currentUser.universityId === university.id
 
   return (
-    <div className="min-h-screen bg-background text-foreground dark:bg-background dark:text-foreground">
+    <div className="flex min-h-screen flex-col bg-background text-foreground dark:bg-background dark:text-foreground">
       <header className="sticky top-0 z-40 border-b border-border/80 bg-card/80 backdrop-blur-md dark:border-border/80 dark:bg-background/80">
         <div className="mx-auto flex h-16 max-w-2xl items-center gap-3 px-4">
           <Link
@@ -94,7 +95,7 @@ export default function JoinUniversityClient({
         </div>
       </header>
 
-      <main className="mx-auto max-w-2xl space-y-6 px-4 py-10">
+      <main className="mx-auto max-w-2xl flex-1 space-y-6 px-4 py-10">
         <section className="rounded-2xl border border-border bg-card p-6 shadow-xs dark:border-border dark:bg-card">
           <div className="flex items-start gap-5">
             <div className="flex h-16 w-16 shrink-0 items-center justify-center overflow-hidden rounded-2xl border border-border bg-muted dark:border-border dark:bg-muted">
@@ -291,6 +292,7 @@ export default function JoinUniversityClient({
           </section>
         )}
       </main>
+      <LegalLinks />
     </div>
   )
 }

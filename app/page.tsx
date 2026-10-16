@@ -15,6 +15,8 @@ import {
   ShieldCheck,
 } from 'lucide-react'
 import ThemeToggle from '@/components/ui/ThemeToggle'
+import Footer from '@/components/site/Footer'
+import { site } from '@/lib/site'
 
 export const dynamic = 'force-dynamic'
 
@@ -35,10 +37,24 @@ export default async function HomePage() {
             <span className="flex items-center justify-center w-9 h-9 rounded-xl bg-indigo-600 text-white shadow-md shadow-indigo-500/20">
               <GraduationCap className="w-5 h-5" />
             </span>
-            <span className="hidden sm:inline">LocoUni</span>
+            <span className="hidden sm:inline">{site.name}</span>
           </Link>
 
           <div className="flex items-center gap-3">
+            <nav aria-label="Main navigation" className="flex items-center gap-2 sm:gap-4">
+              <Link
+                href="/how-it-works"
+                className="hidden text-xs font-medium text-muted-foreground hover:text-foreground sm:inline"
+              >
+                How it works
+              </Link>
+              <Link
+                href="/contact"
+                className="text-xs font-medium text-muted-foreground hover:text-foreground"
+              >
+                Contact
+              </Link>
+            </nav>
             <ThemeToggle />
             {user ? (
               <div className="flex items-center gap-3">
@@ -104,7 +120,7 @@ export default async function HomePage() {
 
           {/* Hero Section */}
           <h1 className="text-4xl sm:text-5xl md:text-6xl font-extrabold tracking-tight text-foreground dark:text-foreground max-w-2xl leading-[1.15]">
-            Your campus, all in one place.
+            {site.tagline}
           </h1>
 
           <p className="mt-5 text-base sm:text-lg md:text-xl text-muted-foreground dark:text-muted-foreground max-w-2xl font-normal leading-relaxed">
@@ -224,10 +240,7 @@ export default async function HomePage() {
         </section>
       </main>
 
-      {/* Footer */}
-      <footer className="w-full border-t border-border/80 dark:border-border/80 py-6 px-4 text-center text-xs text-muted-foreground dark:text-muted-foreground">
-        <p>© {new Date().getFullYear()} LocoUni · Helping campus communities find their way.</p>
-      </footer>
+      <Footer />
     </div>
   )
 }
