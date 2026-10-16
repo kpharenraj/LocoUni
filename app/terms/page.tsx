@@ -1,15 +1,18 @@
 import type { Metadata } from 'next'
 import PublicPage from '@/components/site/PublicPage'
-import { site, siteLastUpdated } from '@/lib/site'
+import { createPageMetadata, site, siteLastUpdated } from '@/lib/site'
+import BreadcrumbJsonLd from '@/components/site/BreadcrumbJsonLd'
 
-export const metadata: Metadata = {
-  title: 'Terms of Use',
-  description: `Read the terms that apply when you use ${site.name}.`,
-}
+export const metadata: Metadata = createPageMetadata(
+  'Terms of Use',
+  `Review the terms for using ${site.name}, including accounts, acceptable use and AI assistant guidance.`,
+  '/terms'
+)
 
 export default function TermsPage() {
   return (
     <PublicPage>
+      <BreadcrumbJsonLd name="Terms of Use" path="/terms" />
       <article className="space-y-8">
         <header className="space-y-3">
           <h1 className="text-3xl font-extrabold tracking-tight sm:text-4xl">Terms of Use</h1>

@@ -1,11 +1,13 @@
 import type { Metadata } from 'next'
 import PublicPage from '@/components/site/PublicPage'
-import { site } from '@/lib/site'
+import { createPageMetadata, site } from '@/lib/site'
+import BreadcrumbJsonLd from '@/components/site/BreadcrumbJsonLd'
 
-export const metadata: Metadata = {
-  title: 'How it works',
-  description: `See how universities publish campus information and how students use ${site.name}.`,
-}
+export const metadata: Metadata = createPageMetadata(
+  'How it works',
+  `Learn how universities share campus information and how students use ${site.name}.`,
+  '/how-it-works'
+)
 
 const universitySteps = [
   'Add the university and provide its basic details.',
@@ -47,6 +49,7 @@ function StepsSection({ title, steps }: { title: string; steps: string[] }) {
 export default function HowItWorksPage() {
   return (
     <PublicPage>
+      <BreadcrumbJsonLd name="How it works" path="/how-it-works" />
       <article className="space-y-8">
         <header className="space-y-3">
           <h1 className="text-3xl font-extrabold tracking-tight sm:text-4xl">How it works</h1>

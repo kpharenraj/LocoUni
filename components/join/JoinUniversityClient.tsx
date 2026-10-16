@@ -2,6 +2,7 @@
 
 import { useActionState, useState, useTransition } from 'react'
 import Link from 'next/link'
+import Image from 'next/image'
 import {
   studentJoinAction,
   studentSignupAndJoinAction,
@@ -100,10 +101,12 @@ export default function JoinUniversityClient({
           <div className="flex items-start gap-5">
             <div className="flex h-16 w-16 shrink-0 items-center justify-center overflow-hidden rounded-2xl border border-border bg-muted dark:border-border dark:bg-muted">
               {university.logo_url ? (
-                // eslint-disable-next-line @next/next/no-img-element
-                <img
+                <Image
                   src={university.logo_url}
                   alt={`${university.name} logo`}
+                  width={64}
+                  height={64}
+                  unoptimized
                   className="h-full w-full object-cover"
                 />
               ) : (

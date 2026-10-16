@@ -1,9 +1,10 @@
-import type { Metadata } from 'next'
+import { createPageMetadata, site } from '@/lib/site'
 
-export const metadata: Metadata = {
-  title: 'Register a University',
-  description: 'Register your university and bring campus information to LocoUni.',
-}
+export const metadata = createPageMetadata(
+  'Register a University',
+  `Register your university with ${site.name} to share campus locations, faculty and notices with students.`,
+  '/add-university'
+)
 
 export default function AddUniversityLayout({
   children,

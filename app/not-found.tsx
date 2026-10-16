@@ -1,8 +1,12 @@
 import Link from 'next/link'
 import { House, SearchX } from 'lucide-react'
+import { site } from '@/lib/site'
 
 export default function NotFound() {
   return (
+    <>
+    <title>{`Page not found | ${site.name}`}</title>
+    <meta name="robots" content="noindex, nofollow" />
     <main className="flex min-h-[70vh] flex-col items-center justify-center px-4 py-12 text-center">
       <span className="flex h-14 w-14 items-center justify-center rounded-2xl bg-indigo-100 text-indigo-700 dark:bg-indigo-950/60 dark:text-indigo-300">
         <SearchX className="h-7 w-7" aria-hidden="true" />
@@ -19,5 +23,6 @@ export default function NotFound() {
         Back to home
       </Link>
     </main>
+    </>
   )
 }

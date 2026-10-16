@@ -1,15 +1,18 @@
 import type { Metadata } from 'next'
 import PublicPage from '@/components/site/PublicPage'
-import { site, siteLastUpdated } from '@/lib/site'
+import { createPageMetadata, site, siteLastUpdated } from '@/lib/site'
+import BreadcrumbJsonLd from '@/components/site/BreadcrumbJsonLd'
 
-export const metadata: Metadata = {
-  title: 'Privacy Policy',
-  description: `Learn what information ${site.name} handles and how it is used.`,
-}
+export const metadata: Metadata = createPageMetadata(
+  'Privacy Policy',
+  `Learn what account, campus and assistant information ${site.name} handles and how it is used.`,
+  '/privacy'
+)
 
 export default function PrivacyPage() {
   return (
     <PublicPage>
+      <BreadcrumbJsonLd name="Privacy Policy" path="/privacy" />
       <article className="space-y-8">
         <header className="space-y-3">
           <h1 className="text-3xl font-extrabold tracking-tight sm:text-4xl">Privacy Policy</h1>

@@ -1,16 +1,19 @@
 import type { Metadata } from 'next'
 import Link from 'next/link'
 import PublicPage from '@/components/site/PublicPage'
-import { site } from '@/lib/site'
+import { createPageMetadata, site } from '@/lib/site'
+import BreadcrumbJsonLd from '@/components/site/BreadcrumbJsonLd'
 
-export const metadata: Metadata = {
-  title: 'About',
-  description: `Learn about ${site.name}, its campus information tools, and who it serves.`,
-}
+export const metadata: Metadata = createPageMetadata(
+  'About',
+  `Learn how ${site.name} helps students and universities share campus information.`,
+  '/about'
+)
 
 export default function AboutPage() {
   return (
     <PublicPage>
+      <BreadcrumbJsonLd name="About" path="/about" />
       <article className="space-y-8">
         <header className="space-y-3">
           <h1 className="text-3xl font-extrabold tracking-tight sm:text-4xl">

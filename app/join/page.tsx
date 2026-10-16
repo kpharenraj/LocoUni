@@ -2,6 +2,7 @@
 
 import { useState, useEffect, useCallback } from 'react'
 import Link from 'next/link'
+import Image from 'next/image'
 import { createClient } from '@/lib/supabase/client'
 import {
   Search,
@@ -166,10 +167,12 @@ export default function JoinPage() {
                 {/* Logo or initials */}
                 <div className="w-12 h-12 rounded-xl border border-border dark:border-border bg-muted dark:bg-muted flex items-center justify-center overflow-hidden flex-shrink-0">
                   {uni.logo_url ? (
-                    // eslint-disable-next-line @next/next/no-img-element
-                    <img
+                    <Image
                       src={uni.logo_url}
                       alt={uni.name}
+                      width={48}
+                      height={48}
+                      unoptimized
                       className="w-full h-full object-cover"
                     />
                   ) : (

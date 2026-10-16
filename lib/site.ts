@@ -1,10 +1,11 @@
 import 'server-only'
+import type { Metadata } from 'next'
 
 export const site = {
   name: 'LocoUni',
   tagline: 'Your campus guide for new students',
   description:
-    'LocoUni helps new students find faculty, campus locations, notices and answers about their university, with a map, a faculty directory, a notice board and an AI assistant.',
+    'LocoUni helps new students find faculty, campus locations, notices and AI-powered answers in one university guide.',
   organization: 'HDevs Labs',
   ownerName: 'KP Haren Raj',
   ownerRole: 'Founder',
@@ -21,3 +22,26 @@ export const site = {
 } as const
 
 export const siteLastUpdated = 'October 16, 2026'
+
+export function siteUrl(path = ''): string {
+  return new URL(path, `${site.url}/`).toString()
+}
+
+export function createPageMetadata(
+  title: string,
+  description: string,
+  path: string
+): Metadata {
+  return {
+    title,
+    description,
+    alternates: { canonical: path },
+    openGraph: {
+      type: 'website',
+      siteName: site.name,
+      url: siteUrl(path),
+      title: `${title} | ${site.name}`,
+      description,
+    },
+  }
+}

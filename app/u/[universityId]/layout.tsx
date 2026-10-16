@@ -4,6 +4,7 @@ import { logoutAction } from '@/app/actions/auth'
 import StudentNavigation from '@/components/student/StudentNavigation'
 import ThemeToggle from '@/components/ui/ThemeToggle'
 import { createClient } from '@/lib/supabase/server'
+import type { Metadata } from 'next'
 
 interface StudentLayoutProps {
   children: React.ReactNode
@@ -11,6 +12,9 @@ interface StudentLayoutProps {
 }
 
 export const dynamic = 'force-dynamic'
+export const metadata: Metadata = {
+  robots: { index: false, follow: false },
+}
 
 function getInitials(name: string): string {
   const words = name.trim().split(/\s+/).filter(Boolean)

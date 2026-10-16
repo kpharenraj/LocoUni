@@ -1,15 +1,18 @@
 import type { Metadata } from 'next'
 import PublicPage from '@/components/site/PublicPage'
-import { site } from '@/lib/site'
+import { createPageMetadata, site } from '@/lib/site'
+import BreadcrumbJsonLd from '@/components/site/BreadcrumbJsonLd'
 
-export const metadata: Metadata = {
-  title: 'Contact',
-  description: `Contact ${site.name} for support, university onboarding, privacy requests, and bug reports.`,
-}
+export const metadata: Metadata = createPageMetadata(
+  'Contact',
+  `Contact ${site.name} for support, university registration, privacy requests or bug reports.`,
+  '/contact'
+)
 
 export default function ContactPage() {
   return (
     <PublicPage>
+      <BreadcrumbJsonLd name="Contact" path="/contact" />
       <article className="space-y-8">
         <header className="space-y-3">
           <h1 className="text-3xl font-extrabold tracking-tight sm:text-4xl">Contact us</h1>

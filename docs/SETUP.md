@@ -61,12 +61,22 @@ NEXT_PUBLIC_SUPABASE_URL=https://xxxx.supabase.co
 NEXT_PUBLIC_SUPABASE_ANON_KEY=your-anon-key
 SUPABASE_SERVICE_ROLE_KEY=your-service-role-key
 ANTHROPIC_API_KEY=your-anthropic-key
-NEXT_PUBLIC_SITE_URL=http://localhost:3000
+SITE_URL=http://localhost:3000
+GOOGLE_SITE_VERIFICATION=
 ```
 
 Create `.env.example` with the same names and empty values, and commit **that** one.
 
 Confirm `.gitignore` contains `.env*.local`. Next.js adds it by default.
+
+## SEO
+- Set `SITE_URL` to the canonical public origin for the deployment (for example,
+  `https://locouni.example`). This server-only value is used for canonical URLs,
+  Open Graph metadata, robots.txt and the sitemap. If omitted, deployments use
+  the Vercel production URL when available, then `http://localhost:3000`.
+- Set `GOOGLE_SITE_VERIFICATION` to the verification token provided by Google
+  Search Console. Leave it empty when Google ownership verification is not
+  configured.
 
 ## 7. Git workflow
 ```bash

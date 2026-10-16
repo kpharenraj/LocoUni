@@ -17,8 +17,13 @@ import {
 import ThemeToggle from '@/components/ui/ThemeToggle'
 import Footer from '@/components/site/Footer'
 import { site } from '@/lib/site'
+import type { Metadata } from 'next'
+import LandingStructuredData from '@/components/site/LandingStructuredData'
 
 export const dynamic = 'force-dynamic'
+export const metadata: Metadata = {
+  alternates: { canonical: '/' },
+}
 
 export default async function HomePage() {
   const userWithProfile = await getCurrentUserWithProfile()
@@ -27,6 +32,7 @@ export default async function HomePage() {
 
   return (
     <div className="min-h-screen bg-background dark:bg-background text-foreground dark:text-foreground flex flex-col selection:bg-indigo-500/20 selection:text-indigo-600">
+      <LandingStructuredData />
       {/* Header */}
       <header className="sticky top-0 z-40 w-full border-b border-border/80 dark:border-border/80 bg-card/80 dark:bg-background/80 backdrop-blur-md">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
@@ -120,12 +126,11 @@ export default async function HomePage() {
 
           {/* Hero Section */}
           <h1 className="text-4xl sm:text-5xl md:text-6xl font-extrabold tracking-tight text-foreground dark:text-foreground max-w-2xl leading-[1.15]">
-            {site.tagline}
+            Find your way around campus
           </h1>
 
           <p className="mt-5 text-base sm:text-lg md:text-xl text-muted-foreground dark:text-muted-foreground max-w-2xl font-normal leading-relaxed">
-            Find faculty offices, navigate campus places, and stay up to date with university notices.
-            Students can also ask a campus assistant for a quick answer.
+            {site.description}
           </p>
 
           {/* Feature Highlights Pills */}
@@ -238,6 +243,21 @@ export default async function HomePage() {
             </article>
           </div>
         </section>
+
+        <nav
+          aria-label={`Learn more about ${site.name}`}
+          className="mt-8 flex flex-wrap justify-center gap-x-6 gap-y-3 text-sm font-semibold text-indigo-600 dark:text-indigo-400"
+        >
+          <Link href="/about" className="underline-offset-4 hover:underline">
+            About {site.name}
+          </Link>
+          <Link href="/how-it-works" className="underline-offset-4 hover:underline">
+            How the campus guide works
+          </Link>
+          <Link href="/faq" className="underline-offset-4 hover:underline">
+            Frequently asked questions
+          </Link>
+        </nav>
       </main>
 
       <Footer />
