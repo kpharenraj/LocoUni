@@ -20,13 +20,10 @@ export default function Footer() {
           </Link>
           <p className="mt-1 text-sm text-muted-foreground">{site.tagline}</p>
           <p className="mt-3 text-xs text-muted-foreground">
-            © {new Date().getFullYear()} {site.organization}. All rights reserved.
-          </p>
-          <p className="mt-1 text-xs text-muted-foreground">
-            Built by{' '}
+            © {new Date().getFullYear()} {site.organization}. Built by{' '}
             <Link href="/about#founder" className="font-medium hover:text-foreground">
               {site.ownerName}
-            </Link>
+            </Link>.
           </p>
         </div>
 

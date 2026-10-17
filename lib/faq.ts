@@ -21,7 +21,7 @@ export const faqItems = [
   },
   {
     question: 'How can I report incorrect campus information?',
-    answer: `Contact the ${site.name} team and include the university and the information that needs correction. For information published by a university, you can also contact its administration.`,
+    answer: `Contact the ${site.name} operator and include the university and the information that needs correction. For information published by a university, you can also contact its administration.`,
   },
   {
     question: 'Can I change my university after joining?',

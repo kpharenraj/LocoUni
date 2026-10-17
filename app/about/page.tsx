@@ -3,6 +3,7 @@ import Link from 'next/link'
 import PublicPage from '@/components/site/PublicPage'
 import { createPageMetadata, site } from '@/lib/site'
 import BreadcrumbJsonLd from '@/components/site/BreadcrumbJsonLd'
+import OrganizationPersonStructuredData from '@/components/site/OrganizationPersonStructuredData'
 
 export const metadata: Metadata = createPageMetadata(
   'About',
@@ -14,6 +15,7 @@ export default function AboutPage() {
   return (
     <PublicPage>
       <BreadcrumbJsonLd name="About" path="/about" />
+      <OrganizationPersonStructuredData />
       <article className="space-y-8">
         <header className="space-y-3">
           <h1 className="text-3xl font-extrabold tracking-tight sm:text-4xl">
@@ -52,10 +54,9 @@ export default function AboutPage() {
         </section>
 
         <section id="founder" className="space-y-3 rounded-2xl border border-border bg-card p-5 sm:p-6">
-          <h2 className="text-xl font-bold tracking-tight">Built by {site.ownerName}</h2>
+          <h2 className="text-xl font-bold tracking-tight">The builder</h2>
           <p className="leading-relaxed text-muted-foreground">
-            {site.name} is built by {site.ownerName}, {site.ownerRole} and owner of{' '}
-            {site.organization}.
+            Built by {site.ownerName} under {site.organization}, {site.organizationDescription}.
           </p>
           <div className="flex flex-wrap gap-x-5 gap-y-2 text-sm">
             <a

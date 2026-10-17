@@ -19,7 +19,8 @@ export default function PrivacyPage() {
           <p className="text-sm text-muted-foreground">Last updated: {siteLastUpdated}</p>
           <p className="leading-relaxed text-muted-foreground">
             This policy describes information handled by {site.name} and how it is used to
-            provide the service.
+            provide the service. {site.name} is operated by {site.ownerName}, trading as{' '}
+            {site.organization}, {site.organizationDescription}.
           </p>
         </header>
 
@@ -130,6 +131,22 @@ export default function PrivacyPage() {
           </div>
 
           <div>
+            <h2 className="text-lg font-bold text-foreground">Data controller</h2>
+            <p className="mt-2">
+              The data controller for personal information handled through {site.name} is{' '}
+              {site.ownerName}, trading as {site.organization}, {site.organizationDescription}.
+              To contact the controller, email{' '}
+              <a
+                href={`mailto:${site.contactEmail}`}
+                className="font-medium text-primary underline-offset-4 hover:underline"
+              >
+                {site.contactEmail}
+              </a>
+              .
+            </p>
+          </div>
+
+          <div>
             <h2 className="text-lg font-bold text-foreground">Users under 18</h2>
             <p className="mt-2">
               If you are under 18, ask a parent, guardian, or your educational institution
@@ -147,9 +164,18 @@ export default function PrivacyPage() {
           </div>
 
           <div>
+            <h2 className="text-lg font-bold text-foreground">Governing law</h2>
+            <p className="mt-2">
+              This policy is governed by the laws of India, subject to applicable legal
+              requirements.
+            </p>
+          </div>
+
+          <div>
             <h2 className="text-lg font-bold text-foreground">Contact</h2>
             <p className="mt-2">
-              For privacy questions or requests, contact {site.organization} at{' '}
+              For privacy questions or requests, contact {site.ownerName}, trading as{' '}
+              {site.organization}, at{' '}
               <a
                 href={`mailto:${site.contactEmail}`}
                 className="font-medium text-primary underline-offset-4 hover:underline"

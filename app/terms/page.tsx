@@ -18,8 +18,8 @@ export default function TermsPage() {
           <h1 className="text-3xl font-extrabold tracking-tight sm:text-4xl">Terms of Use</h1>
           <p className="text-sm text-muted-foreground">Last updated: {siteLastUpdated}</p>
           <p className="leading-relaxed text-muted-foreground">
-            These terms describe the use of {site.name}, a campus information service operated
-            by {site.organization}.
+            These terms describe the use of {site.name}. {site.name} is operated by{' '}
+            {site.ownerName}, trading as {site.organization}, {site.organizationDescription}.
           </p>
         </header>
 
@@ -84,19 +84,21 @@ export default function TermsPage() {
           <div>
             <h2 className="text-lg font-bold text-foreground">8. Intellectual property</h2>
             <p className="mt-2">
-              The service and its original materials are owned by {site.organization} or its
-              licensors. University administrators retain responsibility for content they
-              submit and must have the rights needed to publish it. You may use the service
-              for its intended purpose, subject to these terms.
+              The service and its original materials are owned by {site.ownerName}, trading
+              as {site.organization}, or its licensors. University administrators retain
+              responsibility for content they submit and must have the rights needed to
+              publish it. You may use the service for its intended purpose, subject to these
+              terms.
             </p>
           </div>
           <div>
             <h2 className="text-lg font-bold text-foreground">9. Limitation of liability</h2>
             <p className="mt-2">
-              To the extent permitted by applicable law, {site.organization} is not liable for
-              indirect or consequential loss, reliance on inaccurate campus or AI-generated
-              information, or interruptions outside our reasonable control. Nothing in these
-              terms excludes liability that cannot lawfully be excluded.
+              To the extent permitted by applicable law, {site.ownerName}, trading as{' '}
+              {site.organization}, is not liable for indirect or consequential loss, reliance
+              on inaccurate campus or AI-generated information, or interruptions outside
+              the operator’s reasonable control. Nothing in these terms excludes liability
+              that cannot lawfully be excluded.
             </p>
           </div>
           <div>
@@ -125,7 +127,8 @@ export default function TermsPage() {
           <div>
             <h2 className="text-lg font-bold text-foreground">13. Contact</h2>
             <p className="mt-2">
-              Questions about these terms can be sent to{' '}
+              Questions about these terms can be sent to {site.ownerName}, trading as{' '}
+              {site.organization}, at{' '}
               <a
                 href={`mailto:${site.contactEmail}`}
                 className="font-medium text-primary underline-offset-4 hover:underline"
