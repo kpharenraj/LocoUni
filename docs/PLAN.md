@@ -1,78 +1,37 @@
-# LocoUni: 3-Day Build Plan
+# LocoUni: Implementation Status and Follow-up
 
-Rule: if a task is not on this list, it waits until after launch.
+The repository contains an implemented web MVP. This document replaces the original day-by-day build checklist, which no longer represented the project state. Status here reflects code present in the repository, not deployment or production verification.
 
-## Day 0 (before starting): Setup
-- [ ] Complete everything in `docs/SETUP.md`
-- [ ] Commit docs to the repo
+## Implemented in the repository
+- [x] Next.js App Router application with TypeScript and Tailwind CSS.
+- [x] Supabase browser, server, and service-role clients.
+- [x] Email/password login and logout; logged-out redirects for admin and student routes.
+- [x] University registration, pending status, admin profile creation, and university settings.
+- [x] Admin management for campus locations, faculty, and notices.
+- [x] Student search and join flow for approved universities.
+- [x] Student home, campus assistant, faculty directory, campus map, and notice board.
+- [x] Gemini-backed assistant with university-scoped context, per-user hourly usage records, and in-process reply cache.
+- [x] Responsive public pages, metadata/SEO routes, and legal/information pages.
+- [x] Client-only Leaflet map and pin-picker loading.
 
-## Day 1: Foundation + Admin side
-**Morning**
-- [ ] Next.js project, Tailwind, shadcn/ui running
-- [ ] Supabase clients (`lib/supabase/client.ts`, `server.ts`, `admin.ts`)
-- [ ] `middleware.ts` for session handling
-- [ ] Landing page with "Add University" and "Join University"
-- [ ] Login page and logout
+## Supabase setup that still requires an operator
+1. Create a Supabase project and configure the variables in `.env.local` from `.env.example`.
+2. Apply the schema and policies in [DATABASE.md](./DATABASE.md), if they have not already been applied.
+3. Create the public Storage buckets `faculty-photos`, `logos`, and `location-photos`.
+4. Approve each university by setting its `universities.status` to `approved` in Supabase. There is no approval UI in the application.
+5. Configure `GEMINI_API_KEY` and `GEMINI_MODEL` to enable chat.
+6. Add real campus records through the admin UI or an approved database workflow.
 
-**Afternoon**
-- [ ] Add University form + Server Action (creates auth user, university, admin profile)
-- [ ] Admin dashboard layout with navigation
-- [ ] Admin Locations: list, add with map pin picker, edit, delete
+## Known boundaries / follow-up candidates
+- The documented content read policies are public; they do not enforce confidential university isolation.
+- University approval is manual.
+- Assistant request caching and rate-limit enforcement are in process memory and are not shared across instances.
+- There is no checked-in database migration history or generated database type definition; keep the SQL in [DATABASE.md](./DATABASE.md) aligned with the application's Supabase queries.
+- Build and lint scripts are available through `npm run build` and `npm run lint`. This document does not claim that a deployment or end-to-end acceptance run has been performed.
 
-**Evening**
-- [ ] Admin Faculty: list, add with photo upload, edit, delete
-- [ ] Deploy to Vercel (catch deploy issues early)
-- [ ] Push to GitHub
-
-## Day 2: Student side
-**Morning**
-- [ ] Admin Notices: list, add, edit, delete
-- [ ] Join page: university search (approved only) and select
-- [ ] Student signup/login and save `university_id`
-- [ ] Student layout with navigation (`/u/[universityId]/...`)
-
-**Afternoon**
-- [ ] Home page (info + urgent notices + quick links)
-- [ ] Faculty directory with search and department filter
-- [ ] Campus map with pins, type filter, search, and `?focus=` support
-
-**Evening**
-- [ ] Notice board: category tabs + priority filter + urgent highlighting
-- [ ] Load demo data
-- [ ] Push to GitHub
-
-## Day 3: AI + Polish + Launch
-**Morning**
-- [ ] `lib/ai/tools.ts`: `search_faculty`, `get_location`, `get_notices`
-- [ ] `/api/chat` route with auth, university scoping, tool loop, rate limit
-- [ ] Assistant chat page UI (messages, loading state, suggested questions)
-- [ ] Test with 20 sample questions
-
-**Afternoon**
-- [ ] Mobile responsiveness pass on every page
-- [ ] Empty states, loading states, error messages
-- [ ] Form validation messages
-
-**Evening**
-- [ ] Switch Supabase email confirmation on (if time permits)
-- [ ] Final deploy, test full admin and student flow on a phone
-- [ ] Update README with live URL and screenshots
-
-## Fallbacks if you run behind
-| If short on time | Cut |
-|---|---|
-| Behind by half a day | Edit/delete screens (keep add + list) |
-| Behind by a full day | Priority filter and map type filter |
-| Still behind | Map search box, department filter |
-| Never cut | Add University, Join, Faculty, Map, Notices, AI |
-
-## Test script (end of Day 3)
-1. Create a new university as admin, approve it in Supabase.
-2. Add 2 locations, 2 faculty, 3 notices.
-3. In a private window, sign up as a student, search the university, and join.
-4. Check all four student pages.
-5. Ask the AI: "Where is the library?", "Where can I find [faculty name]?", "Any urgent notices?", and one question it cannot answer.
-6. Confirm a student from a second university cannot see the first one's data in the AI.
-
-## After MVP
-Expo mobile app, push notifications, Google login, approval dashboard, semantic search, multi-language, analytics.
+## Potential future work
+- Add a controlled approval workflow.
+- Define private-vs-public data requirements and enforce them with RLS before storing non-public information.
+- Move rate limiting and response caching to shared storage for multi-instance deployments.
+- Add automated integration/acceptance coverage and measurable assistant-quality evaluation.
+- Consider mobile apps, notifications, semantic search, and localization if product needs warrant them.

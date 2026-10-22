@@ -1,114 +1,70 @@
-# LocoUni: Setup Checklist
+# LocoUni: Setup
 
-Do all of this **before Day 1** so no build time is lost.
+These steps configure the existing repository. Do not scaffold a new Next.js app or reinstall the dependencies listed in `package.json`.
 
-## 1. Software on your laptop
-- [ ] **Node.js** 20 LTS or newer (`node -v`). Download from nodejs.org
-- [ ] **Git** (`git --version`)
-- [ ] **VS Code** (or any editor), with extensions: ESLint, Prettier, Tailwind CSS IntelliSense
-- [ ] A modern browser with dev tools (Chrome or Edge)
+## 1. Prerequisites
+- **Node.js 20.9.0 or newer** (required by the installed Next.js version).
+- **npm** and **Git**.
+- A Supabase project.
+- A Google Gemini API key/model if you want to use the campus assistant.
 
-## 2. Accounts to create
-| Account | Used for | Cost |
-|---|---|---|
-| **GitHub** | Code (repo `LocoUni` already created) | Free |
-| **Supabase** (supabase.com) | Database, auth, storage | Free tier |
-| **Anthropic Console** (console.anthropic.com) | Claude API key | Pay as you go |
-| **Vercel** (vercel.com) | Hosting, sign in with GitHub | Free tier |
-
-Notes:
-- The **Anthropic API is billed separately** from a Claude.ai subscription. Add a small amount of credit (a few dollars is enough for development) and set a monthly spend limit.
-- Sign in to Vercel with your GitHub account so deploys are one click.
-
-## 3. Supabase project setup
-1. Create a new project (name: `locouni`, pick the region closest to your users, save the database password).
-2. Go to **Project Settings → API** and copy:
-   - Project URL
-   - `anon` public key
-   - `service_role` key (secret, never share or commit)
-3. Open **SQL Editor** and run the SQL from `docs/DATABASE.md`.
-4. Create the Storage buckets `faculty-photos` and `logos` (public).
-5. **Authentication → Providers:** keep Email enabled. For fast development, turn **off** "Confirm email" (turn it back on before real launch).
-6. **Authentication → URL Configuration:** set Site URL to `http://localhost:3000` for now. Add your Vercel URL later.
-
-## 4. Anthropic API key
-1. Console → **API Keys** → create a key named `locouni-dev`.
-2. Copy it once and store it in `.env.local`.
-
-## 5. Project setup (inside your cloned `LocoUni` folder)
+## 2. Install and configure the app
+From the repository root:
 
 ```bash
-# Create Next.js app in the current folder
-npx create-next-app@latest . --typescript --tailwind --app --eslint --src-dir=false --import-alias "@/*"
-
-# Dependencies
-npm install @supabase/supabase-js @supabase/ssr zod leaflet react-leaflet @anthropic-ai/sdk
-npm install -D @types/leaflet
-
-# UI components
-npx shadcn@latest init
-npx shadcn@latest add button input card tabs badge select textarea dialog label
+npm ci
 ```
 
-If `create-next-app` complains the folder is not empty, move the `docs` folder and `README.md` out temporarily, run it, then move them back.
+Copy `.env.example` to `.env.local` and fill in the values:
 
-## 6. Environment variables
-
-Create `.env.local` (never commit this file):
-
-```
-NEXT_PUBLIC_SUPABASE_URL=https://xxxx.supabase.co
-NEXT_PUBLIC_SUPABASE_ANON_KEY=your-anon-key
+```dotenv
+NEXT_PUBLIC_SUPABASE_URL=https://your-project.supabase.co
+NEXT_PUBLIC_SUPABASE_ANON_KEY=your-supabase-anon-key
 SUPABASE_SERVICE_ROLE_KEY=your-service-role-key
-ANTHROPIC_API_KEY=your-anthropic-key
+
+GEMINI_API_KEY=your-gemini-api-key
+GEMINI_MODEL=your-enabled-gemini-model
+CHAT_HOURLY_LIMIT=10
+
 SITE_URL=http://localhost:3000
 GOOGLE_SITE_VERIFICATION=
 ```
 
-Create `.env.example` with the same names and empty values, and commit **that** one.
+Never commit `.env.local` or expose `SUPABASE_SERVICE_ROLE_KEY` to browser code. `CHAT_HOURLY_LIMIT` is optional; if it is not a positive integer, the application defaults to 10. `SITE_URL` is optional in deployments: the application falls back to the Vercel production URL when available, then `http://localhost:3000`. `GOOGLE_SITE_VERIFICATION` is optional.
 
-Confirm `.gitignore` contains `.env*.local`. Next.js adds it by default.
+Start the development server:
 
-## SEO
-- Set `SITE_URL` to the canonical public origin for the deployment (for example,
-  `https://locouni.example`). This server-only value is used for canonical URLs,
-  Open Graph metadata, robots.txt and the sitemap. If omitted, deployments use
-  the Vercel production URL when available, then `http://localhost:3000`.
-- Set `GOOGLE_SITE_VERIFICATION` to the verification token provided by Google
-  Search Console. Leave it empty when Google ownership verification is not
-  configured.
-
-## 7. Git workflow
 ```bash
-git checkout -b dev
-# work, then:
-git add .
-git commit -m "feat: landing page"
-git push origin dev
+npm run dev
 ```
-- Commit small and often.
-- Push at the end of each day so nothing is lost.
-- Merge `dev` into `main` when something works; Vercel deploys `main`.
 
-## 8. Vercel (set up on Day 1 evening, not Day 3)
-1. Import the `LocoUni` GitHub repo into Vercel.
-2. Add the same environment variables in Project Settings → Environment Variables.
-3. Deploy early so deployment problems show up on Day 1, not on the last day.
-4. Add the Vercel URL to Supabase → Authentication → URL Configuration.
+Open `http://localhost:3000`. Available project scripts are `npm run dev`, `npm run build`, `npm run start`, and `npm run lint`.
 
-## 9. Demo data to prepare (collect now)
-Gather real information for one university (yours or a friend's):
-- [ ] Campus center coordinates (right-click on Google Maps → copy lat/lng)
-- [ ] 5 to 8 locations with coordinates (library, canteen, main block, hostel, gate...)
-- [ ] 8 to 10 faculty with name, role, department, cabin, and photo
-- [ ] 10 sample notices across all categories and priorities
+## 3. Supabase configuration
+1. Create a Supabase project and copy its project URL, anon key, and service-role key into `.env.local`.
+2. In **SQL Editor**, apply the schema and row-level security policies in [DATABASE.md](./DATABASE.md).
+3. In **Storage**, create these public buckets:
+   - `faculty-photos`
+   - `logos`
+   - `location-photos`
+4. Keep email/password authentication enabled. Account creation in the app uses the server-side Auth Admin API with `email_confirm: true`, then signs the user in.
+5. Configure the Supabase Auth site URL and redirect URLs for local development (`http://localhost:3000`) and the deployed application origin.
 
-## 10. Final pre-flight check
-- [ ] `node -v` shows 20 or higher
-- [ ] Repo cloned and opens in VS Code
-- [ ] Supabase project created and SQL executed
-- [ ] Both Storage buckets exist
-- [ ] Anthropic key works and credit is added
-- [ ] `.env.local` filled in
-- [ ] `npm run dev` shows the Next.js starter at localhost:3000
-- [ ] Demo data collected
+University approval is manual: change the university's `status` to `approved` in Supabase. The app's search and join flow only exposes approved universities.
+
+## 4. Gemini configuration
+Create a Gemini API key through Google's AI tooling and set `GEMINI_API_KEY`. Set `GEMINI_MODEL` to a model identifier enabled for that key. Both variables are required for `/api/chat`; the assistant returns a configuration error if either is missing. The selected model and API usage may incur provider costs.
+
+## 5. Optional site/deployment configuration
+- Set `SITE_URL` to the canonical public origin in production. It is used for canonical metadata and public SEO URLs.
+- Set `GOOGLE_SITE_VERIFICATION` to the token from Google Search Console when verifying site ownership.
+- Configure the same required environment variables in the hosting provider's environment settings. Keep the service-role key server-only.
+- Set the production URL in Supabase Auth URL configuration.
+
+## 6. Smoke check
+1. Run `npm run build`.
+2. Run `npm run dev` and open the home page.
+3. Register a university/admin, approve the university in Supabase, then search for it from `/join`.
+4. Join as a student and check the university home, faculty, map, notices, and assistant pages.
+
+Use non-sensitive test data. Under the current RLS policies in [DATABASE.md](./DATABASE.md), campus content is publicly readable.
